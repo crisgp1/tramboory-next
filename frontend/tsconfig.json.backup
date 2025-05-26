@@ -1,10 +1,6 @@
-{
+﻿{
   "compilerOptions": {
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "es6"
-    ],
+    "lib": ["dom", "dom.iterable", "es6"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -23,14 +19,8 @@
     ],
     "baseUrl": ".",
     "paths": {
-      "@/*": [
-        "./*"
-      ]
-    },
-    "forceConsistentCasingInFileNames": true,
-    "noUnusedLocals": false,
-    "noUnusedParameters": false,
-    "target": "ES2017"
+      "@/*": ["./*"]
+    }
   },
   "include": [
     "next-env.d.ts",
@@ -40,10 +30,6 @@
   ],
   "exclude": [
     "node_modules",
-    "backend",
-    "dist",
-    "build",
-    "**/*.test.ts",
-    "**/*.test.tsx"
+    "app/backend"
   ]
 }
