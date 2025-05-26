@@ -16,6 +16,19 @@
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false
+    "noFallthroughCasesInSwitch": false,
+    "paths": {
+      "@/*": ["src/*"],
+      "@/modules/*": ["src/modules/*"],
+      "@/supabase/*": ["src/supabase/*"],
+      "@/auth/*": ["src/modules/auth/*"],
+      "@/reservas/*": ["src/modules/reservas/*"],
+      "@/finanzas/*": ["src/modules/finanzas/*"],
+      "@/inventario/*": ["src/modules/inventario/*"],
+      "@/catalogo/*": ["src/modules/catalogo/*"],
+      "@/dashboard/*": ["src/modules/dashboard/*"],
+      "@/galeria/*": ["src/modules/galeria/*"],
+      "@/seguridad/*": ["src/modules/seguridad/*"]
+    }
   }
 }

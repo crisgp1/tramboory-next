@@ -8,7 +8,6 @@ const __dirname = dirname(__filename)
 const nextConfig = {
   // Optimizaciones de performance enterprise
   experimental: {
-    typedRoutes: true,
     optimizeCss: true,
   },
   
