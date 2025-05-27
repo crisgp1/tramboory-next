@@ -10,14 +10,22 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Tramboory - Salón de Fiestas Infantiles',
     description: 'Celebra los momentos más especiales en el mejor salón de fiestas infantiles de Zapopan',
-    images: ['/images/og-image.jpg'],
+    images: ['/img/LogoComplete.webp'],
     type: 'website',
   },
 }
 
+/**
+ * HomePage Component - Main landing page for Tramboory
+ * Enhanced with better loading state and optimized metadata
+ */
 export default function HomePage() {
   return (
-    <Suspense fallback={<LoadingSpinner size="lg" color="white" className="h-screen flex items-center justify-center" />}>
+    <Suspense fallback={
+      <div className="h-screen flex items-center justify-center bg-gradient-to-br from-purple-950 to-indigo-950">
+        <LoadingSpinner size="lg" color="white" className="w-20 h-20" />
+      </div>
+    }>
       <Home />
     </Suspense>
   )

@@ -5,7 +5,7 @@ import { motion } from 'framer-motion'
 import { FiPlay, FiPause } from 'react-icons/fi'
 
 interface BackgroundVideoComponentProps {
-  videoRef: RefObject<HTMLVideoElement>
+  videoRef: RefObject<HTMLVideoElement | null>
   isVideoPlaying: boolean
   toggleVideo: (e?: React.MouseEvent) => void
 }
