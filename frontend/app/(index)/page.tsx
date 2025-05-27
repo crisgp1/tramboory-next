@@ -1,6 +1,6 @@
 import { Suspense } from 'react'
 import { Metadata } from 'next'
-import HomeContent from '@/features/home/components/HomeContent'
+import { Home } from '@/features/home/components'
 import LoadingSpinner from '@/components/shared/LoadingSpinner'
 
 export const metadata: Metadata = {
@@ -17,8 +17,8 @@ export const metadata: Metadata = {
 
 export default function HomePage() {
   return (
-    <Suspense fallback={<LoadingSpinner fullScreen />}>
-      <HomeContent />
+    <Suspense fallback={<LoadingSpinner size="lg" color="white" className="h-screen flex items-center justify-center" />}>
+      <Home />
     </Suspense>
   )
 }

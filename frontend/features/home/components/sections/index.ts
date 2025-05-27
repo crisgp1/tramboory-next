@@ -1,0 +1,8 @@
+export { default as HeroSection } from './HeroSection'
+export { default as PromotionsSection } from './PromotionsSection'
+export { default as ReservationStepsSection } from './ReservationStepsSection'
+export { default as ServicesSection } from './ServicesSection'
+export { default as FeaturesSection } from './FeaturesSection'
+export { default as GallerySection } from './GallerySection'
+export { default as ContactSection } from './ContactSection'
+export { default as FooterSection } from './FooterSection'
