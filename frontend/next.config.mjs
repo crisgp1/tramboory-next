@@ -9,6 +9,7 @@ const nextConfig = {
   // Optimizaciones de performance enterprise
   experimental: {
     optimizeCss: true,
+    serverActions: true,
   },
   
   // Configuración de paquetes externos del servidor
@@ -76,10 +77,10 @@ const nextConfig = {
     ]
   },
   
-  // Optimización de imágenes
+  // Optimización de imágenes y Cloudinary integration
   images: {
     formats: ['image/webp', 'image/avif'],
-    domains: ['ui-avatars.com', 'images.unsplash.com'],
+    domains: ['ui-avatars.com', 'images.unsplash.com', 'res.cloudinary.com'],
     minimumCacheTTL: 60,
   },
   
