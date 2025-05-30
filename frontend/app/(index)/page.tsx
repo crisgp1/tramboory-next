@@ -1,32 +1,69 @@
-import { Suspense } from 'react'
-import { Metadata } from 'next'
-import { Home } from '@/features/home/components'
-import LoadingSpinner from '@/components/shared/LoadingSpinner'
+'use client';
 
-export const metadata: Metadata = {
-  title: 'Tramboory - Salón de Fiestas Infantiles en Zapopan',
-  description: 'El mejor salón de eventos infantiles en Zapopan. Celebra con nosotros y crea recuerdos inolvidables para tu pequeño.',
-  keywords: 'salón de fiestas, fiestas infantiles, eventos infantiles, zapopan, guadalajara, tramboory',
-  openGraph: {
-    title: 'Tramboory - Salón de Fiestas Infantiles',
-    description: 'Celebra los momentos más especiales en el mejor salón de fiestas infantiles de Zapopan',
-    images: ['/img/LogoComplete.webp'],
-    type: 'website',
-  },
-}
+import { Suspense } from 'react';
+import { ErrorBoundary } from 'react-error-boundary';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { HomeProvider } from '@/features/home/application/providers/HomeProvider';
+import { HomeLayout } from '@/features/home/components/layout/HomeLayout';
+import { HomeSections } from '@/features/home/components/HomeSections';
+import { HomeLoadingSkeleton } from '@/features/home/components/ui/HomeLoadingSkeleton';
+import { HomeErrorFallback } from '@/features/home/components/ui/HomeErrorFallback';
+
+// Configuración del cliente de React Query
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 5 * 60 * 1000, // 5 minutos
+      gcTime: 10 * 60 * 1000,   // 10 minutos
+      retry: 3,
+      refetchOnWindowFocus: false,
+      refetchOnReconnect: true
+    },
+    mutations: {
+      retry: 1
+    }
+  }
+});
 
 /**
- * HomePage Component - Main landing page for Tramboory
- * Enhanced with better loading state and optimized metadata
+ * Página principal del sitio web Tramboory
+ * Implementa arquitectura DDD con Next.js 14 y App Router
  */
 export default function HomePage() {
   return (
-    <Suspense fallback={
-      <div className="h-screen flex items-center justify-center bg-gradient-to-br from-purple-950 to-indigo-950">
-        <LoadingSpinner size="lg" color="white" className="w-20 h-20" />
-      </div>
-    }>
-      <Home />
-    </Suspense>
-  )
+    <QueryClientProvider client={queryClient}>
+      <ErrorBoundary 
+        FallbackComponent={HomeErrorFallback}
+        onError={(error, errorInfo) => {
+          console.error('Home page error:', error);
+          console.error('Error info:', errorInfo);
+          // Aquí puedes integrar servicios de logging como Sentry
+        }}
+        onReset={() => {
+          // Lógica para resetear el estado si es necesario
+          window.location.reload();
+        }}
+      >
+        <HomeProvider>
+          <HomeLayout>
+            <Suspense fallback={<HomeLoadingSkeleton />}>
+              <HomeSections />
+            </Suspense>
+          </HomeLayout>
+        </HomeProvider>
+      </ErrorBoundary>
+    </QueryClientProvider>
+  );
 }
+
+// Metadatos para SEO
+export const metadata = {
+  title: 'Tramboory - Salón de Fiestas Infantiles en Zapopan',
+  description: 'El mejor salón de eventos infantiles en Zapopan. Celebra el cumpleaños de tus pequeños con experiencias inolvidables.',
+  keywords: 'fiestas infantiles, salon de eventos, zapopan, cumpleanos, tramboory',
+  openGraph: {
+    title: 'Tramboory - Salón de Fiestas Infantiles',
+    description: 'El mejor lugar para celebrar el cumpleaños de tus pequeños',
+    images: ['/img/logo.webp']
+  }
+};
