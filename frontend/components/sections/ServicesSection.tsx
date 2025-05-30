@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { motion, useAnimation, useInView, useScroll, useTransform } from 'framer-motion'
 import Link from 'next/link'
 import { 
@@ -9,13 +9,18 @@ import {
   FiStar, 
   FiPackage, 
   FiShield, 
-  FiTrendingUp 
+  FiTrendingUp,
+  FiClock,
+  FiMessageCircle,
+  FiHome,
+  FiUsers,
+  FiMusic
 } from 'react-icons/fi'
 
 interface ServiceFeature {
   title: string
   description: string
-  icon: React.ElementType
+  iconName: string
 }
 
 interface ServicePackage {
@@ -46,6 +51,24 @@ interface ServicesSectionProps {
  * - Highlights and feature lists
  */
 export function ServicesSection({ services }: ServicesSectionProps) {
+  // Icon mapping to solve serialization issue with Server Components
+  const getIcon = (iconName: string) => {
+    const iconMap = {
+      'clock': FiClock,
+      'message-circle': FiMessageCircle,
+      'home': FiHome,
+      'users': FiUsers,
+      'music': FiMusic,
+      'check': FiCheck,
+      'star': FiStar,
+      'shield': FiShield,
+      'package': FiPackage,
+      'trending-up': FiTrendingUp,
+      'arrow-right': FiArrowRight
+    }
+    return iconMap[iconName as keyof typeof iconMap] || FiCheck;
+  }
+
   const [hoveredCard, setHoveredCard] = useState<string | null>(null)
   const sectionRef = useRef<HTMLElement>(null)
   const isInView = useInView(sectionRef, { once: false, margin: "-100px" })
@@ -301,7 +324,7 @@ export function ServicesSection({ services }: ServicesSectionProps) {
                     whileHover="hover"
                   >
                     <div className="mt-1 mr-4 bg-gradient-to-br from-green-400/30 to-green-500/20 p-2 rounded-full border border-green-400/30">
-                      <FiCheck className="text-green-400" />
+                      {React.createElement(getIcon(feature.iconName || 'check'), { className: "text-green-400" })}
                     </div>
                     <div>
                       <h4 className="font-bold text-white text-lg">{feature.title}</h4>
@@ -432,7 +455,7 @@ export function ServicesSection({ services }: ServicesSectionProps) {
                     whileHover="hover"
                   >
                     <div className="mt-1 mr-4 bg-gradient-to-br from-green-400/30 to-green-500/20 p-2 rounded-full border border-green-400/30">
-                      <FiCheck className="text-green-400" />
+                      {React.createElement(getIcon(feature.iconName || 'check'), { className: "text-green-400" })}
                     </div>
                     <div>
                       <h4 className="font-bold text-white text-lg">{feature.title}</h4>

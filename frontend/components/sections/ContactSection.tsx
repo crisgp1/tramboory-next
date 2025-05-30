@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, useEffect } from 'react'
+import React, { useRef, useEffect } from 'react'
 import { motion, useAnimation, useInView, useScroll, useTransform } from 'framer-motion'
 import { 
   FiMapPin, 
@@ -41,10 +41,25 @@ export default function ContactSection() {
     }
   }, [isInView, controls])
   
+  // Icon mapping to solve serialization issue with Server Components
+  const getIcon = (iconName: string) => {
+    const iconMap = {
+      'map-pin': FiMapPin,
+      'phone': FiPhone,
+      'mail': FiMail,
+      'clock': FiClock,
+      'message-circle': FiMessageCircle,
+      'instagram': FiInstagram,
+      'facebook': FiFacebook,
+      'help-circle': FiHelpCircle
+    }
+    return iconMap[iconName as keyof typeof iconMap]
+  }
+
   // Contact information with enhanced data
   const contactInfo = [
     {
-      icon: FiMapPin,
+      iconName: 'map-pin',
       title: "Ubicación",
       details: "Av. Patria 123, Zapopan, Jalisco",
       action: "Ver Mapa",
@@ -56,7 +71,7 @@ export default function ContactSection() {
       delay: 0
     },
     {
-      icon: FiPhone,
+      iconName: 'phone',
       title: "Teléfono",
       details: "+52 33 3230 0243",
       action: "Llamar",
@@ -68,7 +83,7 @@ export default function ContactSection() {
       delay: 0.1
     },
     {
-      icon: FiMail,
+      iconName: 'mail',
       title: "Correo",
       details: "info@tramboory.com",
       action: "Enviar Correo",
@@ -80,7 +95,7 @@ export default function ContactSection() {
       delay: 0.2
     },
     {
-      icon: FiClock,
+      iconName: 'clock',
       title: "Horario",
       details: "Martes a Domingo: 10am - 8pm",
       action: "Ver Disponibilidad",
@@ -96,7 +111,7 @@ export default function ContactSection() {
   // Social media links enhanced
   const socialLinks = [
     {
-      icon: FiInstagram,
+      iconName: 'instagram',
       url: "https://www.instagram.com/tramboory/",
       label: "Instagram",
       color: "from-pink-500 to-purple-500",
@@ -104,7 +119,7 @@ export default function ContactSection() {
       delay: 0
     },
     {
-      icon: FiFacebook,
+      iconName: 'facebook',
       url: "https://www.facebook.com/tramboory/",
       label: "Facebook",
       color: "from-blue-500 to-blue-700",
@@ -315,7 +330,7 @@ export default function ContactSection() {
                   variants={iconVariants}
                   whileHover="hover"
                 >
-                  <info.icon className="text-2xl text-white" />
+                  {React.createElement(getIcon(info.iconName), { className: "text-2xl text-white" })}
                 </motion.div>
               </div>
               
@@ -454,7 +469,7 @@ export default function ContactSection() {
                   style={{ background: `linear-gradient(to right, var(--${social.color.split(' ')[1]}), var(--${social.color.split(' ')[2]}))` }}
                 />
                 
-                <social.icon className="text-2xl text-white relative z-10" />
+                {React.createElement(getIcon(social.iconName), { className: "text-2xl text-white relative z-10" })}
                 
                 {/* Hover tooltip */}
                 <span className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 

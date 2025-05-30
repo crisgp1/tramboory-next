@@ -4,7 +4,7 @@ import { GallerySection } from '@/components/sections/GallerySection'
 import { PromotionsSection } from '@/components/sections/PromotionsSection'
 import { ReservationStepsSection } from '@/components/sections/ReservationStepsSection'
 import { FeaturesSection } from '@/components/sections/FeaturesSection'
-import { ContactSection } from '@/components/sections/ContactSection'
+import ContactSection from '@/components/sections/ContactSection'
 import { FooterSection } from '@/components/sections/FooterSection'
 import { BackgroundVideo } from '@/components/decorative/BackgroundVideo'
 import { AnimatedBalloons } from '@/components/decorative/AnimatedBalloons'
@@ -34,42 +34,42 @@ export default function HomePage() {
         {
           title: '4 Horas de Diversión',
           description: '3.5 horas de salón + 30 min de despedida',
-          icon: FiClock
+          iconName: 'clock'
         },
         {
           title: 'Invitación Digital',
           description: 'Invitación personalizada para tu evento',
-          icon: FiMessageCircle
+          iconName: 'message-circle'
         },
         {
           title: 'Decoración Temática',
           description: 'Ambientación Tramboory para tu fiesta',
-          icon: FiHome
+          iconName: 'home'
         },
         {
           title: 'Menú Completo',
           description: 'Alimentos para niños y adultos',
-          icon: FiUsers
+          iconName: 'users'
         },
         {
           title: 'Bebidas Ilimitadas',
           description: 'Refrescos, agua y café de cortesía',
-          icon: FiUsers
+          iconName: 'users'
         },
         {
           title: 'Área de Juegos',
           description: 'Ludoteca y alberca de pelotas',
-          icon: FiUsers
+          iconName: 'users'
         },
         {
           title: 'Ambiente Festivo',
           description: 'Música y anfitriones para animar',
-          icon: FiMusic
+          iconName: 'music'
         },
         {
           title: 'Coordinador de Evento',
           description: 'Personal dedicado para tu celebración',
-          icon: FiUsers
+          iconName: 'users'
         }
       ],
       highlights: ['Todo Incluido', 'Personal Completo', 'Sin Preocupaciones'],
@@ -83,22 +83,22 @@ export default function HomePage() {
         {
           title: '3 Horas de Evento',
           description: 'Horario matutino flexible',
-          icon: FiClock
+          iconName: 'clock'
         },
         {
           title: 'Espacio Exclusivo',
           description: 'Salón privado para tu evento',
-          icon: FiHome
+          iconName: 'home'
         },
         {
           title: 'Mobiliario Básico',
           description: 'Mesas y sillas incluidas',
-          icon: FiHome
+          iconName: 'home'
         },
         {
           title: 'Servicios Opcionales',
           description: 'Personaliza tu experiencia',
-          icon: FiUsers
+          iconName: 'users'
         }
       ],
       highlights: ['Personalizable', 'Económico', 'Flexible'],
