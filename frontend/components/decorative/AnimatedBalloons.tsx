@@ -84,14 +84,21 @@ const Balloon = memo(({ balloon }: { balloon: Balloon }) => (
 
 Balloon.displayName = 'Balloon'
 
+// Función para generar números pseudoaleatorios con semilla
+function seededRandom(seed: number): number {
+  const x = Math.sin(seed) * 10000
+  return x - Math.floor(x)
+}
+
 /**
  * Animated balloons that float up from the bottom of the screen
  * 
  * Features:
- * - Randomly generated balloons with varying sizes, colors, and speeds
+ * - Consistently generated balloons with varying sizes, colors, and speeds
  * - Gentle swinging motion for added realism
  * - Optimized with memoization to prevent unnecessary re-renders
  * - Configurable balloon count and colors
+ * - Fixed hydration issues by using seeded random generation
  */
 export function AnimatedBalloons({ 
   count = 15,
@@ -106,25 +113,47 @@ export function AnimatedBalloons({
     '#85C1E2'  // Light Blue
   ]
 }) {
-  // Generate balloons once and memoize
+  const [isMounted, setIsMounted] = useState(false)
+
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
+
+  // Generate balloons with seeded randomness for consistency
   const balloons = useMemo(() => {
+    if (!isMounted) return []
+    
     const newBalloons: Balloon[] = []
     
     for (let i = 0; i < count; i++) {
+      // Use seeds based on index for consistent randomness
+      const xSeed = i * 1.5
+      const sizeSeed = i * 2.3
+      const durationSeed = i * 3.7
+      const delaySeed = i * 4.1
+      const colorSeed = i * 5.9
+      const rotationSeed = i * 6.7
+      const swingSeed = i * 7.3
+
       newBalloons.push({
         id: i,
-        x: Math.random() * 100,
-        size: Math.random() * 40 + 30,
-        duration: Math.random() * 20 + 15,
-        delay: Math.random() * 10,
-        color: colors[Math.floor(Math.random() * colors.length)],
-        rotation: Math.random() * 10 - 5, // Random initial rotation
-        swing: Math.random() * 5 + 2,    // Random swing amount
+        x: seededRandom(xSeed) * 100,
+        size: seededRandom(sizeSeed) * 40 + 30,
+        duration: seededRandom(durationSeed) * 20 + 15,
+        delay: seededRandom(delaySeed) * 10,
+        color: colors[Math.floor(seededRandom(colorSeed) * colors.length)],
+        rotation: seededRandom(rotationSeed) * 10 - 5,
+        swing: seededRandom(swingSeed) * 5 + 2,
       })
     }
     
     return newBalloons
-  }, [count, colors])
+  }, [count, colors, isMounted])
+
+  // Don't render anything until mounted on client
+  if (!isMounted) {
+    return null
+  }
 
   return (
     <div className="fixed inset-0 overflow-hidden pointer-events-none z-10">
