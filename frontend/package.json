@@ -9,7 +9,7 @@
     "start": "next start",
     "lint": "next lint",
     "build:validate": "next build && npm run type-check",
-    "build:analyze": "ANALYZE=true next build",
+    "build:analyze": "ANALYZE=true npm run build",
     "type-check": "tsc --noEmit",
     "lint:strict": "next lint --strict",
     "lint:fix": "next lint --fix",
@@ -26,7 +26,12 @@
     "deps:audit": "npm audit --audit-level moderate",
     "deps:check": "npx npm-check-updates",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "security:audit": "npm audit --audit-level moderate",
+    "security:check": "npx audit-ci --moderate",
+    "performance:analyze": "ANALYZE=true npm run build",
+    "performance:lighthouse": "npx lighthouse http://localhost:3000 --output=json --output-path=./lighthouse-report.json",
+    "cache:clear": "rimraf .next && npm run dev"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.79.0",

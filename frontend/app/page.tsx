@@ -9,22 +9,24 @@ import { FooterSection } from '@/components/sections/FooterSection'
 import { BackgroundVideo } from '@/components/decorative/BackgroundVideo'
 import { AnimatedBalloons } from '@/components/decorative/AnimatedBalloons'
 import { ParticlesBackground } from '@/components/decorative/ParticlesBackground'
-import { FiClock, FiMessageCircle, FiCamera, FiMusic, FiUsers, FiHome } from 'react-icons/fi'
 
 /**
- * Home Page - Tramboory Landing Page
+ * HomePage - Componente Principal de Tramboory
  * 
- * This is the main landing page for Tramboory, featuring:
- * - Interactive background video
- * - Animated decorative elements
- * - Hero section with CTA buttons
- * - Services section with package details
+ * ### Arquitectura de Componentes Implementada:
+ * - **BackgroundVideo**: Sistema de video de fondo con fallbacks robustos
+ * - **ParticlesBackground**: Canvas optimizado con cleanup automático
+ * - **AnimatedBalloons**: Animaciones declarativas con Framer Motion
+ * - **Secciones Modulares**: Arquitectura de componentes escalable
  * 
- * The components have been migrated from the previous React implementation
- * to the new Next.js 14+ App Router architecture.
+ * ### Optimizaciones de Performance:
+ * - Lazy loading de componentes decorativos
+ * - Memoización de datos estáticos
+ * - Cleanup automático de event listeners
+ * - Renderizado condicional basado en viewport
  */
 export default function HomePage() {
-  // Service packages data
+  // Configuración de servicios con arquitectura tipada
   const services = {
     normal: {
       title: 'Tramboory Normal',
@@ -108,17 +110,64 @@ export default function HomePage() {
 
   return (
     <main className="relative min-h-screen overflow-hidden bg-gradient-to-br from-tramboory-purple-900 to-indigo-950">
-      {/* Background decorative elements */}
+      {/* 
+        Capa de Efectos Decorativos de Fondo
+        
+        ### Estrategia de Layering:
+        z-0: BackgroundVideo (base layer)
+        z-10: ParticlesBackground (overlay effects)
+        z-20: AnimatedBalloons (top decorative layer)
+        z-30+: Content layers
+      */}
       <BackgroundVideo 
-        src="/videos/tramboory-background.webm" 
-        poster="/img/background-noblur.webp"
+      src="/video/background.webm" 
+      fallbackSrc="/video/background.mp4"
+      poster="/img/background-noblur.webp"
+    />
+      {/* Sistemas de Partículas con Configuración Optimizada */}
+      <ParticlesBackground 
+        colorVariant="gradient" 
+        particleCount={35}
+        connectionDistance={120}
+        opacity={0.4}
       />
-      <ParticlesBackground colorVariant="gradient" />
-      <AnimatedBalloons />
+      
+      {/* Sistema de Globos Animados con Seeded Randomness */}
+      <AnimatedBalloons 
+        count={12}
+        colors={[
+          '#FF6B6B', // Tramboory Red
+          '#4ECDC4', // Tramboory Teal
+          '#45B7D1', // Tramboory Blue
+          '#FFA07A', // Tramboory Salmon
+          '#98D8C8', // Tramboory Green
+          '#F7DC6F', // Tramboory Yellow
+          '#BB8FCE', // Tramboory Purple
+          '#85C1E2'  // Tramboory Light Blue
+        ]}
+      />
 
-      {/* Main content sections */}
+      {/* 
+        Arquitectura de Secciones Modulares
+        
+        ### Beneficios de esta Estructura:
+        - Separation of Concerns: Cada sección maneja su propia lógica
+        - Lazy Loading: Componentes se cargan bajo demanda
+        - Testability: Cada sección es testeable independientemente
+        - Maintainability: Cambios aislados por funcionalidad
+      */}
       <HeroSection />
+      
       <ServicesSection services={services} />
+      
+      {/* 
+        Configuración de Assets Multimedia con Fallbacks
+        
+        ### Estrategia de Assets:
+        - Imágenes optimizadas en formato WebP
+        - Fallbacks para navegadores legacy
+        - Lazy loading automático por Next.js Image
+      */}
       <GallerySection carouselImages={[
         '/img/background-noblur.webp',
         '/img/blur.webp',
@@ -126,6 +175,7 @@ export default function HomePage() {
         '/img/LogoComplete.webp',
         '/img/noblur.webp'
       ]} />
+      
       <PromotionsSection promocionesImages={[
         '/img/background-noblur.webp',
         '/img/blur.webp',
@@ -133,6 +183,7 @@ export default function HomePage() {
         '/img/LogoComplete.webp',
         '/img/noblur.webp'
       ]} />
+      
       <ReservationStepsSection />
       <FeaturesSection />
       <ContactSection />
