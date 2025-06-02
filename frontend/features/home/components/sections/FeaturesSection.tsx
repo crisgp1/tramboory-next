@@ -17,7 +17,7 @@ import Link from 'next/link'
 /**
  * Sección de características con animaciones avanzadas y efectos visuales mejorados
  */
-export default function FeaturesSection() {
+export function FeaturesSection() {
   const sectionRef = useRef<HTMLElement>(null)
   const isInView = useInView(sectionRef, { once: false, margin: "-100px" })
   const controls = useAnimation()
@@ -47,8 +47,8 @@ export default function FeaturesSection() {
       icon: FiStar,
       title: 'Instalaciones de Primer Nivel',
       description: 'Contamos con un espacio amplio, seguro y moderno, diseñado específicamente para celebraciones infantiles y adaptado a todas las edades.',
-      color: 'from-yellow-400 to-yellow-600',
-      glowColor: 'yellow-400/20',
+      color: 'from-tramboory-yellow-400 to-tramboory-yellow-500',
+      bgGlow: 'bg-tramboory-yellow-400/20',
       delay: 0
     },
     {
@@ -56,15 +56,15 @@ export default function FeaturesSection() {
       title: 'Diversión Garantizada',
       description: 'Juegos interactivos, actividades creativas y animación profesional para mantener a los pequeños entretenidos durante toda la celebración.',
       color: 'from-pink-400 to-pink-600',
-      glowColor: 'pink-400/20',
+      bgGlow: 'bg-pink-400/20',
       delay: 0.1
     },
     {
       icon: FiUsers,
       title: 'Equipo Profesional',
       description: 'Personal capacitado, amable y con experiencia que se encarga meticulosamente de cada detalle para que tú disfrutes sin preocupaciones.',
-      color: 'from-purple-400 to-purple-600',
-      glowColor: 'purple-400/20',
+      color: 'from-tramboory-purple-500 to-tramboory-purple-900',
+      bgGlow: 'bg-tramboory-purple-500/20',
       delay: 0.2
     },
     {
@@ -72,7 +72,7 @@ export default function FeaturesSection() {
       title: 'Seguridad Total',
       description: 'Ambientes controlados y seguros con protocolos establecidos para que los niños jueguen y se diviertan sin ningún tipo de riesgo.',
       color: 'from-blue-400 to-blue-600',
-      glowColor: 'blue-400/20',
+      bgGlow: 'bg-blue-400/20',
       delay: 0.3
     },
     {
@@ -80,7 +80,7 @@ export default function FeaturesSection() {
       title: 'Ambiente Festivo',
       description: 'Música seleccionada, iluminación profesional y decoración temática que crean la atmósfera perfecta para una celebración mágica.',
       color: 'from-green-400 to-green-600',
-      glowColor: 'green-400/20',
+      bgGlow: 'bg-green-400/20',
       delay: 0.4
     },
     {
@@ -88,7 +88,7 @@ export default function FeaturesSection() {
       title: 'Gastronomía Deliciosa',
       description: 'Menús especiales preparados con ingredientes frescos para niños y adultos, con opciones para todos los gustos y necesidades dietéticas.',
       color: 'from-orange-400 to-orange-600',
-      glowColor: 'orange-400/20',
+      bgGlow: 'bg-orange-400/20',
       delay: 0.5
     }
   ]
@@ -154,24 +154,24 @@ export default function FeaturesSection() {
       className="py-28 relative z-10 overflow-hidden"
     >
       {/* Decorative background elements */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-purple-900/30 to-purple-900/40 pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-tramboory-purple-900/30 to-tramboory-purple-900/40 pointer-events-none" />
       
       <motion.div
         style={{ y: y1, rotate: rotate1, opacity }}
         className="absolute -top-40 right-[10%] w-[35rem] h-[35rem] rounded-full blur-[120px] 
-          bg-gradient-to-br from-purple-500/10 to-indigo-600/5 pointer-events-none"
+          bg-gradient-to-br from-tramboory-purple-500/10 to-indigo-600/5 pointer-events-none"
       />
       
       <motion.div
         style={{ y: y2, rotate: rotate2, opacity }}
         className="absolute -bottom-20 -left-20 w-[30rem] h-[30rem] rounded-full blur-[100px] 
-          bg-gradient-to-tr from-yellow-500/10 to-pink-500/5 pointer-events-none"
+          bg-gradient-to-tr from-tramboory-yellow-400/10 to-pink-500/5 pointer-events-none"
       />
       
       {/* Animated patterns and textures */}
       <div className="absolute inset-0 bg-grid-pattern opacity-5 pointer-events-none"></div>
       
-      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-purple-500/20 to-transparent" />
+      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-tramboory-purple-500/20 to-transparent" />
       
       <div className="container mx-auto px-6 relative z-10">
         <motion.div
@@ -188,13 +188,13 @@ export default function FeaturesSection() {
             className="mb-8 inline-block"
           >
             <span className="group relative px-5 py-2 rounded-full text-sm font-medium 
-              bg-gradient-to-r from-purple-500/20 via-indigo-500/20 to-purple-500/20 
-              text-yellow-300 border border-purple-500/30 backdrop-blur-sm 
-              hover:border-yellow-400/50 transition-all duration-300 inline-flex items-center gap-2">
-              <FiHeart className="text-yellow-300" />
+              bg-gradient-to-r from-tramboory-purple-500/20 via-indigo-500/20 to-tramboory-purple-500/20 
+              text-tramboory-yellow-400 border border-tramboory-purple-500/30 backdrop-blur-sm 
+              hover:border-tramboory-yellow-400/50 transition-all duration-300 inline-flex items-center gap-2">
+              <FiHeart className="text-tramboory-yellow-400" />
               <span>Creamos experiencias mágicas</span>
               <motion.span 
-                className="absolute inset-0 -z-10 bg-gradient-to-r from-yellow-400/0 via-yellow-400/10 to-yellow-400/0 rounded-full"
+                className="absolute inset-0 -z-10 bg-gradient-to-r from-tramboory-yellow-400/0 via-tramboory-yellow-400/10 to-tramboory-yellow-400/0 rounded-full"
                 animate={{ 
                   backgroundPosition: ['0% 50%', '100% 50%', '0% 50%']
                 }}
@@ -210,12 +210,12 @@ export default function FeaturesSection() {
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 font-funhouse">
             <span className="relative inline-block">
               ¿Por Qué Elegir
-              <span className="text-gradient bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 to-yellow-500 ml-3">
+              <span className="text-gradient bg-clip-text text-transparent bg-gradient-to-r from-tramboory-yellow-400 to-tramboory-yellow-500 ml-3">
                 Tramboory
               </span>
               ?
               <motion.span 
-                className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-yellow-300/0 via-yellow-400 to-yellow-300/0"
+                className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-tramboory-yellow-400/0 via-tramboory-yellow-400 to-tramboory-yellow-400/0"
                 animate={{ 
                   scaleX: [0, 1, 0],
                   x: [-100, 0, 100]
@@ -260,7 +260,7 @@ export default function FeaturesSection() {
                 group relative overflow-hidden">
                 
                 {/* Background glow effect */}
-                <div className={`absolute inset-0 bg-${feature.glowColor} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
+                <div className={`absolute inset-0 ${feature.bgGlow} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
                 
                 {/* Animated gradient */}
                 <motion.div 
@@ -278,8 +278,7 @@ export default function FeaturesSection() {
                 {/* Icon container with animation */}
                 <div className="relative z-10 mb-6">
                   <motion.div 
-                    className="absolute -inset-4 blur-xl rounded-full opacity-0 group-hover:opacity-50 transition-opacity duration-500"
-                    style={{ backgroundColor: `var(--${feature.glowColor.split('/')[0]})` }}
+                    className={`absolute -inset-4 blur-xl rounded-full opacity-0 group-hover:opacity-50 transition-opacity duration-500 ${feature.bgGlow}`}
                   />
                   <motion.div 
                     className={`w-16 h-16 rounded-full flex items-center justify-center
@@ -293,7 +292,7 @@ export default function FeaturesSection() {
                 
                 {/* Content */}
                 <div className="relative z-10">
-                  <h3 className="text-2xl font-bold text-white mb-4 font-funhouse group-hover:text-yellow-300 transition-colors duration-300">
+                  <h3 className="text-2xl font-bold text-white mb-4 font-funhouse group-hover:text-tramboory-yellow-400 transition-colors duration-300">
                     {feature.title}
                   </h3>
                   <p className="text-gray-300 group-hover:text-white transition-colors duration-300 leading-relaxed">
@@ -332,7 +331,7 @@ export default function FeaturesSection() {
             className="inline-block"
           >
             <Link 
-              href="/about"
+              href={{ pathname: '/about' }}
               className="inline-flex items-center px-8 py-3 bg-white/10 backdrop-blur-lg border border-white/30
                 text-white rounded-lg font-semibold
                 hover:bg-white/20 transition-all duration-300 relative overflow-hidden group"
@@ -351,7 +350,7 @@ export default function FeaturesSection() {
       </div>
       
       {/* Decorative elements */}
-      <div className="absolute top-0 inset-x-0 h-64 bg-gradient-to-b from-purple-900/20 to-transparent pointer-events-none" />
+      <div className="absolute top-0 inset-x-0 h-64 bg-gradient-to-b from-tramboory-purple-900/20 to-transparent pointer-events-none" />
       <div className="absolute bottom-0 inset-x-0 h-64 bg-gradient-to-t from-indigo-900/20 to-transparent pointer-events-none" />
     </section>
   )

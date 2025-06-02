@@ -12,7 +12,7 @@ interface PromotionsSectionProps {
 /**
  * Sección de promociones con carrusel avanzado y efectos visuales mejorados
  */
-export default function PromotionsSection({ promocionesImages }: PromotionsSectionProps) {
+export function PromotionsSection({ promocionesImages }: PromotionsSectionProps) {
   const carouselRef = useRef<HTMLDivElement>(null)
   const sectionRef = useRef<HTMLElement>(null)
   const isInView = useInView(sectionRef, { once: false, margin: "-100px" })
@@ -81,7 +81,7 @@ export default function PromotionsSection({ promocionesImages }: PromotionsSecti
     >
       {/* Fondo decorativo animado */}
       <motion.div
-        className="absolute inset-0 -z-10 bg-gradient-to-b from-purple-900/10 via-indigo-900/20 to-purple-900/10"
+        className="absolute inset-0 -z-10 bg-gradient-to-b from-tramboory-purple-900/10 via-indigo-900/20 to-tramboory-purple-900/10"
         variants={backgroundVariants}
         initial="hidden"
         animate={controls}
@@ -89,7 +89,7 @@ export default function PromotionsSection({ promocionesImages }: PromotionsSecti
       
       {/* Círculos decorativos */}
       <motion.div 
-        className="absolute -bottom-32 -left-32 w-64 h-64 bg-yellow-400/5 rounded-full blur-3xl"
+        className="absolute -bottom-32 -left-32 w-64 h-64 bg-tramboory-yellow-400/5 rounded-full blur-3xl"
         animate={{ 
           scale: [1, 1.1, 1],
           opacity: [0.3, 0.5, 0.3]
@@ -101,7 +101,7 @@ export default function PromotionsSection({ promocionesImages }: PromotionsSecti
         }}
       />
       <motion.div 
-        className="absolute -top-32 -right-32 w-80 h-80 bg-purple-400/5 rounded-full blur-3xl"
+        className="absolute -top-32 -right-32 w-80 h-80 bg-tramboory-purple-500/5 rounded-full blur-3xl"
         animate={{ 
           scale: [1, 1.2, 1],
           opacity: [0.3, 0.6, 0.3]
@@ -129,7 +129,7 @@ export default function PromotionsSection({ promocionesImages }: PromotionsSecti
           className="text-center mb-16"
         >
           <div className="inline-flex items-center justify-center mb-4">
-            <FiGift className="text-yellow-400 text-3xl mr-3" />
+            <FiGift className="text-tramboory-yellow-400 text-3xl mr-3" />
             <h2 className="text-4xl md:text-5xl font-bold text-white font-funhouse">
               Promociones del Mes
             </h2>
@@ -141,7 +141,7 @@ export default function PromotionsSection({ promocionesImages }: PromotionsSecti
 
         {/* Línea decorativa con gradiente */}
         <motion.div 
-          className="h-0.5 w-32 mx-auto mb-16 bg-gradient-to-r from-transparent via-yellow-400 to-transparent"
+          className="h-0.5 w-32 mx-auto mb-16 bg-gradient-to-r from-transparent via-tramboory-yellow-400 to-transparent"
           initial={{ width: 0, opacity: 0 }}
           animate={{ width: 128, opacity: 1 }}
           transition={{ delay: 0.5, duration: 1 }}
@@ -189,7 +189,7 @@ export default function PromotionsSection({ promocionesImages }: PromotionsSecti
                 key={index}
                 className="min-w-[320px] h-[420px] mx-4 rounded-2xl overflow-hidden flex-shrink-0 snap-center
                   shadow-2xl transform transition-all duration-500 group relative
-                  border-2 border-white/10 hover:border-yellow-400/50"
+                  border-2 border-white/10 hover:border-tramboory-yellow-400/50"
                 variants={itemVariants}
                 whileHover={{ 
                   y: -10, 
@@ -209,17 +209,17 @@ export default function PromotionsSection({ promocionesImages }: PromotionsSecti
                   
                   {/* Overlay con gradiente mejorado */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent pointer-events-none" />
-                  <div className="absolute inset-0 bg-gradient-to-br from-purple-900/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+                  <div className="absolute inset-0 bg-gradient-to-br from-tramboory-purple-900/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
                   
                   {/* Badge flotante para tiempo limitado */}
-                  <div className="absolute top-4 right-4 flex items-center bg-yellow-400/90 text-purple-900 px-3 py-1 rounded-full text-sm font-bold shadow-lg">
+                  <div className="absolute top-4 right-4 flex items-center bg-tramboory-yellow-400/90 text-tramboory-purple-900 px-3 py-1 rounded-full text-sm font-bold shadow-lg">
                     <FiClock className="mr-1" />
                     <span>Tiempo Limitado</span>
                   </div>
                   
                   {/* Contenido de la tarjeta */}
                   <div className="absolute bottom-0 left-0 right-0 p-6 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
-                    <div className="bg-yellow-400 text-purple-900 px-4 py-2 rounded-lg text-sm font-bold inline-block mb-3 shadow-lg">
+                    <div className="bg-tramboory-yellow-400 text-tramboory-purple-900 px-4 py-2 rounded-lg text-sm font-bold inline-block mb-3 shadow-lg">
                       Oferta Especial
                     </div>
                     <h3 className="text-2xl font-bold text-white mb-2 font-funhouse">

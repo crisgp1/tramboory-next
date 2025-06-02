@@ -15,7 +15,7 @@ import Link from 'next/link'
 /**
  * Sección de pasos para reservar con animaciones avanzadas y efectos visuales mejorados
  */
-export default function ReservationStepsSection() {
+export function ReservationStepsSection() {
   const sectionRef = useRef<HTMLElement>(null)
   const isInView = useInView(sectionRef, { once: false, margin: "-100px" })
   const controls = useAnimation()
@@ -42,9 +42,9 @@ export default function ReservationStepsSection() {
       icon: FiCalendar,
       title: "Selecciona tu Fecha",
       description: "Consulta nuestro calendario de disponibilidad y elige el día perfecto para tu celebración especial.",
-      color: "from-purple-400 to-purple-600",
+      color: "from-tramboory-purple-500 to-tramboory-purple-900",
       highlight: "Fechas Disponibles",
-      bgGlow: "bg-purple-500/20"
+      bgGlow: "bg-tramboory-purple-500/20"
     },
     {
       icon: FiDollarSign,
@@ -66,9 +66,9 @@ export default function ReservationStepsSection() {
       icon: FiSmile,
       title: "¡Disfruta tu Evento!",
       description: "Déjanos encargarnos de todo mientras tú y tus invitados viven una experiencia mágica e inolvidable.",
-      color: "from-yellow-400 to-yellow-600",
+      color: "from-tramboory-yellow-400 to-tramboory-yellow-500",
       highlight: "Momentos Mágicos",
-      bgGlow: "bg-yellow-500/20"
+      bgGlow: "bg-tramboory-yellow-400/20"
     }
   ]
 
@@ -116,11 +116,11 @@ export default function ReservationStepsSection() {
       {/* Elementos decorativos de fondo */}
       <motion.div
         style={{ y: y1, opacity }}
-        className="absolute -top-40 -right-40 w-[30rem] h-[30rem] rounded-full blur-[80px] bg-purple-500/5 pointer-events-none"
+        className="absolute -top-40 -right-40 w-[30rem] h-[30rem] rounded-full blur-[80px] bg-tramboory-purple-500/5 pointer-events-none"
       />
       <motion.div
         style={{ y: y2, opacity }}
-        className="absolute -bottom-20 -left-40 w-[25rem] h-[25rem] rounded-full blur-[70px] bg-yellow-500/5 pointer-events-none"
+        className="absolute -bottom-20 -left-40 w-[25rem] h-[25rem] rounded-full blur-[70px] bg-tramboory-yellow-400/5 pointer-events-none"
       />
       
       {/* Patrón de líneas decorativas */}
@@ -140,13 +140,13 @@ export default function ReservationStepsSection() {
             className="mb-8 inline-block"
           >
             <span className="group relative px-5 py-2 rounded-full text-sm font-medium 
-              bg-gradient-to-r from-purple-500/20 via-indigo-500/20 to-purple-500/20 
-              text-yellow-300 border border-purple-500/30 backdrop-blur-sm 
-              hover:border-yellow-400/50 transition-all duration-300 inline-flex items-center gap-2">
-              <FiClock className="text-yellow-300" />
+              bg-gradient-to-r from-tramboory-purple-500/20 via-indigo-500/20 to-tramboory-purple-500/20 
+              text-tramboory-yellow-400 border border-tramboory-purple-500/30 backdrop-blur-sm 
+              hover:border-tramboory-yellow-400/50 transition-all duration-300 inline-flex items-center gap-2">
+              <FiClock className="text-tramboory-yellow-400" />
               <span>Proceso sencillo y rápido</span>
               <motion.span 
-                className="absolute inset-0 -z-10 bg-gradient-to-r from-yellow-400/0 via-yellow-400/10 to-yellow-400/0 rounded-full"
+                className="absolute inset-0 -z-10 bg-gradient-to-r from-tramboory-yellow-400/0 via-tramboory-yellow-400/10 to-tramboory-yellow-400/0 rounded-full"
                 animate={{ 
                   backgroundPosition: ['0% 50%', '100% 50%', '0% 50%']
                 }}
@@ -162,12 +162,12 @@ export default function ReservationStepsSection() {
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 font-funhouse">
             <span className="relative inline-block">
               <span>¿Cómo </span>
-              <span className="text-gradient bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 to-yellow-500 ml-2">
+              <span className="text-gradient bg-clip-text text-transparent bg-gradient-to-r from-tramboory-yellow-400 to-tramboory-yellow-500 ml-2">
                 Reservar
               </span>
               <span>?</span>
               <motion.span 
-                className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-yellow-300/0 via-yellow-400 to-yellow-300/0"
+                className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-tramboory-yellow-400/0 via-tramboory-yellow-400 to-tramboory-yellow-400/0"
                 animate={{ 
                   scaleX: [0, 1, 0],
                   x: [-100, 0, 100]
@@ -193,7 +193,7 @@ export default function ReservationStepsSection() {
           animate={controls}
         >
           {/* Línea de conexión entre tarjetas */}
-          <div className="absolute top-1/3 left-0 right-0 h-1 bg-gradient-to-r from-purple-500/30 via-pink-500/30 to-yellow-500/30 hidden lg:block"></div>
+          <div className="absolute top-1/3 left-0 right-0 h-1 bg-gradient-to-r from-tramboory-purple-500/30 via-pink-500/30 to-tramboory-yellow-400/30 hidden lg:block"></div>
           
           {steps.map((step, index) => (
             <motion.div
@@ -242,7 +242,7 @@ export default function ReservationStepsSection() {
                 {index < steps.length - 1 && (
                   <div className="hidden lg:flex absolute top-1/3 right-0 transform translate-x-1/2 items-center justify-center z-20">
                     <motion.div
-                      className="w-12 h-12 rounded-full bg-gradient-to-r from-purple-500/20 to-indigo-500/20 
+                      className="w-12 h-12 rounded-full bg-gradient-to-r from-tramboory-purple-500/20 to-indigo-500/20 
                         backdrop-blur-md flex items-center justify-center border border-white/20"
                       animate={{
                         x: [0, 5, 0],
@@ -253,7 +253,7 @@ export default function ReservationStepsSection() {
                         repeatType: "reverse"
                       }}
                     >
-                      <FiArrowRight className="w-5 h-5 text-yellow-400" />
+                      <FiArrowRight className="w-5 h-5 text-tramboory-yellow-400" />
                     </motion.div>
                   </div>
                 )}
@@ -261,8 +261,8 @@ export default function ReservationStepsSection() {
               
               {/* Número de paso flotante */}
               <motion.div 
-                className="absolute -top-4 -left-4 w-10 h-10 rounded-full bg-gradient-to-r from-yellow-400 to-yellow-500 
-                  flex items-center justify-center text-purple-900 font-bold text-lg shadow-lg z-20"
+                className="absolute -top-4 -left-4 w-10 h-10 rounded-full bg-gradient-to-r from-tramboory-yellow-400 to-tramboory-yellow-500 
+                  flex items-center justify-center text-tramboory-purple-900 font-bold text-lg shadow-lg z-20"
                 whileHover={{ 
                   scale: 1.2,
                   rotate: 10, 
@@ -288,13 +288,13 @@ export default function ReservationStepsSection() {
             whileTap={{ scale: 0.95 }}
             className="relative inline-block group"
           >
-            <span className="absolute -inset-1 bg-gradient-to-r from-yellow-400/80 to-yellow-500/80 rounded-xl blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+            <span className="absolute -inset-1 bg-gradient-to-r from-tramboory-yellow-400/80 to-tramboory-yellow-500/80 rounded-xl blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
             <Link 
               href="/reservas"
-              className="relative inline-flex items-center px-10 py-4 bg-gradient-to-r from-yellow-400 to-yellow-500
-                text-purple-900 rounded-xl font-extrabold text-xl shadow-2xl
-                hover:shadow-yellow-400/40 hover:from-yellow-500 hover:to-yellow-600
-                transition-all duration-300 group-hover:text-purple-950"
+              className="relative inline-flex items-center px-10 py-4 bg-gradient-to-r from-tramboory-yellow-400 to-tramboory-yellow-500
+                text-tramboory-purple-900 rounded-xl font-extrabold text-xl shadow-2xl
+                hover:shadow-tramboory-yellow-400/40 hover:from-tramboory-yellow-500 hover:to-tramboory-yellow-500
+                transition-all duration-300 group-hover:text-tramboory-purple-900"
             >
               Reservar Ahora
               <FiArrowRight className="ml-2 group-hover:translate-x-1 transition-transform duration-300" />
