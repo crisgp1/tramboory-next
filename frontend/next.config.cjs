@@ -5,7 +5,16 @@ const nextConfig = {
   
   // Optimización de imágenes para su estructura de assets
   images: {
-    domains: ['localhost'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'localhost',
+      },
+      {
+        protocol: 'http', 
+        hostname: 'localhost',
+      },
+    ],
     formats: ['image/webp', 'image/avif'],
     minimumCacheTTL: 86400, // 24 horas
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
@@ -64,21 +73,23 @@ const nextConfig = {
     ]
   },
   
-  // Configuración específica para Turbopack (su configuración actual)
-  experimental: {
-    turbo: {
-      rules: {
-        // Optimización para archivos de video
-        '*.webm': {
-          loaders: ['file-loader'],
-          as: '*.webm',
-        },
-        '*.mp4': {
-          loaders: ['file-loader'],
-          as: '*.mp4',
-        },
+  // Configuración para Turbopack (movido desde experimental.turbo)
+  turbopack: {
+    rules: {
+      // Optimización para archivos de video
+      '*.webm': {
+        loaders: ['file-loader'],
+        as: '*.webm',
+      },
+      '*.mp4': {
+        loaders: ['file-loader'],
+        as: '*.mp4',
       },
     },
+  },
+  
+  // Configuración experimental
+  experimental: {
     // Optimizaciones para React 19.0.0
     optimizeCss: true,
     scrollRestoration: true,
@@ -150,4 +161,5 @@ const nextConfig = {
   }),
 }
 
-module.exports = nextConfig
+// Using ES module export syntax instead of CommonJS
+export default nextConfig

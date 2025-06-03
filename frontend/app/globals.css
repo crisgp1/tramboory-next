@@ -2,6 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Funhouse font for titles and branding */
+@font-face {
+  font-family: 'Funhouse';
+  src: url('/fonts/FunhouseVF.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Lowercase version to match tailwind config */
+@font-face {
+  font-family: 'funhouse';
+  src: url('/fonts/FunhouseVF.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* Ocultar header en la página About */
 body:has(a[href='/about'].active) header,
 .about-page header {

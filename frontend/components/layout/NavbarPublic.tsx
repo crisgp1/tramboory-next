@@ -256,11 +256,12 @@ export default function NavbarPublic() {
               whileHover="hover"
               className="flex items-center space-x-3"
             >
-              <div className="relative w-14 h-14 overflow-hidden rounded-full">
+              <div className="relative w-14 h-14 overflow-hidden rounded-full" style={{ height: '56px' }}>
                 <Image
                   src="/img/logo.webp"
                   alt="Tramboory"
                   fill
+                  sizes="(max-width: 768px) 56px, 56px"
                   className="object-cover transition-transform duration-300"
                   priority
                 />
