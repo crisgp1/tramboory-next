@@ -311,10 +311,9 @@ export function BackgroundVideo({
                 filter: 'brightness(0.8) contrast(1.1) saturate(1.1)',
               }}
             >
-              {/* Fuentes de video con fallback automático */}
+              {/* Fuentes de video con fallback automático - eliminamos fallbacks innecesarios */}
               <source src={currentSrc} type="video/webm" />
-              <source src={fallbackSrc} type="video/mp4" />
-              <source src="/video/background.webm" type="video/webm" />
+              {/* Usamos solo la fuente principal para evitar 404 errors */}
               Tu navegador no soporta reproducción de video HTML5.
             </video>
           </div>
