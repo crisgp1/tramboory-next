@@ -1,0 +1,2666 @@
+﻿=== ./catalogo/components/index.js ===
+// Exportar todos los componentes de catalogo/components
+\n\n
+
+=== ./catalogo/hooks/index.js ===
+// Exportar todos los componentes de catalogo/hooks
+\n\n
+
+=== ./catalogo/index.js ===
+export * from './components';
+export * from './pages';
+export * from './services';
+\n\n
+
+=== ./catalogo/pages/admin/alimento/OpcionAlimentoForm.jsx ===
+import React from 'react';
+import { FiTag, FiFileText, FiDollarSign, FiClock, FiCheckSquare } from 'react-icons/fi';
+import { useForm } from 'react-hook-form';
+
+const OpcionAlimentoForm = ({ editingItem, onSave, activeTab }) => {
+    const { register, handleSubmit, watch, formState: { errors } } = useForm({
+        defaultValues: editingItem || {
+            precio_adulto: 0,
+            precio_nino: 0,
+            precio_extra: 0,
+            precio_papas: 19.00,
+            disponible: true,
+            opcion_papas: false,
+            turno: 'ambos'
+        }
+    });
+
+    const opcionPapas = watch('opcion_papas', false);
+
+    const onSubmit = (data) => {
+        const formData = {
+            ...data,
+            precio_adulto: Number(data.precio_adulto) || 0,
+            precio_nino: Number(data.precio_nino) || 0,
+            precio_extra: Number(data.precio_extra) || 0,
+            precio_papas: data.opcion_papas ? (Number(data.precio_papas) || 19.00) : 19.00,
+            disponible: Boolean(data.disponible),
+            opcion_papas: Boolean(data.opcion_papas),
+            activo: true
+        };
+        
+        onSave(formData);
+    };
+
+    return (
+        <form id={activeTab + 'Form'} onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="col-span-1 md:col-span-2">
+                <label className="block text-sm font-medium text-gray-700 mb-1">Nombre</label>
+                <div className="relative">
+                    <FiTag className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                    <input
+                        {...register('nombre', { required: 'Este campo es requerido' })}
+                        type="text"
+                        className="w-full pl-10 pr-3 py-2 text-gray-700 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        placeholder="Nombre de la opciÃ³n de alimento"
+                    />
+                    {errors.nombre && <span className="text-red-500 text-sm">{errors.nombre.message}</span>}
+                </div>
+            </div>
+
+            {/* SecciÃ³n de Precios */}
+            <div className="col-span-1 md:col-span-2 bg-gray-50 p-4 rounded-lg space-y-4">
+                <h3 className="text-lg font-medium text-gray-700">Precios</h3>
+                
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Precio por Adulto</label>
+                        <div className="relative">
+                            <FiDollarSign className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                            <input
+                                {...register('precio_adulto', { 
+                                    required: 'Este campo es requerido',
+                                    min: { value: 0, message: 'El precio debe ser mayor o igual a 0' },
+                                    valueAsNumber: true
+                                })}
+                                type="number"
+                                step="0.01"
+                                className="w-full pl-10 pr-3 py-2 text-gray-700 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                placeholder="Precio por adulto"
+                            />
+                            {errors.precio_adulto && <span className="text-red-500 text-sm">{errors.precio_adulto.message}</span>}
+                        </div>
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Precio por NiÃ±o</label>
+                        <div className="relative">
+                            <FiDollarSign className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                            <input
+                                {...register('precio_nino', { 
+                                    required: 'Este campo es requerido',
+                                    min: { value: 0, message: 'El precio debe ser mayor o igual a 0' },
+                                    valueAsNumber: true
+                                })}
+                                type="number"
+                                step="0.01"
+                                className="w-full pl-10 pr-3 py-2 text-gray-700 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                placeholder="Precio por niÃ±o"
+                            />
+                            {errors.precio_nino && <span className="text-red-500 text-sm">{errors.precio_nino.message}</span>}
+                        </div>
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Precio Extra</label>
+                        <div className="relative">
+                            <FiDollarSign className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                            <input
+                                {...register('precio_extra', { 
+                                    required: 'Este campo es requerido',
+                                    min: { value: 0, message: 'El precio debe ser mayor o igual a 0' },
+                                    valueAsNumber: true
+                                })}
+                                type="number"
+                                step="0.01"
+                                className="w-full pl-10 pr-3 py-2 text-gray-700 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                placeholder="Precio extra"
+                            />
+                            {errors.precio_extra && <span className="text-red-500 text-sm">{errors.precio_extra.message}</span>}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Turno</label>
+                <div className="relative">
+                    <FiClock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                    <select
+                        {...register('turno', { required: 'Este campo es requerido' })}
+                        className="w-full pl-10 pr-3 py-2 text-gray-700 bg-white border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    >
+                        <option value="">Seleccionar turno</option>
+                        <option value="manana">MaÃ±ana</option>
+                        <option value="tarde">Tarde</option>
+                        <option value="ambos">Ambos</option>
+                    </select>
+                    {errors.turno && <span className="text-red-500 text-sm">{errors.turno.message}</span>}
+                </div>
+            </div>
+
+            <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Disponibilidad</label>
+                <div className="relative">
+                    <select
+                        {...register('disponible')}
+                        className="w-full pl-10 pr-3 py-2 text-gray-700 bg-white border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    >
+                        <option value="true">Disponible</option>
+                        <option value="false">No Disponible</option>
+                    </select>
+                </div>
+            </div>
+
+            <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Platillo Adulto</label>
+                <div className="relative">
+                    <FiCheckSquare className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                    <input
+                        {...register('platillo_adulto', { required: 'Este campo es requerido' })}
+                        type="text"
+                        className="w-full pl-10 pr-3 py-2 text-gray-700 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        placeholder="Platillo para adultos"
+                    />
+                    {errors.platillo_adulto && <span className="text-red-500 text-sm">{errors.platillo_adulto.message}</span>}
+                </div>
+            </div>
+
+            <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Platillo NiÃ±o</label>
+                <div className="relative">
+                    <FiCheckSquare className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                    <input
+                        {...register('platillo_nino', { required: 'Este campo es requerido' })}
+                        type="text"
+                        className="w-full pl-10 pr-3 py-2 text-gray-700 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        placeholder="Platillo para niÃ±os"
+                    />
+                    {errors.platillo_nino && <span className="text-red-500 text-sm">{errors.platillo_nino.message}</span>}
+                </div>
+            </div>
+
+            <div className="col-span-1 md:col-span-2">
+                <div className="flex items-center mb-4">
+                    <input
+                        {...register('opcion_papas')}
+                        type="checkbox"
+                        className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                    />
+                    <label className="ml-2 block text-sm text-gray-900">
+                        Incluye opciÃ³n de papas
+                    </label>
+                </div>
+                {opcionPapas && (
+                    <div className="relative">
+                        <FiDollarSign className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                        <input
+                            {...register('precio_papas', {
+                                valueAsNumber: true,
+                                min: { value: 0, message: 'El precio debe ser mayor o igual a 0' }
+                            })}
+                            type="number"
+                            step="0.01"
+                            defaultValue={19.00}
+                            className="w-full pl-10 pr-3 py-2 text-gray-700 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                            placeholder="Precio de las papas"
+                        />
+                        {errors.precio_papas && <span className="text-red-500 text-sm">{errors.precio_papas.message}</span>}
+                    </div>
+                )}
+            </div>
+
+            <div className="col-span-1 md:col-span-2">
+                <label className="block text-sm font-medium text-gray-700 mb-1">DescripciÃ³n</label>
+                <div className="relative">
+                    <FiFileText className="absolute left-3 top-3 text-gray-400" />
+                    <textarea
+                        {...register('descripcion')}
+                        className="w-full pl-10 pr-3 py-2 text-gray-700 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        rows="3"
+                        placeholder="DescripciÃ³n de la opciÃ³n de alimento"
+                    ></textarea>
+                </div>
+            </div>
+        </form>
+    );
+};
+
+export default OpcionAlimentoForm;\n\n
+
+=== ./catalogo/pages/admin/alimento/OpcionAlimentoTable.jsx ===
+import React, { useMemo } from 'react';
+import { FiEdit2, FiTrash2 } from 'react-icons/fi';
+// Usar el alias @ para garantizar resoluciÃ³n correcta en Docker
+import { formatNumber } from '@shared/utils/formatters';
+
+const OpcionAlimentoTable = ({ opcionesAlimento, handleEditItem, handleDeleteItem }) => {
+  const activeOpcionesAlimento = useMemo(() => {
+    return opcionesAlimento.filter(opcion => opcion.activo);
+  }, [opcionesAlimento]);
+
+  return (
+    <table className="w-full">
+      <thead>
+        <tr className="bg-gray-100">
+          <th className="px-4 py-2 text-left">Nombre</th>
+          <th className="px-4 py-2 text-left">DescripciÃ³n</th>
+          <th className="px-4 py-2 text-left">Precio Extra</th>
+          <th className="px-4 py-2 text-left">Turno</th>
+          <th className="px-4 py-2 text-left">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        {activeOpcionesAlimento.map((opcion) => (
+          <tr key={opcion.id} className="border-b border-gray-200 hover:bg-gray-50">
+            <td className="px-4 py-2">{opcion.nombre}</td>
+            <td className="px-4 py-2">{opcion.descripcion}</td>
+            <td className="px-4 py-2">{formatNumber(opcion.precio_extra)}</td>
+            <td className="px-4 py-2">{opcion.turno}</td>
+            <td className="px-4 py-2">
+              <button
+                onClick={() => handleEditItem(opcion)}
+                className="text-blue-500 hover:text-blue-700 mr-2"
+              >
+                <FiEdit2 />
+              </button>
+              <button
+                onClick={() => handleDeleteItem(opcion.id)}
+                className="text-red-500 hover:text-red-700"
+              >
+                <FiTrash2 />
+              </button>
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+};
+
+export default OpcionAlimentoTable;\n\n
+
+=== ./catalogo/pages/admin/alimento/index.js ===
+export { default as OpcionAlimentoForm } from './OpcionAlimentoForm';
+export { default as OpcionAlimentoTable } from './OpcionAlimentoTable';\n\n
+
+=== ./catalogo/pages/admin/categoria/CategoriaForm.jsx ===
+    import { FiTag, FiHash } from 'react-icons/fi';
+import ColorPicker from '@shared/components/ColorPicker';
+import { useForm } from 'react-hook-form';
+
+const CategoriaForm = ({ editingItem, onSave, activeTab }) => {
+    const { register, handleSubmit } = useForm({
+        defaultValues: editingItem || {}
+    });
+
+    const onSubmit = (data) => {
+        onSave(data);
+    };
+
+    return (
+        <form id={activeTab + 'Form'} onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+            <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Nombre</label>
+                <div className="relative">
+                    <FiTag className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                    <input
+                        {...register('nombre', { required: 'Este campo es requerido' })}
+                        type="text"
+                        className="w-full pl-10 pr-3 py-2 text-gray-700 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        placeholder="Nombre de la categorÃ­a"
+                    />
+                </div>
+            </div>
+
+            <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Color</label>
+                <div className="relative">
+                    <FiHash className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                    <ColorPicker
+                        {...register('color')}
+                        defaultValue={editingItem?.color || '#000000'}
+                    />
+                </div>
+            </div>
+        </form>
+    );
+};
+
+export default CategoriaForm;\n\n
+
+=== ./catalogo/pages/admin/categoria/CategoriaTable.jsx ===
+import React from 'react';
+import { FiEdit2, FiTrash2 } from 'react-icons/fi';
+
+const CategoriaTable = ({ categorias, handleEditItem, handleDeleteItem }) => (
+    <table className="w-full">
+        <thead>
+        <tr className="bg-gray-100">
+            <th className="px-4 py-2 text-left">Nombre</th>
+            <th className="px-4 py-2 text-left">Color</th>
+            <th className="px-4 py-2 text-left">Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        {categorias.map((categoria) => (
+            <tr key={categoria.id} className="border-b border-gray-200 hover:bg-gray-50">
+                <td className="px-4 py-2">{categoria.nombre}</td>
+                <td className="px-4 py-2">
+                    <div
+                        className="w-6 h-6 rounded-full"
+                        style={{ backgroundColor: categoria.color }}
+                    ></div>
+                </td>
+                <td className="px-4 py-2">
+                    <button
+                        onClick={() => handleEditItem(categoria)}
+                        className="text-blue-500 hover:text-blue-700 mr-2"
+                    >
+                        <FiEdit2 />
+                    </button>
+                    <button
+                        onClick={() => handleDeleteItem(categoria.id)}
+                        className="text-red-500 hover:text-red-700"
+                    >
+                        <FiTrash2 />
+                    </button>
+                </td>
+            </tr>
+        ))}
+        </tbody>
+    </table>
+);
+
+export default CategoriaTable;\n\n
+
+=== ./catalogo/pages/admin/categoria/index.js ===
+export { default as CategoriaForm } from './CategoriaForm';
+export { default as CategoriaTable } from './CategoriaTable';\n\n
+
+=== ./catalogo/pages/admin/extra/ExtraForm.jsx ===
+import React from 'react';
+import { FiTag, FiFileText, FiDollarSign } from 'react-icons/fi';
+import { useForm } from 'react-hook-form';
+
+const ExtraForm = ({ editingItem, onSave, activeTab }) => {
+    const { register, handleSubmit } = useForm({
+        defaultValues: editingItem || {}
+    });
+
+    const onSubmit = (data) => {
+        onSave(data);
+    };
+
+    return (
+        <form id={activeTab + 'Form'} onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Nombre</label>
+                <div className="relative">
+                    <FiTag className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                    <input
+                        {...register('nombre', { required: 'Este campo es requerido' })}
+                        type="text"
+                        className="w-full pl-10 pr-3 py-2 text-gray-700 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        placeholder="Nombre del extra"
+                    />
+                </div>
+            </div>
+
+            <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Precio</label>
+                <div className="relative">
+                    <FiDollarSign className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                    <input
+                        {...register('precio', { required: 'Este campo es requerido' })}
+                        type="number"
+                        step="0.01"
+                        className="w-full pl-10 pr-3 py-2 text-gray-700 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        placeholder="Precio del extra"
+                    />
+                </div>
+            </div>
+
+            <div className="col-span-1 md:col-span-2">
+                <label className="block text-sm font-medium text-gray-700 mb-1">DescripciÃ³n</label>
+                <div className="relative">
+                    <FiFileText className="absolute left-3 top-3 text-gray-400" />
+                    <textarea
+                        {...register('descripcion')}
+                        className="w-full pl-10 pr-3 py-2 text-gray-700 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        rows="3"
+                        placeholder="DescripciÃ³n del extra"
+                    ></textarea>
+                </div>
+            </div>
+        </form>
+    );
+};
+
+export default ExtraForm;\n\n
+
+=== ./catalogo/pages/admin/extra/ExtraTable.jsx ===
+import React, { useMemo } from 'react';
+import { FiEdit2, FiTrash2 } from 'react-icons/fi';
+// Usar el alias @ para garantizar resoluciÃ³n correcta en Docker
+import { formatNumber } from '@shared/utils/formatters';
+
+const ExtraTable = ({ extras, handleEditItem, handleDeleteItem }) => {
+  const activeExtras = useMemo(() => {
+    return extras.filter(extra => extra.activo);
+  }, [extras]);
+
+  return (
+    <table className="w-full">
+      <thead>
+        <tr className="bg-gray-100">
+          <th className="px-4 py-2 text-left">Nombre</th>
+          <th className="px-4 py-2 text-left">DescripciÃ³n</th>
+          <th className="px-4 py-2 text-left">Precio</th>
+          <th className="px-4 py-2 text-left">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        {activeExtras.map((extra) => (
+          <tr key={extra.id} className="border-b border-gray-200 hover:bg-gray-50">
+            <td className="px-4 py-2">{extra.nombre}</td>
+            <td className="px-4 py-2">{extra.descripcion}</td>
+            <td className="px-4 py-2">{formatNumber(extra.precio)}</td>
+            <td className="px-4 py-2">
+              <button
+                onClick={() => handleEditItem(extra)}
+                className="text-blue-500 hover:text-blue-700 mr-2"
+              >
+                <FiEdit2 />
+              </button>
+              <button
+                onClick={() => handleDeleteItem(extra.id)}
+                className="text-red-500 hover:text-red-700"
+              >
+                <FiTrash2 />
+              </button>
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+};
+
+export default ExtraTable;\n\n
+
+=== ./catalogo/pages/admin/extra/index.js ===
+export { default as ExtraForm } from './ExtraForm';
+export { default as ExtraTable } from './ExtraTable';\n\n
+
+=== ./catalogo/pages/admin/index.js ===
+// src\domains\catalogo\pages\admin\index.js
+export * from './alimento';
+export * from './categoria';
+export * from './extra';
+export * from './mampara';
+export * from './paquete';
+export * from './tematica';\n\n
+
+=== ./catalogo/pages/admin/mampara/MamparaForm.jsx ===
+import React, { useEffect } from 'react';
+import { FiDollarSign, FiGrid } from 'react-icons/fi';
+import { useForm, Controller } from 'react-hook-form';
+import Select from 'react-select';
+import CloudinaryImageSelector from '@shared/components/cloudinary/CloudinaryImageSelector';
+
+const MamparaForm = ({ editingItem, onSave, activeTab, tematicas }) => {
+  const { register, handleSubmit, control, setValue, watch } = useForm({
+    defaultValues: editingItem || {}
+  });
+  
+  const foto = watch('foto');
+
+  // Establecer el select de temÃ¡tica cuando se estÃ¡ editando
+  useEffect(() => {
+    if (editingItem && editingItem.id_tematica) {
+      const tematicaOption = tematicas.find(t => t.id === editingItem.id_tematica);
+      if (tematicaOption) {
+        setValue('id_tematica', { value: tematicaOption.id, label: tematicaOption.nombre });
+      }
+    }
+  }, [editingItem, tematicas, setValue]);
+
+  // Manejar cambios en la imagen
+  const handleImageChange = (imageUrl) => {
+    setValue('foto', imageUrl);
+  };
+
+  const onSubmit = (data) => {
+    // Extraer el valor de id_tematica del objeto select
+    const adjustedData = {
+      ...data,
+      id_tematica: data.id_tematica ? data.id_tematica.value : null,
+    };
+    onSave(adjustedData);
+  };
+
+  return (
+    <form id={activeTab + 'Form'} onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1">Piezas</label>
+        <div className="relative">
+          <FiGrid className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+          <input
+            {...register('piezas', { required: 'Este campo es requerido', valueAsNumber: true })}
+            type="number"
+            className="w-full pl-10 pr-3 py-2 text-gray-700 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            placeholder="NÃºmero de piezas"
+          />
+        </div>
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1">Precio</label>
+        <div className="relative">
+          <FiDollarSign className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+          <input
+            {...register('precio', { required: 'Este campo es requerido', valueAsNumber: true })}
+            type="number"
+            step="0.01"
+            className="w-full pl-10 pr-3 py-2 text-gray-700 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            placeholder="Precio de la mampara"
+          />
+        </div>
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1">TemÃ¡tica</label>
+        <div className="relative">
+          <Controller
+            name="id_tematica"
+            control={control}
+            rules={{ required: 'Este campo es requerido' }}
+            render={({ field }) => (
+              <Select
+                {...field}
+                options={tematicas?.map(tematica => ({
+                  value: tematica.id,
+                  label: tematica.nombre,
+                })) || []}
+                placeholder="Seleccionar temÃ¡tica"
+                className="react-select-container"
+                classNamePrefix="react-select"
+              />
+            )}
+          />
+        </div>
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1">Imagen</label>
+        <CloudinaryImageSelector 
+          value={foto} 
+          onChange={handleImageChange}
+          previewSize="medium"
+          placeholder="URL de la imagen de la mampara"
+        />
+      </div>
+    </form>
+  );
+};
+
+export default MamparaForm;\n\n
+
+=== ./catalogo/pages/admin/mampara/MamparaModal.jsx ===
+import { FiX } from 'react-icons/fi';
+import MamparaForm from './MamparaForm.jsx';
+
+const MamparaModal = ({
+  isOpen,
+  onClose,
+  activeTab,
+  handleSubmit,
+  editingItem,
+  tematicas,
+}) => {
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 z-50 overflow-auto bg-gray-500 bg-opacity-75 flex items-center justify-center">
+      <div className="bg-white rounded-lg shadow-xl w-full max-w-4xl flex flex-col">
+        <div className="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+          <h2 className="text-2xl font-semibold text-gray-800">
+            {editingItem ? 'Editar Mampara' : 'Crear Mampara'}
+          </h2>
+          <button
+            onClick={onClose}
+            className="text-gray-400 hover:text-gray-600 transition duration-150 ease-in-out"
+          >
+            <FiX size={24} />
+          </button>
+        </div>
+
+        <div className="flex-grow overflow-y-auto p-6">
+          <MamparaForm
+            editingItem={editingItem}
+            onSave={handleSubmit}
+            activeTab={activeTab}
+            tematicas={tematicas}
+          />
+        </div>
+
+        <div className="px-6 py-4 border-t border-gray-200 flex justify-end">
+          <button
+            onClick={onClose}
+            className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md mr-2 hover:bg-gray-300 transition duration-150 ease-in-out"
+          >
+            Cancelar
+          </button>
+          <button
+            form={`${activeTab}Form`}
+            type="submit"
+            className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition duration-150 ease-in-out"
+          >
+            {editingItem ? 'Guardar Cambios' : 'Crear Mampara'}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default MamparaModal;
+\n\n
+
+=== ./catalogo/pages/admin/mampara/MamparaTable.jsx ===
+import React, { useState, useMemo } from 'react';
+import { FiEdit2, FiTrash2, FiEye, FiX, FiMaximize, FiImage, FiPlus } from 'react-icons/fi';
+// Usar el alias @ para garantizar resoluciÃ³n correcta en Docker
+import { formatNumber } from '@/utils/formatters';
+
+// Componente para mostrar imÃ¡genes a pantalla completa
+const ImageLightbox = ({ isOpen, onClose, imageUrl, alt }) => {
+  if (!isOpen) return null;
+
+  // Handler para detectar clics en el fondo
+  const handleBackdropClick = (e) => {
+    // Cerrar el lightbox al hacer clic en cualquier parte
+    onClose();
+  };
+
+  // Handler para evitar que los clics en la imagen cierren el lightbox
+  const handleImageClick = (e) => {
+    e.stopPropagation(); // Evita que el clic se propague al fondo
+  };
+
+  return (
+    <div 
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-90 transition-opacity duration-300"
+      onClick={handleBackdropClick} // Cerrar al hacer clic en cualquier parte
+    >
+      <div className="relative w-full h-full flex flex-col">
+        {/* Barra superior con botÃ³n de cierre */}
+        <div className="flex justify-end p-4">
+          <button 
+            onClick={onClose}
+            className="text-white p-2 rounded-full hover:bg-white/10 transition-colors"
+            aria-label="Cerrar"
+          >
+            <FiX size={24} />
+          </button>
+        </div>
+        
+        {/* Contenedor de la imagen */}
+        <div className="flex-1 flex items-center justify-center p-4">
+          <img 
+            src={imageUrl}
+            alt={alt}
+            className="max-h-full max-w-full object-contain"
+            onClick={handleImageClick}
+          />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const MamparaTable = ({ mamparas, tematicas, handleEditItem, handleDeleteItem }) => {
+  // Estado para el lightbox
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+
+  const activeMamparas = useMemo(() => {
+    return Array.isArray(mamparas) ? mamparas.filter(mampara => mampara.activo) : [];
+  }, [mamparas]);
+
+  const getTematicaNombre = (id_tematica) => {
+    if (Array.isArray(tematicas)) {
+      const tematica = tematicas.find(t => t.id === id_tematica);
+      return tematica ? tematica.nombre : 'No especificada';
+    }
+    return 'No especificada';
+  };
+
+  // FunciÃ³n para abrir el lightbox con la imagen seleccionada
+  const openLightbox = (imageUrl) => {
+    setSelectedImage(imageUrl);
+    setLightboxOpen(true);
+  };
+
+  return (
+    <div className="overflow-x-auto">
+      <table className="w-full">
+        <thead>
+          <tr className="bg-gray-100">
+            <th className="px-4 py-2 text-left">ID</th>
+            <th className="px-4 py-2 text-center">Imagen</th>
+            <th className="px-4 py-2 text-left">Piezas</th>
+            <th className="px-4 py-2 text-left">Precio</th>
+            <th className="px-4 py-2 text-left">TemÃ¡tica</th>
+            <th className="px-4 py-2 text-center">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {activeMamparas.length > 0 ? (
+            activeMamparas.map((mampara) => (
+              <tr key={mampara.id} className="border-b border-gray-200 hover:bg-gray-50">
+                <td className="px-4 py-2 align-middle">{mampara.id}</td>
+                <td className="px-4 py-2 align-middle text-center">
+                  {mampara.foto ? (
+                    <div className="relative group w-14 h-14">
+                      <img
+                        src={mampara.foto}
+                        alt={`Mampara de ${mampara.piezas} piezas`}
+                        className="w-14 h-14 object-cover rounded-md border border-gray-200 cursor-pointer"
+                        onClick={() => openLightbox(mampara.foto)}
+                        onError={(e) => {
+                          e.target.onerror = null;
+                          e.target.src = 'https://via.placeholder.com/60x60?text=Error';
+                        }}
+                      />
+                      <div 
+                        className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-opacity duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100 cursor-pointer rounded-md"
+                        onClick={() => openLightbox(mampara.foto)}
+                      >
+                        <div className="p-1 bg-white bg-opacity-80 rounded-full">
+                          <FiMaximize className="text-indigo-600" size={14} />
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <span className="text-gray-400 text-sm">Sin imagen</span>
+                  )}
+                </td>
+                <td className="px-4 py-2 align-middle">{mampara.piezas}</td>
+                <td className="px-4 py-2 align-middle">{formatNumber(mampara.precio)}</td>
+                <td className="px-4 py-2 align-middle">{getTematicaNombre(mampara.id_tematica)}</td>
+                <td className="px-4 py-2 flex items-center justify-center space-x-2">
+                  <button
+                    onClick={() => handleEditItem(mampara)}
+                    className="p-1 text-blue-500 hover:text-blue-700 hover:bg-blue-50 rounded-full transition-colors"
+                    title="Editar"
+                  >
+                    <FiEdit2 size={18} />
+                  </button>
+                  <button
+                    onClick={() => handleDeleteItem(mampara.id)}
+                    className="p-1 text-red-500 hover:text-red-700 hover:bg-red-50 rounded-full transition-colors"
+                    title="Eliminar"
+                  >
+                    <FiTrash2 size={18} />
+                  </button>
+                  {mampara.foto && (
+                    <button
+                      onClick={() => openLightbox(mampara.foto)}
+                      className="p-1 text-indigo-500 hover:text-indigo-700 hover:bg-indigo-50 rounded-full transition-colors"
+                      title="Ver imagen"
+                    >
+                      <FiEye size={18} />
+                    </button>
+                  )}
+                </td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan="6" className="px-4 py-8 text-center">
+                <div className="flex flex-col items-center justify-center p-6 border border-dashed border-gray-300 rounded-lg">
+                  <FiImage className="w-12 h-12 mb-3 text-gray-400" />
+                  <p className="text-lg font-semibold text-gray-700 mb-1">No hay mamparas disponibles</p>
+                  <p className="text-sm text-gray-500 mb-4">AÃ±ade tu primera mampara para comenzar</p>
+                  <button 
+                    onClick={() => handleEditItem({ id: 0, activo: true, piezas: '', precio: 0, id_tematica: '' })} 
+                    className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors flex items-center"
+                  >
+                    <span className="mr-2">Agregar Mampara</span>
+                    <FiPlus size={16} />
+                  </button>
+                </div>
+              </td>
+            </tr>
+          )}
+        </tbody>
+      </table>
+
+      {/* Lightbox para vista ampliada de imÃ¡genes */}
+      <ImageLightbox 
+        isOpen={lightboxOpen}
+        onClose={() => setLightboxOpen(false)}
+        imageUrl={selectedImage || ''}
+        alt="Imagen de mampara"
+      />
+    </div>
+  );
+};
+
+export default MamparaTable;
+\n\n
+
+=== ./catalogo/pages/admin/mampara/index.js ===
+export { default as MamparaForm } from './MamparaForm';
+export { default as MamparaModal } from './MamparaModal';
+export { default as MamparaTable } from './MamparaTable';\n\n
+
+=== ./catalogo/pages/admin/paquete/PackageForm.jsx ===
+import { FiPackage, FiFileText, FiDollarSign, FiToggleRight } from 'react-icons/fi';
+import { useForm } from 'react-hook-form';
+
+const PackageForm = ({ editingItem, onSave, activeTab }) => {
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        const data = Object.fromEntries(formData.entries());
+        const errors = {};
+        onSave(data);
+    };
+
+    return (
+        <form id={activeTab + 'Form'} onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="col-span-1 md:col-span-2">
+                <label className="block text-sm font-medium text-gray-700 mb-1">Nombre del Paquete</label>
+                <div className="relative">
+                    <FiPackage className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                    <input
+                        name="nombre"
+                        type="text"
+                        defaultValue={editingItem?.nombre || ''}
+                        className="w-full pl-10 pr-3 py-2 text-gray-700 bg-white border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        placeholder="Nombre del paquete"
+                    />
+                </div>
+            </div>
+
+            <div className="col-span-1 md:col-span-2">
+                <label className="block text-sm font-medium text-gray-700 mb-1">DescripciÃ³n</label>
+                <div className="relative">
+                    <FiFileText className="absolute left-3 top-3 text-gray-400" />
+                    <textarea
+                        name="descripcion"
+                        defaultValue={editingItem?.descripcion || ''}
+                        className="w-full pl-10 pr-3 py-2 text-gray-700 bg-white border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        rows="3"
+                        placeholder="DescripciÃ³n detallada del paquete"
+                    ></textarea>
+                </div>
+            </div>
+
+            <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Precio Lunes a Jueves</label>
+                <div className="relative">
+                    <FiDollarSign className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                    <input
+                        name="precio_lunes_jueves"
+                        type="number"
+                        step="0.01"
+                        defaultValue={editingItem?.precio_lunes_jueves || ''}
+                        className="w-full pl-10 pr-3 py-2 text-gray-700 bg-white border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        placeholder="Precio de lunes a jueves"
+                    />
+                </div>
+            </div>
+
+            <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Precio Viernes a Domingo</label>
+                <div className="relative">
+                    <FiDollarSign className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                    <input
+                        name="precio_viernes_domingo"
+                        type="number"
+                        step="0.01"
+                        defaultValue={editingItem?.precio_viernes_domingo || ''}
+                        className="w-full pl-10 pr-3 py-2 text-gray-700 bg-white border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        placeholder="Precio de viernes a domingo"
+                    />
+                </div>
+            </div>
+
+            <div className="col-span-1 md:col-span-2">
+                <label className="block text-sm font-medium text-gray-700 mb-1">Estado del Paquete</label>
+                <div className="relative">
+                    <FiToggleRight className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                    <select
+                        name="activo"
+                        defaultValue={editingItem?.activo !== undefined ? editingItem.activo : 1}
+                        className="w-full pl-10 pr-3 py-2 text-gray-700 bg-white border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    >
+                        <option value={1}>Activo</option>
+                        <option value={0}>Inactivo</option>
+                    </select>
+                </div>
+            </div>
+        </form>
+    );
+};
+
+export default PackageForm;\n\n
+
+=== ./catalogo/pages/admin/paquete/PackageTable.jsx ===
+import React, { useMemo } from 'react';
+import { FiEdit2, FiTrash2 } from 'react-icons/fi';
+// Usar el alias @ para garantizar resoluciÃ³n correcta en Docker
+import { formatNumber } from '@/utils/formatters';
+
+const PackageTable = ({ packages, handleEditItem, handleDeleteItem }) => {
+  const activePackages = useMemo(() => {
+    return packages.filter(pkg => pkg.activo);
+  }, [packages]);
+
+  return (
+    <div className="overflow-x-auto">
+      <table className="w-full">
+        <thead>
+          <tr className="bg-gray-100">
+            <th className="px-4 py-2 text-left">Nombre</th>
+            <th className="px-4 py-2 text-left">Precio Lunes-Jueves</th>
+            <th className="px-4 py-2 text-left">Precio Viernes-Domingo</th>
+            <th className="px-4 py-2 text-left">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {activePackages.map((pkg) => (
+            <tr key={pkg.id} className="border-b border-gray-200 hover:bg-gray-50">
+              <td className="px-4 py-2">{pkg.nombre}</td>
+              <td className="px-4 py-2">{formatNumber(pkg.precio_lunes_jueves)}</td>
+              <td className="px-4 py-2">{formatNumber(pkg.precio_viernes_domingo)}</td>
+              <td className="px-4 py-2">
+                <button
+                  onClick={() => handleEditItem(pkg)}
+                  className="text-blue-500 hover:text-blue-700 mr-2"
+                  aria-label="Editar paquete"
+                >
+                  <FiEdit2 />
+                </button>
+                <button
+                  onClick={() => handleDeleteItem(pkg.id)}
+                  className="text-red-500 hover:text-red-700"
+                  aria-label="Eliminar paquete"
+                >
+                  <FiTrash2 />
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+};
+
+export default PackageTable;\n\n
+
+=== ./catalogo/pages/admin/paquete/PaquetesPersonalizaciones.jsx ===
+import  {useState, useEffect} from 'react';
+import axios from 'axios';
+import {useForm} from 'react-hook-form';
+import {ToastContainer, toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import {FiEdit, FiTrash2, FiPlus, FiSearch, FiSun, FiMoon} from 'react-icons/fi';
+import Modal from 'react-modal';
+import {CSVLink} from 'react-csv';
+import {Page, Text, View, Document, StyleSheet} from '@react-pdf/renderer';
+
+const Dashboard = () => {
+    const [paquetes, setPaquetes] = useState([]);
+    const [personalizaciones, setPersonalizaciones] = useState([]);
+    const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [modalMode, setModalMode] = useState('create');
+    const [selectedItem, setSelectedItem] = useState(null);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [darkMode, setDarkMode] = useState(false);
+    const {register, handleSubmit, reset} = useForm();
+
+    useEffect(() => {
+        fetchPaquetes();
+        fetchPersonalizaciones();
+    }, []);
+
+    const fetchPaquetes = async () => {
+        try {
+            const response = await axios.get('/api/paquetes');
+            setPaquetes(response.data);
+        } catch (error) {
+            console.error('Error al obtener los paquetes:', error);
+            toast.error('Error al cargar los paquetes');
+        }
+    };
+
+    const fetchPersonalizaciones = async () => {
+        try {
+            const response = await axios.get('/api/personalizaciones');
+            setPersonalizaciones(response.data);
+        } catch (error) {
+            console.error('Error al obtener las personalizaciones:', error);
+            toast.error('Error al cargar las personalizaciones');
+        }
+    };
+
+    const openModal = (mode, item = null) => {
+        setModalMode(mode);
+        setSelectedItem(item);
+        setModalIsOpen(true);
+    };
+
+    const closeModal = () => {
+        setModalIsOpen(false);
+        setSelectedItem(null);
+        reset();
+    };
+
+    const onSubmit = async (data) => {
+        try {
+            if (modalMode === 'edit') {
+                await axios.put(`/api/${selectedItem.type}/${selectedItem.id}`, data);
+                toast.success(`${selectedItem.type === 'paquetes' ? 'Paquete' : 'PersonalizaciÃ³n'} actualizado con Ã©xito`);
+            } else {
+                await axios.post(`/api/${selectedItem.type}`, data);
+                toast.success(`${selectedItem.type === 'paquetes' ? 'Paquete' : 'PersonalizaciÃ³n'} creado con Ã©xito`);
+            }
+            closeModal();
+            fetchPaquetes();
+            fetchPersonalizaciones();
+        } catch (error) {
+            console.error('Error al guardar:', error);
+            toast.error('Error al guardar');
+        }
+    };
+
+    const handleDelete = async (type, id) => {
+        if (window.confirm('Â¿EstÃ¡s seguro de que deseas eliminar este elemento?')) {
+            try {
+                await axios.delete(`/api/${type}/${id}`);
+                toast.success(`${type === 'paquetes' ? 'Paquete' : 'PersonalizaciÃ³n'} eliminado con Ã©xito`);
+                fetchPaquetes();
+                fetchPersonalizaciones();
+            } catch (error) {
+                console.error('Error al eliminar:', error);
+                toast.error('Error al eliminar');
+            }
+        }
+    };
+
+    const filteredPaquetes = paquetes.filter((paquete) =>
+        paquete.nombre.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    const filteredPersonalizaciones = personalizaciones.filter((personalizacion) =>
+        personalizacion.nombre.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    const toggleDarkMode = () => {
+        setDarkMode(!darkMode);
+    };
+
+    const renderCSV = (data) => {
+        const headers = ['ID', 'Nombre', 'Precio'];
+        const csvData = data.map((item) => [item.id, item.nombre, item.precio || item.precio_adicional]);
+        return {data: csvData, headers: headers};
+    };
+
+    const renderPDF = (data) => (
+        <Document>
+            <Page style={styles.page}>
+                <View style={styles.table}>
+                    <View style={styles.tableRow}>
+                        <Text style={styles.tableHeader}>ID</Text>
+                        <Text style={styles.tableHeader}>Nombre</Text>
+                        <Text style={styles.tableHeader}>Precio</Text>
+                    </View>
+                    {data.map((item, index) => (
+                        <View key={index} style={styles.tableRow}>
+                            <Text style={styles.tableCell}>{item.id}</Text>
+                            <Text style={styles.tableCell}>{item.nombre}</Text>
+                            <Text style={styles.tableCell}>{item.precio || item.precio_adicional}</Text>
+                        </View>
+                    ))}
+                </View>
+            </Page>
+        </Document>
+    );
+
+    return (
+        <div className={`container mx-auto px-4 py-8 ${darkMode ? 'dark' : ''}`}>
+            <ToastContainer/>
+            <nav className="flex items-center justify-between mb-8">
+                <div className="text-2xl font-bold text-gray-800 dark:text-white">Dashboard</div>
+                <div className="flex items-center">
+                    <button
+                        className="p-2 rounded-full focus:outline-none focus:shadow-outline-gray"
+                        onClick={toggleDarkMode}
+                        aria-label="Toggle color mode"
+                    >
+                        {darkMode ? (
+                            <FiSun className="w-5 h-5 text-gray-800 dark:text-white"/>
+                        ) : (
+                            <FiMoon className="w-5 h-5 text-gray-800 dark:text-white"/>
+                        )}
+                    </button>
+                </div>
+            </nav>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+                    <h3 className="text-xl font-semibold mb-4 text-gray-800 dark:text-white">Resumen de Paquetes</h3>
+                    <p className="text-3xl font-bold text-blue-500">{paquetes.length}</p>
+                </div>
+                <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+                    <h3 className="text-xl font-semibold mb-4 text-gray-800 dark:text-white">Resumen de
+                        Personalizaciones</h3>
+                    <p className="text-3xl font-bold text-blue-500">{personalizaciones.length}</p>
+                </div>
+            </div>
+            <div className="mb-8">
+                <div className="flex justify-between items-center mb-4">
+                    <h2 className="text-2xl font-bold text-gray-800 dark:text-white">Paquetes y Personalizaciones</h2>
+                    <div className="flex items-center">
+                        <div className="relative mr-4">
+                            <input
+                                type="text"
+                                placeholder="Buscar..."
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                                className="pl-10 pr-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:text-white dark:border-gray-600"
+                            />
+                            <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"/>
+                        </div>
+                        <button
+                            className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mr-2"
+                            onClick={() => openModal('create', {type: 'paquetes'})}
+                        >
+                            <FiPlus className="inline-block mr-2"/>
+                            Nuevo Paquete
+                        </button>
+                        <button
+                            className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
+                            onClick={() => openModal('create', {type: 'personalizaciones'})}
+                        >
+                            <FiPlus className="inline-block mr-2"/>
+                            Nueva PersonalizaciÃ³n
+                        </button>
+                    </div>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 className="text-xl font-semibold mb-4 text-gray-800 dark:text-white">Paquetes</h3>
+                        <div className="overflow-x-auto">
+                            <table className="table-auto w-full">
+                                <thead>
+                                <tr className="bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-200 uppercase text-sm leading-normal">
+                                    <th className="py-3 px-6 text-left">Nombre</th>
+                                    <th className="py-3 px-6 text-left">Precio</th>
+                                    <th className="py-3 px-6 text-center">Acciones</th>
+                                </tr>
+                                </thead>
+                                <tbody className="text-gray-600 dark:text-gray-100 text-sm">
+                                {filteredPaquetes.map((paquete) => (
+                                    <tr key={paquete.id}
+                                        className="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600">
+                                        <td className="py-3 px-6 text-left whitespace-nowrap">{paquete.nombre}</td>
+                                        <td className="py-3 px-6 text-left">${paquete.precio}</td>
+                                        <td className="py-3 px-6 text-center">
+                                            <div className="flex item-center justify-center">
+                                                <div
+                                                    className="w-4 mr-2 transform hover:text-blue-500 hover:scale-110 cursor-pointer"
+                                                    onClick={() => openModal('edit', {...paquete, type: 'paquetes'})}
+                                                >
+                                                    <FiEdit/>
+                                                </div>
+                                                <div
+                                                    className="w-4 mr-2 transform hover:text-red-500 hover:scale-110 cursor-pointer"
+                                                    onClick={() => handleDelete('paquetes', paquete.id)}
+                                                >
+                                                    <FiTrash2/>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 className="text-xl font-semibold mb-4 text-gray-800 dark:text-white">Personalizaciones</h3>
+                        <div className="overflow-x-auto">
+                            <table className="table-auto w-full">
+                                <thead>
+                                <tr className="bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-200 uppercase text-sm leading-normal">
+                                    <th className="py-3 px-6 text-left">Nombre</th>
+                                    <th className="py-3 px-6 text-left">Precio Adicional</th>
+                                    <th className="py-3 px-6 text-center">Acciones</th>
+                                </tr>
+                                </thead>
+                                <tbody className="text-gray-600 dark:text-gray-100 text-sm">
+                                {filteredPersonalizaciones.map((personalizacion) => (
+                                    <tr key={personalizacion.id}
+                                        className="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600">
+                                        <td className="py-3 px-6 text-left whitespace-nowrap">{personalizacion.nombre}</td>
+                                        <td className="py-3 px-6 text-left">${personalizacion.precio_adicional}</td>
+                                        <td className="py-3 px-6 text-center">
+                                            <div className="flex item-center justify-center">
+                                                <div
+                                                    className="w-4 mr-2 transform hover:text-blue-500 hover:scale-110 cursor-pointer"
+                                                    onClick={() => openModal('edit', {
+                                                        ...personalizacion,
+                                                        type: 'personalizaciones'
+                                                    })}
+                                                >
+                                                    <FiEdit/>
+                                                </div>
+                                                <div
+                                                    className="w-4 mr-2 transform hover:text-red-500 hover:scale-110 cursor-pointer"
+                                                    onClick={() => handleDelete('personalizaciones', personalizacion.id)}
+                                                >
+                                                    <FiTrash2/>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <footer className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md">
+                <div className="flex justify-between items-center">
+                    <p className="text-gray-600 dark:text-gray-400">&copy; {new Date().getFullYear()} Tu Empresa. Todos
+                        los derechos reservados.</p>
+                    <div>
+                        <CSVLink
+                            data={renderCSV(paquetes.concat(personalizaciones)).data}
+                            headers={renderCSV(paquetes.concat(personalizaciones)).headers}
+                            filename="datos.csv"
+                            className="text-blue-500 hover:underline mr-4"
+                        >
+                            Exportar CSV
+                        </CSVLink>
+                        <button className="text-blue-500 hover:underline">Exportar PDF</button>
+                    </div>
+                </div>
+            </footer>
+
+            <Modal
+                isOpen={modalIsOpen}
+                onRequestClose={closeModal}
+                contentLabel={`${modalMode === 'create' ? 'Crear' : 'Editar'} ${selectedItem?.type === 'paquetes' ? 'Paquete' : 'PersonalizaciÃ³n'}`}
+                className="modal"
+                overlayClassName="modal-overlay"
+            >
+                <h2 className="text-2xl font-bold mb-4 text-gray-800 dark:text-white">
+                    {modalMode === 'create' ? 'Crear' : 'Editar'} {selectedItem?.type === 'paquetes' ? 'Paquete' : 'PersonalizaciÃ³n'}
+                </h2>
+                <form onSubmit={handleSubmit(onSubmit)}>
+                    <div className="mb-4">
+                        <label htmlFor="nombre" className="block text-gray-700 dark:text-gray-300 font-bold mb-2">
+                            Nombre
+                        </label>
+                        <input
+                            type="text"
+                            id="nombre"
+                            className="w-full px-3 py-2 text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-blue-500"
+                            defaultValue={selectedItem?.nombre || ''}
+                            {...register('nombre', {required: true})}
+                        />
+                    </div>
+                    <div className="mb-4">
+                        <label htmlFor="precio" className="block text-gray-700 dark:text-gray-300 font-bold mb-2">
+                            {selectedItem?.type === 'paquetes' ? 'Precio' : 'Precio Adicional'}
+                        </label>
+                        <input
+                            type="number"
+                            id="precio"
+                            step="0.01"
+                            className="w-full px-3 py-2 text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-blue-500"
+                            defaultValue={selectedItem?.precio || selectedItem?.precio_adicional || ''}
+                            {...register(selectedItem?.type === 'paquetes' ? 'precio' : 'precio_adicional', {required: true})}
+                        />
+                    </div>
+                    <div className="flex justify-end">
+                        <button
+                            type="button"
+                            className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded mr-2"
+                            onClick={closeModal}
+                        >
+                            Cancelar
+                        </button>
+                        <button
+                            type="submit"
+                            className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
+                        >
+                            {modalMode === 'create' ? 'Crear' : 'Guardar'}
+                        </button>
+                    </div>
+                </form>
+            </Modal>
+        </div>
+    );
+};
+const styles = StyleSheet.create({
+    page: {
+        flexDirection: 'column',
+        backgroundColor: '#ffffff',
+        padding: 20,
+    },
+    table: {
+        width: '100%',
+        borderStyle: 'solid',
+        borderWidth: 1,
+        borderColor: '#bfbfbf',
+        marginBottom: 10,
+    },
+    tableRow: {
+        flexDirection: 'row',
+        borderBottomStyle: 'solid',
+        borderBottomWidth: 1,
+        borderBottomColor: '#bfbfbf',
+        alignItems: 'center',
+        height: 30,
+        fontStyle: 'bold',
+    },
+    tableHeader: {
+        width: '33.33%',
+        textAlign: 'center',
+        fontSize: 12,
+        padding: 5,
+    },
+    tableCell: {
+        width: '33.33%',
+        textAlign: 'center',
+        fontSize: 10,
+        padding: 5,
+    },
+});
+export default Dashboard;\n\n
+
+=== ./catalogo/pages/admin/paquete/index.js ===
+export { default as PackageForm } from './PackageForm';
+export { default as PackageTable } from './PackageTable';
+export { default as PaquetesPersonalizaciones } from './PaquetesPersonalizaciones';\n\n
+
+=== ./catalogo/pages/admin/tematica/TematicaForm.jsx ===
+import React from 'react';
+import { FiTag, FiFileText } from 'react-icons/fi';
+import { useForm } from 'react-hook-form';
+import CloudinaryImageSelector from '@/components/cloudinary/CloudinaryImageSelector';
+
+const TematicaForm = ({ editingItem, onSave, activeTab }) => {
+    const { register, handleSubmit, setValue, watch } = useForm({
+        defaultValues: editingItem || {}
+    });
+    
+    const foto = watch('foto');
+
+    const onSubmit = (data) => {
+        onSave(data);
+    };
+
+    // Manejar cambios en la imagen
+    const handleImageChange = (imageUrl) => {
+        setValue('foto', imageUrl);
+    };
+
+    return (
+        <form id={activeTab + 'Form'} onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+            <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Nombre</label>
+                <div className="relative">
+                    <FiTag className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                    <input
+                        {...register('nombre', { required: 'Este campo es requerido' })}
+                        type="text"
+                        className="w-full pl-10 pr-3 py-2 text-gray-700 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        placeholder="Nombre de la temÃ¡tica"
+                    />
+                </div>
+            </div>
+
+            <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">DescripciÃ³n</label>
+                <div className="relative">
+                    <FiFileText className="absolute left-3 top-3 text-gray-400" />
+                    <textarea
+                        {...register('descripcion')}
+                        className="w-full pl-10 pr-3 py-2 text-gray-700 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        rows="3"
+                        placeholder="DescripciÃ³n de la temÃ¡tica"
+                    ></textarea>
+                </div>
+            </div>
+
+            <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Imagen</label>
+                <CloudinaryImageSelector 
+                    value={foto} 
+                    onChange={handleImageChange}
+                    previewSize="medium"
+                    placeholder="URL de la imagen de la temÃ¡tica"
+                />
+            </div>
+        </form>
+    );
+};
+
+export default TematicaForm;\n\n
+
+=== ./catalogo/pages/admin/tematica/TematicaTable.jsx ===
+import React, { useMemo, useState, useEffect } from 'react';
+import { FiEdit2, FiTrash2, FiImage, FiAlertCircle, FiX, FiMaximize, FiEye, FiPlus } from 'react-icons/fi';
+import { AdvancedImage } from '@cloudinary/react';
+import { Cloudinary } from '@cloudinary/url-gen';
+import { fill } from '@cloudinary/url-gen/actions/resize';
+import { autoGravity } from '@cloudinary/url-gen/qualifiers/gravity';
+import { auto } from '@cloudinary/url-gen/qualifiers/format';
+import { format } from '@cloudinary/url-gen/actions/delivery';
+import { auto as autoFormat } from '@cloudinary/url-gen/qualifiers/format';
+
+// Componente para mostrar imÃ¡genes a pantalla completa
+const ImageLightbox = ({ isOpen, onClose, imageUrl, alt }) => {
+  if (!isOpen) return null;
+
+  // Handler para detectar clics en el fondo
+  const handleBackdropClick = (e) => {
+    // Cerrar el lightbox al hacer clic en cualquier parte
+    onClose();
+  };
+
+  // Handler para evitar que los clics en la imagen cierren el lightbox
+  const handleImageClick = (e) => {
+    e.stopPropagation(); // Evita que el clic se propague al fondo
+  };
+
+  return (
+    <div 
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-90 transition-opacity duration-300"
+      onClick={handleBackdropClick} // Cerrar al hacer clic en cualquier parte
+    >
+      <div className="relative w-full h-full flex flex-col">
+        {/* Barra superior con botÃ³n de cierre */}
+        <div className="flex justify-end p-4">
+          <button 
+            onClick={onClose}
+            className="text-white p-2 rounded-full hover:bg-white/10 transition-colors"
+            aria-label="Cerrar"
+          >
+            <FiX size={24} />
+          </button>
+        </div>
+        
+        {/* Contenedor de la imagen */}
+        <div className="flex-1 flex items-center justify-center p-4">
+          <img 
+            src={imageUrl}
+            alt={alt}
+            className="max-h-full max-w-full object-contain"
+            onClick={handleImageClick}
+          />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const TematicaTable = ({ tematicas, handleEditItem, handleDeleteItem }) => {
+  const [cloudinary, setCloudinary] = useState(null);
+  const [cloudinaryImages, setCloudinaryImages] = useState({});
+  const [imageErrors, setImageErrors] = useState({});
+  
+  // Estados para el lightbox
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+
+  const activeTematicas = useMemo(() => {
+    return tematicas.filter(tematica => tematica.activo);
+  }, [tematicas]);
+
+  // Inicializar Cloudinary
+  useEffect(() => {
+    const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME || 'dswklswqw';
+    setCloudinary(new Cloudinary({
+      cloud: { cloudName }
+    }));
+  }, []);
+
+  // Procesar imÃ¡genes de Cloudinary
+  useEffect(() => {
+    if (!cloudinary || activeTematicas.length === 0) return;
+    
+    const newCloudinaryImages = {};
+    const newImageErrors = {};
+    
+    activeTematicas.forEach(tematica => {
+      try {
+        if (!tematica.foto) {
+          return;
+        }
+        
+        const cldImg = getCloudinaryImage(tematica.foto);
+        if (cldImg) {
+          newCloudinaryImages[tematica.id] = cldImg;
+        } else {
+          newImageErrors[tematica.id] = "Error al procesar la imagen";
+        }
+      } catch (err) {
+        console.error(`Error procesando imagen ${tematica.id}:`, err);
+        newImageErrors[tematica.id] = "Error al procesar la imagen";
+      }
+    });
+    
+    setCloudinaryImages(newCloudinaryImages);
+    setImageErrors(newImageErrors);
+  }, [cloudinary, activeTematicas]);
+
+  // FunciÃ³n para procesar URLs de Cloudinary
+  const getCloudinaryImage = (publicId) => {
+    if (!publicId || typeof publicId !== 'string' || !cloudinary) {
+      return null;
+    }
+    
+    try {
+      // Si es una URL completa, extraemos el ID y la versiÃ³n
+      if (publicId.includes('cloudinary.com')) {
+        // Para URLs de Cloudinary, procesamos correctamente
+        const url = new URL(publicId);
+        const pathSegments = url.pathname.split('/');
+        
+        // Buscar si hay una versiÃ³n (v1234567)
+        let versionIndex = -1;
+        let idIndex = -1;
+        
+        for (let i = 0; i < pathSegments.length; i++) {
+          if (pathSegments[i].startsWith('v') && /^v\d+$/.test(pathSegments[i])) {
+            versionIndex = i;
+            idIndex = i + 1;
+            break;
+          }
+        }
+        
+        // Si encontramos versiÃ³n e ID
+        if (versionIndex >= 0 && idIndex < pathSegments.length) {
+          const version = pathSegments[versionIndex];
+          let imageId = pathSegments[idIndex];
+          
+          // Quitar extensiÃ³n si existe
+          if (imageId.includes('.')) {
+            imageId = imageId.substring(0, imageId.lastIndexOf('.'));
+          }
+          
+          // Configurar imagen con Cloudinary SDK
+          return cloudinary.image(imageId)
+            .format(autoFormat())
+            .quality(auto())
+            .resize(
+              fill()
+                .gravity(autoGravity())
+                .width(80)
+                .height(60)
+            );
+        }
+      }
+      
+      // Si el ID ya es simple, usarlo directamente
+      return cloudinary.image(publicId)
+        .format(autoFormat())
+        .quality(auto())
+        .resize(
+          fill()
+            .gravity(autoGravity())
+            .width(80)
+            .height(60)
+        );
+    } catch (error) {
+      console.error('Error al procesar URL de Cloudinary:', error);
+      return null;
+    }
+  };
+
+  // FunciÃ³n para abrir el lightbox
+  const openLightbox = (imageUrl) => {
+    setSelectedImage(imageUrl);
+    setLightboxOpen(true);
+  };
+
+  return (
+    <div className="overflow-x-auto">
+      <table className="w-full">
+        <thead>
+          <tr className="bg-gray-100">
+            <th className="px-4 py-2 text-center">Imagen</th>
+            <th className="px-4 py-2 text-left">Nombre</th>
+            <th className="px-4 py-2 text-left">DescripciÃ³n</th>
+            <th className="px-4 py-2 text-center">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {activeTematicas.map((tematica) => (
+            <tr key={tematica.id} className="border-b border-gray-200 hover:bg-gray-50">
+              <td className="px-4 py-2 w-24 align-middle">
+                <div className="flex items-center justify-center h-16 w-20 bg-gray-100 rounded overflow-hidden group relative">
+                  {tematica.foto && cloudinaryImages[tematica.id] ? (
+                    <div className="w-full h-full relative group cursor-pointer" onClick={() => openLightbox(tematica.foto)}>
+                      <AdvancedImage 
+                        cldImg={cloudinaryImages[tematica.id]}
+                        className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                        alt={tematica.nombre || 'Imagen de temÃ¡tica'}
+                      />
+                      <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-opacity duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
+                        <div className="p-1 bg-white bg-opacity-80 rounded-full">
+                          <FiMaximize className="text-indigo-600" size={14} />
+                        </div>
+                      </div>
+                    </div>
+                  ) : tematica.foto ? (
+                    <div className="w-full h-full relative group cursor-pointer" onClick={() => openLightbox(tematica.foto)}>
+                      <img 
+                        src={tematica.foto} 
+                        alt={tematica.nombre}
+                        className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                        onError={(e) => {
+                          e.target.onerror = null; 
+                          setImageErrors(prev => ({...prev, [tematica.id]: true}));
+                          e.target.style.display = 'none';
+                          e.target.parentNode.innerHTML = `<div class="flex flex-col items-center justify-center text-red-500 p-2 text-center">
+                            <svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                            <span class="text-xs">Error</span>
+                          </div>`;
+                        }}
+                      />
+                      <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-opacity duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
+                        <div className="p-1 bg-white bg-opacity-80 rounded-full">
+                          <FiMaximize className="text-indigo-600" size={14} />
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="flex flex-col items-center justify-center text-gray-400 p-2">
+                      <FiImage size={18} className="mb-1" />
+                      <span className="text-xs">Sin imagen</span>
+                    </div>
+                  )}
+                </div>
+              </td>
+              <td className="px-4 py-2 align-middle">{tematica.nombre}</td>
+              <td className="px-4 py-2 align-middle">{tematica.descripcion}</td>
+              <td className="px-4 py-2 flex items-center justify-center space-x-2">
+                <button
+                  onClick={() => handleEditItem(tematica)}
+                  className="p-1 text-blue-500 hover:text-blue-700 hover:bg-blue-50 rounded-full transition-colors"
+                  title="Editar"
+                >
+                  <FiEdit2 size={18} />
+                </button>
+                <button
+                  onClick={() => handleDeleteItem(tematica.id)}
+                  className="p-1 text-red-500 hover:text-red-700 hover:bg-red-50 rounded-full transition-colors"
+                  title="Eliminar"
+                >
+                  <FiTrash2 size={18} />
+                </button>
+                {tematica.foto && (
+                  <button
+                    onClick={() => openLightbox(tematica.foto)}
+                    className="p-1 text-indigo-500 hover:text-indigo-700 hover:bg-indigo-50 rounded-full transition-colors"
+                    title="Ver imagen"
+                  >
+                    <FiEye size={18} />
+                  </button>
+                )}
+              </td>
+            </tr>
+          ))}
+          {activeTematicas.length === 0 && (
+            <tr>
+              <td colSpan="4" className="px-4 py-8 text-center">
+                <div className="flex flex-col items-center justify-center p-6 border border-dashed border-gray-300 rounded-lg">
+                  <FiImage className="w-12 h-12 mb-3 text-gray-400" />
+                  <p className="text-lg font-semibold text-gray-700 mb-1">No hay temÃ¡ticas disponibles</p>
+                  <p className="text-sm text-gray-500 mb-4">AÃ±ade tu primera temÃ¡tica para comenzar</p>
+                  <button 
+                    onClick={() => handleEditItem({ id: 0, activo: true, nombre: '', descripcion: '', foto: '' })} 
+                    className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors flex items-center"
+                  >
+                    <span className="mr-2">Agregar TemÃ¡tica</span>
+                    <FiPlus size={16} />
+                  </button>
+                </div>
+              </td>
+            </tr>
+          )}
+        </tbody>
+      </table>
+
+      {/* Lightbox para vista ampliada de imÃ¡genes */}
+      <ImageLightbox 
+        isOpen={lightboxOpen}
+        onClose={() => setLightboxOpen(false)}
+        imageUrl={selectedImage || ''}
+        alt="Imagen de temÃ¡tica"
+      />
+    </div>
+  );
+};
+
+export default TematicaTable;
+\n\n
+
+=== ./catalogo/pages/admin/tematica/index.js ===
+export { default as TematicaForm } from './TematicaForm';
+export { default as TematicaTable } from './TematicaTable';\n\n
+
+=== ./catalogo/pages/index.js ===
+// Exportar todos los componentes de catalogo/pages
+\n\n
+
+=== ./catalogo/pages/public/PaquetesPersonalizaciones.jsx ===
+import  {useState, useEffect} from 'react';
+import axios from 'axios';
+import {useForm} from 'react-hook-form';
+import {ToastContainer, toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import {FiEdit, FiTrash2, FiPlus, FiSearch, FiSun, FiMoon} from 'react-icons/fi';
+import Modal from 'react-modal';
+import {CSVLink} from 'react-csv';
+import {Page, Text, View, Document, StyleSheet} from '@react-pdf/renderer';
+
+const Dashboard = () => {
+    const [paquetes, setPaquetes] = useState([]);
+    const [personalizaciones, setPersonalizaciones] = useState([]);
+    const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [modalMode, setModalMode] = useState('create');
+    const [selectedItem, setSelectedItem] = useState(null);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [darkMode, setDarkMode] = useState(false);
+    const {register, handleSubmit, reset} = useForm();
+
+    useEffect(() => {
+        fetchPaquetes();
+        fetchPersonalizaciones();
+    }, []);
+
+    const fetchPaquetes = async () => {
+        try {
+            const response = await axios.get('/api/paquetes');
+            setPaquetes(response.data);
+        } catch (error) {
+            console.error('Error al obtener los paquetes:', error);
+            toast.error('Error al cargar los paquetes');
+        }
+    };
+
+    const fetchPersonalizaciones = async () => {
+        try {
+            const response = await axios.get('/api/personalizaciones');
+            setPersonalizaciones(response.data);
+        } catch (error) {
+            console.error('Error al obtener las personalizaciones:', error);
+            toast.error('Error al cargar las personalizaciones');
+        }
+    };
+
+    const openModal = (mode, item = null) => {
+        setModalMode(mode);
+        setSelectedItem(item);
+        setModalIsOpen(true);
+    };
+
+    const closeModal = () => {
+        setModalIsOpen(false);
+        setSelectedItem(null);
+        reset();
+    };
+
+    const onSubmit = async (data) => {
+        try {
+            if (modalMode === 'edit') {
+                await axios.put(`/api/${selectedItem.type}/${selectedItem.id}`, data);
+                toast.success(`${selectedItem.type === 'paquetes' ? 'Paquete' : 'PersonalizaciÃ³n'} actualizado con Ã©xito`);
+            } else {
+                await axios.post(`/api/${selectedItem.type}`, data);
+                toast.success(`${selectedItem.type === 'paquetes' ? 'Paquete' : 'PersonalizaciÃ³n'} creado con Ã©xito`);
+            }
+            closeModal();
+            fetchPaquetes();
+            fetchPersonalizaciones();
+        } catch (error) {
+            console.error('Error al guardar:', error);
+            toast.error('Error al guardar');
+        }
+    };
+
+    const handleDelete = async (type, id) => {
+        if (window.confirm('Â¿EstÃ¡s seguro de que deseas eliminar este elemento?')) {
+            try {
+                await axios.delete(`/api/${type}/${id}`);
+                toast.success(`${type === 'paquetes' ? 'Paquete' : 'PersonalizaciÃ³n'} eliminado con Ã©xito`);
+                fetchPaquetes();
+                fetchPersonalizaciones();
+            } catch (error) {
+                console.error('Error al eliminar:', error);
+                toast.error('Error al eliminar');
+            }
+        }
+    };
+
+    const filteredPaquetes = paquetes.filter((paquete) =>
+        paquete.nombre.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    const filteredPersonalizaciones = personalizaciones.filter((personalizacion) =>
+        personalizacion.nombre.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    const toggleDarkMode = () => {
+        setDarkMode(!darkMode);
+    };
+
+    const renderCSV = (data) => {
+        const headers = ['ID', 'Nombre', 'Precio'];
+        const csvData = data.map((item) => [item.id, item.nombre, item.precio || item.precio_adicional]);
+        return {data: csvData, headers: headers};
+    };
+
+    const renderPDF = (data) => (
+        <Document>
+            <Page style={styles.page}>
+                <View style={styles.table}>
+                    <View style={styles.tableRow}>
+                        <Text style={styles.tableHeader}>ID</Text>
+                        <Text style={styles.tableHeader}>Nombre</Text>
+                        <Text style={styles.tableHeader}>Precio</Text>
+                    </View>
+                    {data.map((item, index) => (
+                        <View key={index} style={styles.tableRow}>
+                            <Text style={styles.tableCell}>{item.id}</Text>
+                            <Text style={styles.tableCell}>{item.nombre}</Text>
+                            <Text style={styles.tableCell}>{item.precio || item.precio_adicional}</Text>
+                        </View>
+                    ))}
+                </View>
+            </Page>
+        </Document>
+    );
+
+    return (
+        <div className={`container mx-auto px-4 py-8 ${darkMode ? 'dark' : ''}`}>
+            <ToastContainer/>
+            <nav className="flex items-center justify-between mb-8">
+                <div className="text-2xl font-bold text-gray-800 dark:text-white">Dashboard</div>
+                <div className="flex items-center">
+                    <button
+                        className="p-2 rounded-full focus:outline-none focus:shadow-outline-gray"
+                        onClick={toggleDarkMode}
+                        aria-label="Toggle color mode"
+                    >
+                        {darkMode ? (
+                            <FiSun className="w-5 h-5 text-gray-800 dark:text-white"/>
+                        ) : (
+                            <FiMoon className="w-5 h-5 text-gray-800 dark:text-white"/>
+                        )}
+                    </button>
+                </div>
+            </nav>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+                    <h3 className="text-xl font-semibold mb-4 text-gray-800 dark:text-white">Resumen de Paquetes</h3>
+                    <p className="text-3xl font-bold text-blue-500">{paquetes.length}</p>
+                </div>
+                <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+                    <h3 className="text-xl font-semibold mb-4 text-gray-800 dark:text-white">Resumen de
+                        Personalizaciones</h3>
+                    <p className="text-3xl font-bold text-blue-500">{personalizaciones.length}</p>
+                </div>
+            </div>
+            <div className="mb-8">
+                <div className="flex justify-between items-center mb-4">
+                    <h2 className="text-2xl font-bold text-gray-800 dark:text-white">Paquetes y Personalizaciones</h2>
+                    <div className="flex items-center">
+                        <div className="relative mr-4">
+                            <input
+                                type="text"
+                                placeholder="Buscar..."
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                                className="pl-10 pr-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:text-white dark:border-gray-600"
+                            />
+                            <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"/>
+                        </div>
+                        <button
+                            className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mr-2"
+                            onClick={() => openModal('create', {type: 'paquetes'})}
+                        >
+                            <FiPlus className="inline-block mr-2"/>
+                            Nuevo Paquete
+                        </button>
+                        <button
+                            className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
+                            onClick={() => openModal('create', {type: 'personalizaciones'})}
+                        >
+                            <FiPlus className="inline-block mr-2"/>
+                            Nueva PersonalizaciÃ³n
+                        </button>
+                    </div>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 className="text-xl font-semibold mb-4 text-gray-800 dark:text-white">Paquetes</h3>
+                        <div className="overflow-x-auto">
+                            <table className="table-auto w-full">
+                                <thead>
+                                <tr className="bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-200 uppercase text-sm leading-normal">
+                                    <th className="py-3 px-6 text-left">Nombre</th>
+                                    <th className="py-3 px-6 text-left">Precio</th>
+                                    <th className="py-3 px-6 text-center">Acciones</th>
+                                </tr>
+                                </thead>
+                                <tbody className="text-gray-600 dark:text-gray-100 text-sm">
+                                {filteredPaquetes.map((paquete) => (
+                                    <tr key={paquete.id}
+                                        className="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600">
+                                        <td className="py-3 px-6 text-left whitespace-nowrap">{paquete.nombre}</td>
+                                        <td className="py-3 px-6 text-left">${paquete.precio}</td>
+                                        <td className="py-3 px-6 text-center">
+                                            <div className="flex item-center justify-center">
+                                                <div
+                                                    className="w-4 mr-2 transform hover:text-blue-500 hover:scale-110 cursor-pointer"
+                                                    onClick={() => openModal('edit', {...paquete, type: 'paquetes'})}
+                                                >
+                                                    <FiEdit/>
+                                                </div>
+                                                <div
+                                                    className="w-4 mr-2 transform hover:text-red-500 hover:scale-110 cursor-pointer"
+                                                    onClick={() => handleDelete('paquetes', paquete.id)}
+                                                >
+                                                    <FiTrash2/>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 className="text-xl font-semibold mb-4 text-gray-800 dark:text-white">Personalizaciones</h3>
+                        <div className="overflow-x-auto">
+                            <table className="table-auto w-full">
+                                <thead>
+                                <tr className="bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-200 uppercase text-sm leading-normal">
+                                    <th className="py-3 px-6 text-left">Nombre</th>
+                                    <th className="py-3 px-6 text-left">Precio Adicional</th>
+                                    <th className="py-3 px-6 text-center">Acciones</th>
+                                </tr>
+                                </thead>
+                                <tbody className="text-gray-600 dark:text-gray-100 text-sm">
+                                {filteredPersonalizaciones.map((personalizacion) => (
+                                    <tr key={personalizacion.id}
+                                        className="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600">
+                                        <td className="py-3 px-6 text-left whitespace-nowrap">{personalizacion.nombre}</td>
+                                        <td className="py-3 px-6 text-left">${personalizacion.precio_adicional}</td>
+                                        <td className="py-3 px-6 text-center">
+                                            <div className="flex item-center justify-center">
+                                                <div
+                                                    className="w-4 mr-2 transform hover:text-blue-500 hover:scale-110 cursor-pointer"
+                                                    onClick={() => openModal('edit', {
+                                                        ...personalizacion,
+                                                        type: 'personalizaciones'
+                                                    })}
+                                                >
+                                                    <FiEdit/>
+                                                </div>
+                                                <div
+                                                    className="w-4 mr-2 transform hover:text-red-500 hover:scale-110 cursor-pointer"
+                                                    onClick={() => handleDelete('personalizaciones', personalizacion.id)}
+                                                >
+                                                    <FiTrash2/>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <footer className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md">
+                <div className="flex justify-between items-center">
+                    <p className="text-gray-600 dark:text-gray-400">&copy; {new Date().getFullYear()} Tu Empresa. Todos
+                        los derechos reservados.</p>
+                    <div>
+                        <CSVLink
+                            data={renderCSV(paquetes.concat(personalizaciones)).data}
+                            headers={renderCSV(paquetes.concat(personalizaciones)).headers}
+                            filename="datos.csv"
+                            className="text-blue-500 hover:underline mr-4"
+                        >
+                            Exportar CSV
+                        </CSVLink>
+                        <button className="text-blue-500 hover:underline">Exportar PDF</button>
+                    </div>
+                </div>
+            </footer>
+
+            <Modal
+                isOpen={modalIsOpen}
+                onRequestClose={closeModal}
+                contentLabel={`${modalMode === 'create' ? 'Crear' : 'Editar'} ${selectedItem?.type === 'paquetes' ? 'Paquete' : 'PersonalizaciÃ³n'}`}
+                className="modal"
+                overlayClassName="modal-overlay"
+            >
+                <h2 className="text-2xl font-bold mb-4 text-gray-800 dark:text-white">
+                    {modalMode === 'create' ? 'Crear' : 'Editar'} {selectedItem?.type === 'paquetes' ? 'Paquete' : 'PersonalizaciÃ³n'}
+                </h2>
+                <form onSubmit={handleSubmit(onSubmit)}>
+                    <div className="mb-4">
+                        <label htmlFor="nombre" className="block text-gray-700 dark:text-gray-300 font-bold mb-2">
+                            Nombre
+                        </label>
+                        <input
+                            type="text"
+                            id="nombre"
+                            className="w-full px-3 py-2 text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-blue-500"
+                            defaultValue={selectedItem?.nombre || ''}
+                            {...register('nombre', {required: true})}
+                        />
+                    </div>
+                    <div className="mb-4">
+                        <label htmlFor="precio" className="block text-gray-700 dark:text-gray-300 font-bold mb-2">
+                            {selectedItem?.type === 'paquetes' ? 'Precio' : 'Precio Adicional'}
+                        </label>
+                        <input
+                            type="number"
+                            id="precio"
+                            step="0.01"
+                            className="w-full px-3 py-2 text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-blue-500"
+                            defaultValue={selectedItem?.precio || selectedItem?.precio_adicional || ''}
+                            {...register(selectedItem?.type === 'paquetes' ? 'precio' : 'precio_adicional', {required: true})}
+                        />
+                    </div>
+                    <div className="flex justify-end">
+                        <button
+                            type="button"
+                            className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded mr-2"
+                            onClick={closeModal}
+                        >
+                            Cancelar
+                        </button>
+                        <button
+                            type="submit"
+                            className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
+                        >
+                            {modalMode === 'create' ? 'Crear' : 'Guardar'}
+                        </button>
+                    </div>
+                </form>
+            </Modal>
+        </div>
+    );
+};
+const styles = StyleSheet.create({
+    page: {
+        flexDirection: 'column',
+        backgroundColor: '#ffffff',
+        padding: 20,
+    },
+    table: {
+        width: '100%',
+        borderStyle: 'solid',
+        borderWidth: 1,
+        borderColor: '#bfbfbf',
+        marginBottom: 10,
+    },
+    tableRow: {
+        flexDirection: 'row',
+        borderBottomStyle: 'solid',
+        borderBottomWidth: 1,
+        borderBottomColor: '#bfbfbf',
+        alignItems: 'center',
+        height: 30,
+        fontStyle: 'bold',
+    },
+    tableHeader: {
+        width: '33.33%',
+        textAlign: 'center',
+        fontSize: 12,
+        padding: 5,
+    },
+    tableCell: {
+        width: '33.33%',
+        textAlign: 'center',
+        fontSize: 10,
+        padding: 5,
+    },
+});
+export default Dashboard;\n\n
+
+=== ./catalogo/services/alimentos.service.js ===
+import { create } from 'zustand'
+import { toast } from 'react-toastify'
+import axiosInstance from '@/components/axiosConfig'
+
+const useFoodOptionsStore = create((set, get) => ({
+  // Estado
+  foodOptions: [],
+  
+  // Acciones
+  fetchFoodOptions: async () => {
+    try {
+      const response = await axiosInstance.get('/opciones-alimentos')
+      set({ foodOptions: response.data })
+      return response.data
+    } catch (error) {
+      console.error('Error al cargar opciones de alimentos:', error)
+      toast.error('Error al cargar las opciones de alimentos')
+      throw error
+    }
+  },
+  
+  addFoodOption: async (foodOptionData) => {
+    try {
+      const response = await axiosInstance.post('/opciones-alimentos', foodOptionData)
+      set(state => ({ foodOptions: [...state.foodOptions, response.data] }))
+      toast.success('OpciÃ³n de alimento creada exitosamente')
+      return response.data
+    } catch (error) {
+      console.error('Error al crear opciÃ³n de alimento:', error)
+      toast.error('Error al crear la opciÃ³n de alimento')
+      throw error
+    }
+  },
+  
+  updateFoodOption: async (id, foodOptionData) => {
+    try {
+      const response = await axiosInstance.put(`/opciones-alimentos/${id}`, foodOptionData)
+      set(state => ({
+        foodOptions: state.foodOptions.map(option => 
+          option.id === id ? { ...option, ...response.data } : option
+        )
+      }))
+      toast.success('OpciÃ³n de alimento actualizada exitosamente')
+      return response.data
+    } catch (error) {
+      console.error('Error al actualizar opciÃ³n de alimento:', error)
+      toast.error('Error al actualizar la opciÃ³n de alimento')
+      throw error
+    }
+  },
+  
+  deleteFoodOption: async (id) => {
+    try {
+      await axiosInstance.delete(`/opciones-alimentos/${id}`)
+      set(state => ({
+        foodOptions: state.foodOptions.filter(option => option.id !== id)
+      }))
+      toast.success('OpciÃ³n de alimento eliminada con Ã©xito')
+    } catch (error) {
+      console.error('Error al eliminar opciÃ³n de alimento:', error)
+      toast.error('Error al eliminar la opciÃ³n de alimento')
+      throw error
+    }
+  },
+  
+  // Selectores
+  getFoodOptionById: (id) => {
+    const { foodOptions } = get()
+    return foodOptions.find(option => option.id === id)
+  },
+  
+  getActiveFoodOptions: () => {
+    const { foodOptions } = get()
+    return foodOptions.filter(option => option.activo)
+  }
+}))
+
+export default useFoodOptionsStore\n\n
+
+=== ./catalogo/services/categorias.service.js ===
+import { create } from 'zustand'
+import { toast } from 'react-toastify'
+import axiosInstance from '@/components/axiosConfig'
+
+const useCategoriesStore = create((set, get) => ({
+  // Estado
+  categories: [],
+  
+  // Acciones
+  fetchCategories: async () => {
+    try {
+      const response = await axiosInstance.get('/categorias')
+      set({ categories: response.data })
+      return response.data
+    } catch (error) {
+      console.error('Error al cargar categorÃ­as:', error)
+      
+      // No mostrar toast para errores 404 (recurso no encontrado)
+      if (error.response?.status !== 404) {
+        toast.error('Error al cargar las categorÃ­as')
+      }
+      
+      throw error
+    }
+  },
+  
+  addCategory: async (categoryData) => {
+    try {
+      const response = await axiosInstance.post('/categorias', {
+        nombre: categoryData.nombre,
+        color: categoryData.color || '#000000'
+      })
+      set(state => ({ categories: [...state.categories, response.data] }))
+      toast.success('CategorÃ­a aÃ±adida con Ã©xito')
+      return response.data
+    } catch (error) {
+      console.error('Error al aÃ±adir la categorÃ­a:', error)
+      toast.error('Error al aÃ±adir la categorÃ­a')
+      throw error
+    }
+  },
+  
+  updateCategory: async (id, categoryData) => {
+    try {
+      const response = await axiosInstance.put(`/categorias/${id}`, categoryData)
+      set(state => ({
+        categories: state.categories.map(category =>
+          category.id === id ? { ...category, ...response.data } : category
+        )
+      }))
+      toast.success('CategorÃ­a actualizada exitosamente')
+      return response.data
+    } catch (error) {
+      console.error('Error al actualizar categorÃ­a:', error)
+      toast.error('Error al actualizar la categorÃ­a')
+      throw error
+    }
+  },
+  
+  deleteCategory: async (id) => {
+    try {
+      await axiosInstance.delete(`/categorias/${id}`)
+      set(state => ({
+        categories: state.categories.filter(category => category.id !== id)
+      }))
+      toast.success('CategorÃ­a eliminada con Ã©xito')
+    } catch (error) {
+      console.error('Error al eliminar categorÃ­a:', error)
+      toast.error('Error al eliminar la categorÃ­a')
+      throw error
+    }
+  },
+  
+  // Selectores
+  getCategoryById: (id) => {
+    const { categories } = get()
+    return categories.find(category => category.id === id)
+  },
+  
+  getCategoryByName: (name) => {
+    const { categories } = get()
+    return categories.find(category => 
+      category.nombre.toLowerCase() === name.toLowerCase()
+    )
+  }
+}))
+
+export default useCategoriesStore\n\n
+
+=== ./catalogo/services/extras.service.js ===
+import { create } from 'zustand'
+import { toast } from 'react-toastify'
+import axiosInstance from '@/components/axiosConfig'
+
+const useExtrasStore = create((set, get) => ({
+  // Estado
+  extras: [],
+  
+  // Acciones
+  fetchExtras: async () => {
+    try {
+      const response = await axiosInstance.get('/extras')
+      set({ extras: response.data })
+      return response.data
+    } catch (error) {
+      console.error('Error al cargar extras:', error)
+      toast.error('Error al cargar los extras')
+      throw error
+    }
+  },
+  
+  addExtra: async (extraData) => {
+    try {
+      const response = await axiosInstance.post('/extras', extraData)
+      set(state => ({ extras: [...state.extras, response.data] }))
+      toast.success('Extra creado exitosamente')
+      return response.data
+    } catch (error) {
+      console.error('Error al crear extra:', error)
+      toast.error('Error al crear el extra')
+      throw error
+    }
+  },
+  
+  updateExtra: async (id, extraData) => {
+    try {
+      const response = await axiosInstance.put(`/extras/${id}`, extraData)
+      set(state => ({
+        extras: state.extras.map(extra => 
+          extra.id === id ? { ...extra, ...response.data } : extra
+        )
+      }))
+      toast.success('Extra actualizado exitosamente')
+      return response.data
+    } catch (error) {
+      console.error('Error al actualizar extra:', error)
+      toast.error('Error al actualizar el extra')
+      throw error
+    }
+  },
+  
+  deleteExtra: async (id) => {
+    try {
+      await axiosInstance.delete(`/extras/${id}`)
+      set(state => ({
+        extras: state.extras.filter(extra => extra.id !== id)
+      }))
+      toast.success('Extra eliminado con Ã©xito')
+    } catch (error) {
+      console.error('Error al eliminar extra:', error)
+      toast.error('Error al eliminar el extra')
+      throw error
+    }
+  },
+  
+  // Selectores
+  getExtraById: (id) => {
+    const { extras } = get()
+    return extras.find(extra => extra.id === id)
+  },
+  
+  getActiveExtras: () => {
+    const { extras } = get()
+    return extras.filter(extra => extra.activo)
+  }
+}))
+
+export default useExtrasStore\n\n
+
+=== ./catalogo/services/index.js ===
+ï»¿// Servicios del dominio CatÃ¡logo - Arquitectura optimizada
+export * from './alimentos.service';
+export * from './categorias.service'; 
+export * from './extras.service';
+export * from './mamparas.service';
+export * from './paquetes.service';
+export * from './tematicas.service';
+
+// Re-exportaciones para compatibilidad
+export { default as AlimentosService } from './alimentos.service';
+export { default as CategoriasService } from './categorias.service';
+export { default as ExtrasService } from './extras.service';
+export { default as MamparasService } from './mamparas.service';
+export { default as PaquetesService } from './paquetes.service';
+export { default as TematicasService } from './tematicas.service';
+\n\n
+
+=== ./catalogo/services/mamparas.service.js ===
+import { create } from 'zustand'
+import { toast } from 'react-toastify'
+import axiosInstance from '@/components/axiosConfig'
+
+const useMamparasStore = create((set, get) => ({
+  // Estado
+  mamparas: [],
+  
+  // Acciones
+  fetchMamparas: async () => {
+    try {
+      const response = await axiosInstance.get('/mamparas')
+      set({ mamparas: response.data })
+      return response.data
+    } catch (error) {
+      console.error('Error al cargar mamparas:', error)
+      toast.error('Error al cargar las mamparas')
+      throw error
+    }
+  },
+  
+  addMampara: async (mamparaData) => {
+    try {
+      const response = await axiosInstance.post('/mamparas', mamparaData)
+      set(state => ({ mamparas: [...state.mamparas, response.data] }))
+      toast.success('Mampara creada exitosamente')
+      return response.data
+    } catch (error) {
+      console.error('Error al crear mampara:', error)
+      toast.error('Error al crear la mampara')
+      throw error
+    }
+  },
+  
+  updateMampara: async (id, mamparaData) => {
+    try {
+      const response = await axiosInstance.put(`/mamparas/${id}`, mamparaData)
+      set(state => ({
+        mamparas: state.mamparas.map(mampara => 
+          mampara.id === id ? { ...mampara, ...response.data } : mampara
+        )
+      }))
+      toast.success('Mampara actualizada exitosamente')
+      return response.data
+    } catch (error) {
+      console.error('Error al actualizar mampara:', error)
+      toast.error('Error al actualizar la mampara')
+      throw error
+    }
+  },
+  
+  deleteMampara: async (id) => {
+    try {
+      await axiosInstance.delete(`/mamparas/${id}`)
+      set(state => ({
+        mamparas: state.mamparas.filter(mampara => mampara.id !== id)
+      }))
+      toast.success('Mampara eliminada con Ã©xito')
+    } catch (error) {
+      console.error('Error al eliminar mampara:', error)
+      toast.error('Error al eliminar la mampara')
+      throw error
+    }
+  },
+  
+  // Selectores
+  getMamparaById: (id) => {
+    const { mamparas } = get()
+    return mamparas.find(mampara => mampara.id === id)
+  },
+  
+  getMamparasByTheme: (themeId) => {
+    const { mamparas } = get()
+    return mamparas.filter(mampara => mampara.id_tematica === themeId)
+  },
+  
+  getActiveMamparas: () => {
+    const { mamparas } = get()
+    return mamparas.filter(mampara => mampara.activo)
+  }
+}))
+
+export default useMamparasStore\n\n
+
+=== ./catalogo/services/paquetes.service.js ===
+import { create } from 'zustand'
+import { toast } from 'react-toastify'
+import axiosInstance from '@/components/axiosConfig'
+
+const usePackagesStore = create((set, get) => ({
+  // Estado
+  packages: [],
+  
+  // Acciones
+  fetchPackages: async () => {
+    try {
+      const response = await axiosInstance.get('/paquetes')
+      set({ packages: response.data })
+      return response.data
+    } catch (error) {
+      console.error('Error al cargar paquetes:', error)
+      toast.error('Error al cargar los paquetes')
+      throw error
+    }
+  },
+  
+  addPackage: async (packageData) => {
+    try {
+      const response = await axiosInstance.post('/paquetes', packageData)
+      set(state => ({ packages: [...state.packages, response.data] }))
+      toast.success('Paquete creado exitosamente')
+      return response.data
+    } catch (error) {
+      console.error('Error al crear paquete:', error)
+      toast.error('Error al crear el paquete')
+      throw error
+    }
+  },
+  
+  updatePackage: async (id, packageData) => {
+    try {
+      const response = await axiosInstance.put(`/paquetes/${id}`, packageData)
+      set(state => ({
+        packages: state.packages.map(pkg => 
+          pkg.id === id ? { ...pkg, ...response.data } : pkg
+        )
+      }))
+      toast.success('Paquete actualizado exitosamente')
+      return response.data
+    } catch (error) {
+      console.error('Error al actualizar paquete:', error)
+      toast.error('Error al actualizar el paquete')
+      throw error
+    }
+  },
+  
+  deletePackage: async (id) => {
+    try {
+      await axiosInstance.delete(`/paquetes/${id}`)
+      set(state => ({
+        packages: state.packages.filter(pkg => pkg.id !== id)
+      }))
+      toast.success('Paquete desactivado con Ã©xito')
+    } catch (error) {
+      console.error('Error al desactivar paquete:', error)
+      toast.error('Error al desactivar el paquete')
+      throw error
+    }
+  },
+  
+  // Selectores
+  getPackageById: (id) => {
+    const { packages } = get()
+    return packages.find(pkg => pkg.id === id)
+  },
+  
+  getActivePackages: () => {
+    const { packages } = get()
+    return packages.filter(pkg => pkg.activo)
+  }
+}))
+
+export default usePackagesStore\n\n
+
+=== ./catalogo/services/tematicas.service.js ===
+import { create } from 'zustand'
+import { toast } from 'react-toastify'
+import axiosInstance from '@/components/axiosConfig'
+
+const useThemesStore = create((set, get) => ({
+  // Estado
+  themes: [],
+  
+  // Acciones
+  fetchThemes: async () => {
+    try {
+      const response = await axiosInstance.get('/tematicas')
+      set({ themes: response.data })
+      return response.data
+    } catch (error) {
+      console.error('Error al cargar temÃ¡ticas:', error)
+      toast.error('Error al cargar las temÃ¡ticas')
+      throw error
+    }
+  },
+  
+  addTheme: async (themeData) => {
+    try {
+      const response = await axiosInstance.post('/tematicas', themeData)
+      set(state => ({ themes: [...state.themes, response.data] }))
+      toast.success('TemÃ¡tica creada exitosamente')
+      return response.data
+    } catch (error) {
+      console.error('Error al crear temÃ¡tica:', error)
+      toast.error('Error al crear la temÃ¡tica')
+      throw error
+    }
+  },
+  
+  updateTheme: async (id, themeData) => {
+    try {
+      const response = await axiosInstance.put(`/tematicas/${id}`, themeData)
+      set(state => ({
+        themes: state.themes.map(theme => 
+          theme.id === id ? { ...theme, ...response.data } : theme
+        )
+      }))
+      toast.success('TemÃ¡tica actualizada exitosamente')
+      return response.data
+    } catch (error) {
+      console.error('Error al actualizar temÃ¡tica:', error)
+      toast.error('Error al actualizar la temÃ¡tica')
+      throw error
+    }
+  },
+  
+  deleteTheme: async (id) => {
+    try {
+      await axiosInstance.delete(`/tematicas/${id}`)
+      set(state => ({
+        themes: state.themes.filter(theme => theme.id !== id)
+      }))
+      toast.success('TemÃ¡tica eliminada con Ã©xito')
+    } catch (error) {
+      console.error('Error al eliminar temÃ¡tica:', error)
+      toast.error('Error al eliminar la temÃ¡tica')
+      throw error
+    }
+  },
+  
+  // Selectores
+  getThemeById: (id) => {
+    const { themes } = get()
+    return themes.find(theme => theme.id === id)
+  }
+}))
+
+export default useThemesStore\n\n
+
+

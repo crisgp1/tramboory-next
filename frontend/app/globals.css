@@ -1,6 +1,217 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@theme {
+  /* Tramboory Purple Palette */
+  --color-tramboory-purple-50: oklch(0.95 0.05 270);
+  --color-tramboory-purple-100: oklch(0.92 0.1 270);
+  --color-tramboory-purple-200: oklch(0.88 0.12 270);
+  --color-tramboory-purple-300: oklch(0.82 0.14 270);
+  --color-tramboory-purple-400: oklch(0.74 0.15 270);
+  --color-tramboory-purple-500: #9333ea;
+  --color-tramboory-purple-600: oklch(0.55 0.16 270);
+  --color-tramboory-purple-700: oklch(0.47 0.17 270);
+  --color-tramboory-purple-800: oklch(0.39 0.18 270);
+  --color-tramboory-purple-900: oklch(0.3 0.2 270);
+  --color-tramboory-purple-950: oklch(0.25 0.2 270);
+  
+  /* Tramboory Yellow Palette */
+  --color-tramboory-yellow-50: oklch(0.98 0.02 90);
+  --color-tramboory-yellow-100: oklch(0.95 0.05 90);
+  --color-tramboory-yellow-200: oklch(0.92 0.08 90);
+  --color-tramboory-yellow-300: oklch(0.88 0.12 90);
+  --color-tramboory-yellow-400: oklch(0.83 0.14 90);
+  --color-tramboory-yellow-500: #eab308;
+  --color-tramboory-yellow-600: oklch(0.72 0.16 90);
+  --color-tramboory-yellow-700: oklch(0.62 0.18 90);
+  --color-tramboory-yellow-800: oklch(0.52 0.19 90);
+  --color-tramboory-yellow-900: oklch(0.4 0.2 90);
+  
+  /* Font Configuration */
+  --font-funhouse: "Funhouse", cursive;
+  --font-sans: "travelia", "sans-serif";
+  
+  /* Font Sizes */
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 0.9375rem;
+  --font-size-lg: 1rem;
+  --font-size-xl: 1.125rem;
+  --font-size-2xl: 1.25rem;
+  --font-size-3xl: 1.5rem;
+  --font-size-4xl: 1.875rem;
+  --font-size-5xl: 2.25rem;
+  --font-size-6xl: 3rem;
+  
+  /* Spacing System */
+  --spacing-18: 4.5rem;
+  --spacing-88: 22rem;
+  --spacing-128: 32rem;
+  --spacing-144: 36rem;
+  
+  /* Box Shadows */
+  --shadow-glow: 0 0 20px rgba(147, 51, 234, 0.5);
+  --shadow-glow-yellow: 0 0 20px rgba(250, 204, 21, 0.5);
+  --shadow-glow-lg: 0 0 40px rgba(147, 51, 234, 0.3);
+  --shadow-inner-glow: inset 0 0 20px rgba(147, 51, 234, 0.3);
+  --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-card-hover: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  
+  /* Z-Index System */
+  --z-index-negative-10: -10;
+  --z-index-60: 60;
+  --z-index-70: 70;
+  --z-index-80: 80;
+  --z-index-90: 90;
+  --z-index-100: 100;
+  
+  /* Backdrop Blur */
+  --backdrop-blur-xs: 2px;
+  --backdrop-blur-sm: 4px;
+  --backdrop-blur-md: 8px;
+  --backdrop-blur-lg: 12px;
+  --backdrop-blur-xl: 16px;
+  --backdrop-blur-2xl: 24px;
+  --backdrop-blur-3xl: 40px;
+}
+
+@layer base {
+  @variant dark {
+    --color-tramboory-purple-500: #8b5cf6;
+    --color-tramboory-yellow-500: #fed7aa;
+  }
+}
+
+/* Custom Animations */
+@keyframes carousel {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes scaleIn {
+  0% { transform: scale(0.9); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes float {
+  0%, 100% { 
+    transform: translateY(0px);
+    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+  }
+  50% { 
+    transform: translateY(-25px);
+    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  }
+}
+
+@keyframes shine {
+  0% { 
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  50% { 
+    opacity: 1;
+  }
+  100% { 
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+/* Custom Animation Classes */
+.animate-carousel { animation: carousel 60s linear infinite; }
+.animate-fadeIn { animation: fadeIn 0.3s ease-out forwards; }
+.animate-scaleIn { animation: scaleIn 0.4s ease-out forwards; }
+.animate-float { animation: float 3s ease-in-out infinite; }
+.animate-shine { animation: shine 2s linear infinite; }
+.animate-bounce-slow { animation: bounce 3s infinite; }
+.animate-pulse-slow { animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+
+/* Custom Utility Classes */
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.text-gradient {
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.transform-preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.typing {
+  overflow: hidden;
+  border-right: .15em solid rgba(255, 255, 255, 0.75);
+  white-space: nowrap;
+  margin: 0 auto;
+  letter-spacing: .15em;
+  animation: typing 3.5s steps(40, end), blink-caret .75s step-end infinite;
+}
+
+.card-hover {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.card-hover:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: var(--shadow-card-hover);
+}
+
+/* Custom Component Classes */
+.btn-tramboory {
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(to right, #facc15, #eab308);
+  color: #4c1d95;
+  font-weight: bold;
+  border-radius: 0.5rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+.btn-tramboory:hover {
+  background: linear-gradient(to right, #eab308, #ca8a04);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-glow-yellow);
+}
+.btn-tramboory:active {
+  transform: translateY(0);
+}
+
+.service-card {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+}
+.service-card:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-glow);
+}
 
 /* Funhouse font for titles and branding */
 @font-face {

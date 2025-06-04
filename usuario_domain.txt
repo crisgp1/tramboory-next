@@ -1,0 +1,1231 @@
+﻿=== ./usuario/components/index.js ===
+// Exportar todos los componentes de usuario/components
+\n\n
+
+=== ./usuario/hooks/index.js ===
+// Exportar todos los componentes de usuario/hooks
+\n\n
+
+=== ./usuario/index.js ===
+export * from './components';
+export * from './pages';
+export * from './services';
+export * from './hooks';\n\n
+
+=== ./usuario/pages/UserForm.jsx ===
+import { FiUser, FiMail, FiPhone, FiMapPin, FiKey, FiHash, FiUserCheck, FiLock, FiRefreshCw } from 'react-icons/fi';
+import withValidation from '@shared/components/withValidation';
+
+const Input = withValidation('input');
+const Select = withValidation('select');
+
+const UserForm = ({ editingItem, generatedPassword, generateRandomPassword, onSave, activeTab }) => {
+    console.log('UserForm', editingItem);
+    
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        const data = Object.fromEntries(formData.entries());
+
+        const errors = {};
+
+        if (!data.nombre) errors.nombre = 'El nombre es requerido';
+        if (!data.email) errors.email = 'El email es requerido';
+        if (!data.tipo_usuario) errors.tipo_usuario = 'El tipo de usuario es requerido';
+        if (!editingItem && !data.clave && !generatedPassword) errors.clave = 'La contraseÃ±a es requerida para nuevos usuarios';
+
+
+        if (Object.keys(errors).length > 0) {
+            console.log(errors);
+            return;
+        }
+
+        if (generatedPassword) {
+            data.clave = generatedPassword;
+        }
+
+        onSave(data);
+    };
+
+
+    return (
+        <form id={activeTab + 'Form'} onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="col-span-1 md:col-span-2">
+                <label className="block text-sm font-medium text-gray-700 mb-1">Nombre</label>
+                <div className="relative">
+                    <FiUser className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                    <Input
+                        name="nombre"
+                        placeholder="Nombre completo"
+                        defaultValue={editingItem?.nombre || ''}
+                        className="w-full pl-10 pr-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        isRequired
+                    />
+                </div>
+            </div>
+
+            <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                <div className="relative">
+                    <FiMail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                    <Input
+                        name="email"
+                        type="email"
+                        placeholder="correo@ejemplo.com"
+                        defaultValue={editingItem?.email || ''}
+                        className="w-full pl-10 pr-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        isRequired
+                    />
+                </div>
+            </div>
+
+            <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">TelÃ©fono</label>
+                <div className="relative">
+                    <FiPhone className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                    <Input
+                        name="telefono"
+                        placeholder="NÃºmero de telÃ©fono"
+                        defaultValue={editingItem?.telefono || ''}
+                        className="w-full pl-10 pr-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    />
+                </div>
+            </div>
+
+            <div className="col-span-1 md:col-span-2">
+                <label className="block text-sm font-medium text-gray-700 mb-1">DirecciÃ³n</label>
+                <div className="relative">
+                    <FiMapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                    <Input
+                        name="direccion"
+                        placeholder="DirecciÃ³n completa"
+                        defaultValue={editingItem?.direccion || ''}
+                        className="w-full pl-10 pr-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    />
+                </div>
+            </div>
+
+            <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">ID Personalizado</label>
+                <div className="relative">
+                    <FiHash className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                    <Input
+                        name="id_personalizado"
+                        placeholder="ID Ãºnico"
+                        defaultValue={editingItem?.id_personalizado || ''}
+                        className="w-full pl-10 pr-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    />
+                </div>
+            </div>
+
+            <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Tipo de Usuario</label>
+                <div className="relative">
+                    <FiUserCheck className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                    <Select
+                        name="tipo_usuario"
+                        defaultValue={editingItem?.tipo_usuario || ''}
+                        className="w-full pl-10 pr-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 appearance-none"
+                        isRequired
+                    >
+                        <option value="">Seleccionar tipo de usuario</option>
+                        <option value="cliente">Cliente</option>
+                        <option value="admin">Administrador</option>
+                    </Select>
+                </div>
+            </div>
+
+            <div className="col-span-1 md:col-span-2">
+                <label className="block text-sm font-medium text-gray-700 mb-1">ContraseÃ±a</label>
+                <div className="relative">
+                    <FiLock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                    <Input
+                        name="clave"
+                        type="password"
+                        placeholder="ContraseÃ±a"
+                        defaultValue={generatedPassword || editingItem?.clave || ''}
+                        className="w-full pl-10 pr-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        isRequired={!editingItem}
+                    />
+                </div>
+            </div>
+
+            <div className="col-span-1 md:col-span-2">
+                <button
+                    type="button"
+                    onClick={generateRandomPassword}
+                    className="w-full bg-gray-200 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-300 transition duration-300 flex items-center justify-center"
+                >
+                    <FiRefreshCw className="mr-2" />
+                    Generar contraseÃ±a aleatoria
+                </button>
+            </div>
+
+            {generatedPassword && (
+                <div className="col-span-1 md:col-span-2 mt-2 p-2 bg-green-100 border border-green-300 rounded-md">
+                    <p className="text-green-800 flex items-center">
+                        <FiKey className="mr-2" />
+                        ContraseÃ±a generada: <strong className="ml-2">{generatedPassword}</strong>
+                    </p>
+                </div>
+            )}
+        </form>
+    );
+};
+
+export default UserForm;\n\n
+
+=== ./usuario/pages/UserModal.jsx ===
+import React, { useEffect } from 'react';
+import { motion } from 'framer-motion';
+import {
+    FiUser, FiMail, FiPhone, FiMapPin, FiCalendar,
+    FiLock, FiPrinter, FiEdit, FiXCircle, FiPackage,
+    FiDollarSign, FiClock, FiList, 
+} from 'react-icons/fi';
+
+// Componente para la versiÃ³n imprimible
+const PrintableUser = ({ user, reservations }) => {
+    // Calcular estadÃ­sticas de reservas
+    const totalReservations = reservations.length;
+    const totalSpent = reservations.reduce((sum, res) => sum + res.total, 0);
+    const lastReservation = reservations.length > 0 ? new Date(Math.max(...reservations.map(r => new Date(r.fecha_reserva)))) : null;
+
+    return (
+        <div style={{ fontFamily: 'Arial, sans-serif', padding: '20px', maxWidth: '800px', margin: '0 auto' }}>
+            <h1 style={{ textAlign: 'center', borderBottom: '2px solid #333', paddingBottom: '10px', marginBottom: '20px' }}>
+                Detalles del Usuario
+            </h1>
+            
+            <div style={{ marginBottom: '20px' }}>
+                <h2 style={{ borderBottom: '1px solid #ddd', paddingBottom: '5px' }}>InformaciÃ³n Personal</h2>
+                <p><strong>Nombre:</strong> {user.nombre}</p>
+                <p><strong>Email:</strong> {user.email}</p>
+                <p><strong>TelÃ©fono:</strong> {user.telefono || 'No especificado'}</p>
+                <p><strong>DirecciÃ³n:</strong> {user.direccion || 'No especificada'}</p>
+            </div>
+            
+            <div style={{ marginBottom: '20px' }}>
+                <h2 style={{ borderBottom: '1px solid #ddd', paddingBottom: '5px' }}>Detalles de la Cuenta</h2>
+                <p><strong>Fecha de registro:</strong> {new Date(user.fecha_registro).toLocaleDateString()}</p>
+                <p><strong>Tipo de usuario:</strong> {user.tipo_usuario}</p>
+                <p><strong>ID Personalizado:</strong> {user.id_personalizado || 'No asignado'}</p>
+            </div>
+            
+            <div style={{ marginBottom: '20px' }}>
+                <h2 style={{ borderBottom: '1px solid #ddd', paddingBottom: '5px' }}>Resumen de Reservas</h2>
+                <p><strong>Total de Reservas:</strong> {totalReservations}</p>
+                <p><strong>Total Gastado:</strong> ${totalSpent.toFixed(2)}</p>
+                <p><strong>Ãšltima Reserva:</strong> {lastReservation ? lastReservation.toLocaleDateString() : 'N/A'}</p>
+            </div>
+            
+            {reservations.length > 0 && (
+                <div>
+                    <h2 style={{ borderBottom: '1px solid #ddd', paddingBottom: '5px' }}>Ãšltimas Reservas</h2>
+                    <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                        <thead>
+                            <tr style={{ backgroundColor: '#f3f4f6' }}>
+                                <th style={{ border: '1px solid #ddd', padding: '8px', textAlign: 'left' }}>Reserva #</th>
+                                <th style={{ border: '1px solid #ddd', padding: '8px', textAlign: 'left' }}>Fecha</th>
+                                <th style={{ border: '1px solid #ddd', padding: '8px', textAlign: 'left' }}>Paquete</th>
+                                <th style={{ border: '1px solid #ddd', padding: '8px', textAlign: 'left' }}>Estado</th>
+                                <th style={{ border: '1px solid #ddd', padding: '8px', textAlign: 'left' }}>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {reservations.slice(0, 5).map((reservation) => (
+                                <tr key={reservation.id}>
+                                    <td style={{ border: '1px solid #ddd', padding: '8px' }}>{reservation.id}</td>
+                                    <td style={{ border: '1px solid #ddd', padding: '8px' }}>{new Date(reservation.fecha_reserva).toLocaleDateString()}</td>
+                                    <td style={{ border: '1px solid #ddd', padding: '8px' }}>{reservation.nombre_paquete}</td>
+                                    <td style={{ border: '1px solid #ddd', padding: '8px' }}>{reservation.estado}</td>
+                                    <td style={{ border: '1px solid #ddd', padding: '8px' }}>${reservation.total}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            )}
+            
+            <div style={{ marginTop: '30px', textAlign: 'center', fontSize: '12px', color: '#666' }}>
+                <p>Documento generado el {new Date().toLocaleString()}</p>
+                <p>TRAMBOORY - Sistema de AdministraciÃ³n</p>
+            </div>
+        </div>
+    );
+};
+
+
+
+const UserModal = ({ user, reservations, onClose, onEdit, onSendEmail }) => {
+    if (!user) return null;
+    
+    // Add event listener for escape key
+    useEffect(() => {
+        const handleEscKey = (event) => {
+            if (event.key === 'Escape') {
+                onClose();
+            }
+        };
+
+        // Add event listener
+        document.addEventListener('keydown', handleEscKey);
+
+        // Cleanup function
+        return () => {
+            document.removeEventListener('keydown', handleEscKey);
+        };
+    }, [onClose]);
+
+    const handlePrint = () => {
+        const printContent = document.getElementById('printable-user');
+        const winPrint = window.open('', '', 'left=0,top=0,width=800,height=900,toolbar=0,scrollbars=0,status=0');
+        winPrint.document.write(printContent.innerHTML);
+        winPrint.document.close();
+        winPrint.focus();
+        winPrint.print();
+        winPrint.close();
+    };
+
+    const IconWrapper = ({ icon: Icon, text, color = "text-gray-700" }) => (
+        <div className={`flex items-center mb-3 ${color}`}>
+            <Icon className="mr-2 text-xl" />
+            <span className="text-sm">{text}</span>
+        </div>
+    );
+
+    // Calcular estadÃ­sticas de reservas
+    const totalReservations = reservations.length;
+    const totalSpent = reservations.reduce((sum, res) => sum + res.total, 0);
+    const lastReservation = reservations.length > 0 ? new Date(Math.max(...reservations.map(r => new Date(r.fecha_reserva)))) : null;
+
+    return (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 overflow-y-auto">
+            <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.9 }}
+                className="bg-white rounded-lg shadow-xl w-full max-w-4xl my-8"
+            >
+                <div className="sticky top-0 bg-white z-10 px-6 py-4 border-b flex justify-between items-center">
+                    <h2 className="text-2xl font-semibold text-gray-800">Detalles del Usuario</h2>
+                    <button onClick={onClose} className="text-gray-500 hover:text-gray-700 transition duration-300">
+                        <FiXCircle size={24} />
+                    </button>
+                </div>
+
+                <div className="px-6 py-4 max-h-[calc(100vh-200px)] overflow-y-auto">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <div className="space-y-6">
+                            <div>
+                                <h3 className="text-lg font-medium text-gray-900 mb-3">InformaciÃ³n Personal</h3>
+                                <div className="bg-gray-50 p-4 rounded-lg">
+                                    <IconWrapper icon={FiUser} text={`Nombre: ${user.nombre}`} />
+                                    <IconWrapper icon={FiMail} text={`Email: ${user.email}`} />
+                                    <IconWrapper icon={FiPhone} text={`TelÃ©fono: ${user.telefono || 'No especificado'}`} />
+                                    <IconWrapper icon={FiMapPin} text={`DirecciÃ³n: ${user.direccion || 'No especificada'}`} />
+                                </div>
+                            </div>
+                        </div>
+                        <div className="space-y-6">
+                            <div>
+                                <h3 className="text-lg font-medium text-gray-900 mb-3">Detalles de la Cuenta</h3>
+                                <div className="bg-gray-50 p-4 rounded-lg">
+                                    <IconWrapper icon={FiCalendar} text={`Fecha de registro: ${new Date(user.fecha_registro).toLocaleDateString()}`} />
+                                    <IconWrapper icon={FiLock} text={`Tipo de usuario: ${user.tipo_usuario}`} />
+                                    <IconWrapper icon={FiUser} text={`ID Personalizado: ${user.id_personalizado || 'No asignado'}`} />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="mb-6">
+                        <h3 className="text-lg font-medium text-gray-900 mb-3">Resumen de Reservas</h3>
+                        <div className="bg-gray-50 p-4 rounded-lg grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div>
+                                <IconWrapper icon={FiList} text={`Total de Reservas: ${totalReservations}`} color="text-blue-600" />
+                            </div>
+                            <div>
+                                <IconWrapper icon={FiDollarSign} text={`Total Gastado: $${totalSpent.toFixed(2)}`} color="text-green-600" />
+                            </div>
+                            <div>
+                                <IconWrapper icon={FiCalendar} text={`Ãšltima Reserva: ${lastReservation ? lastReservation.toLocaleDateString() : 'N/A'}`} color="text-purple-600" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 className="text-lg font-medium text-gray-900 mb-3">Ãšltimas Reservas</h3>
+                        <div className="bg-white shadow overflow-hidden sm:rounded-md">
+                            <ul className="divide-y divide-gray-200">
+                                {reservations.slice(0, 5).map((reservation) => (
+                                    <li key={reservation.id} className="px-4 py-4 sm:px-6">
+                                        <div className="flex items-center justify-between">
+                                            <p className="text-sm font-medium text-indigo-600 truncate">
+                                                Reserva #{reservation.id}
+                                            </p>
+                                            <div className="ml-2 flex-shrink-0 flex">
+                                                <p className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                                                    reservation.estado === 'confirmada' ? 'bg-green-100 text-green-800' :
+                                                        reservation.estado === 'pendiente' ? 'bg-yellow-100 text-yellow-800' :
+                                                            'bg-red-100 text-red-800'
+                                                }`}>
+                                                    {reservation.estado}
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div className="mt-2 sm:flex sm:justify-between">
+                                            <div className="sm:flex">
+                                                <p className="flex items-center text-sm text-gray-500">
+                                                    <FiCalendar className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" />
+                                                    {new Date(reservation.fecha_reserva).toLocaleDateString()}
+                                                </p>
+                                                <p className="mt-2 flex items-center text-sm text-gray-500 sm:mt-0 sm:ml-6">
+                                                    <FiPackage className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" />
+                                                    {reservation.nombre_paquete}
+                                                </p>
+                                            </div>
+                                            <div className="mt-2 flex items-center text-sm text-gray-500 sm:mt-0">
+                                                <FiDollarSign className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" />
+                                                <p>
+                                                    ${reservation.total}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="sticky bottom-0 bg-gray-50 px-6 py-4 border-t flex flex-wrap justify-end gap-4">
+                    <button
+                        onClick={handlePrint}
+                        className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition duration-300 flex items-center text-sm"
+                    >
+                        <FiPrinter className="mr-2" />
+                        Imprimir Detalles
+                    </button>
+                    <button
+                        onClick={() => onEdit(user)}
+                        className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition duration-300 flex items-center text-sm"
+                    >
+                        <FiEdit className="mr-2" />
+                        Editar Usuario
+                    </button>
+                    <button
+                        onClick={() => onSendEmail(user)}
+                        className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition duration-300 flex items-center text-sm"
+                    >
+                        <FiMail className="mr-2" />
+                        Enviar Correo
+                    </button>
+                </div>
+            </motion.div>
+            <div id="printable-user" className="hidden">
+                <PrintableUser user={user} reservations={reservations} />
+            </div>
+        </div>
+    );
+};
+
+export default UserModal;\n\n
+
+=== ./usuario/pages/UserSummary.jsx ===
+import { motion } from 'framer-motion';
+import { FiUsers, FiUserPlus, FiUserCheck } from 'react-icons/fi';
+
+const UserSummary = ({ users }) => {
+    // Calcular estadÃ­sticas de usuarios
+    const activeUsers = users.filter(user => user.activo).length;
+    const adminUsers = users.filter(user => user.rol === 'admin').length;
+    
+    return (
+        <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="h-full"
+        >
+            {/* Header con gradiente */}
+            <div className="bg-gradient-to-r from-indigo-500 to-indigo-600 p-6">
+                <div className="flex items-center justify-between">
+                    <h2 className="text-xl font-semibold text-white">Usuarios</h2>
+                    <div className="p-2 rounded-full bg-white/20 text-white">
+                        <FiUsers className="w-5 h-5" />
+                    </div>
+                </div>
+            </div>
+            
+            {/* Contenido */}
+            <div className="p-4 md:p-6">
+                <div className="flex flex-col items-center text-center mb-4 md:mb-6">
+                    <p className="text-3xl md:text-4xl font-bold text-indigo-600">{users.length}</p>
+                    <p className="text-xs md:text-sm font-medium text-gray-600 mt-1">usuarios registrados</p>
+                </div>
+                
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
+                    <div className="bg-white rounded-lg p-3 md:p-4 shadow-sm border border-gray-100 text-center">
+                        <div className="mx-auto w-8 h-8 md:w-10 md:h-10 flex items-center justify-center rounded-full bg-green-100 text-green-600 mb-2 md:mb-3">
+                            <FiUserCheck className="w-4 h-4 md:w-5 md:h-5" />
+                        </div>
+                        <div className="flex flex-col items-center justify-center">
+                            <p className="text-base md:text-xl font-bold text-gray-800">{activeUsers}</p>
+                            <p className="text-xs md:text-sm font-medium text-gray-600 text-center">Activos</p>
+                        </div>
+                    </div>
+                    <div className="bg-white rounded-lg p-3 md:p-4 shadow-sm border border-gray-100 text-center">
+                        <div className="mx-auto w-8 h-8 md:w-10 md:h-10 flex items-center justify-center rounded-full bg-purple-100 text-purple-600 mb-2 md:mb-3">
+                            <FiUserPlus className="w-4 h-4 md:w-5 md:h-5" />
+                        </div>
+                        <div className="flex flex-col items-center justify-center">
+                            <p className="text-base md:text-xl font-bold text-gray-800">{adminUsers}</p>
+                            <p className="text-xs md:text-sm font-medium text-gray-600 text-center">Administradores</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </motion.div>
+    );
+};
+
+export default UserSummary;
+\n\n
+
+=== ./usuario/pages/UserTable.jsx ===
+import React from 'react';
+import { FiEdit2, FiTrash2, FiEye } from 'react-icons/fi';
+
+const UserTable = ({ users, userSearch, setUserSearch, handleEditItem, handleDeleteItem, handleViewUser }) => {
+    return (
+        <>
+            <div className="mb-4">
+                <input
+                    type="text"
+                    placeholder="Buscar usuario..."
+                    value={userSearch}
+                    onChange={(e) => setUserSearch(e.target.value)}
+                    className="w-full p-2 border rounded"
+                />
+            </div>
+            <div className="overflow-x-auto">
+                <table className="min-w-full bg-white">
+                    <thead className="bg-gray-100">
+                    <tr>
+                        <th className="px-4 py-2 text-left">ID Personalizado</th>
+                        <th className="px-4 py-2 text-left">Nombre</th>
+                        <th className="px-4 py-2 text-left">Email</th>
+                        <th className="px-4 py-2 text-left">Tipo de Usuario</th>
+                        <th className="px-4 py-2 text-left">Acciones</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {users.map((user) => (
+                        <tr key={user.id} className="border-b border-gray-200 hover:bg-gray-50">
+                            <td className="px-4 py-2">{user.id_personalizado || 'N/A'}</td>
+                            <td className="px-4 py-2">{user.nombre}</td>
+                            <td className="px-4 py-2">{user.email}</td>
+                            <td className="px-4 py-2">
+                  <span
+                      className={`px-2 py-1 rounded-full text-xs font-semibold ${
+                          user.tipo_usuario === 'admin'
+                              ? 'bg-red-100 text-red-800'
+                              : 'bg-green-100 text-green-800'
+                      }`}
+                  >
+                    {user.tipo_usuario}
+                  </span>
+                            </td>
+                            <td className="px-4 py-2">
+                                <button
+                                    onClick={() => handleViewUser(user)}
+                                    className="text-blue-500 hover:text-blue-700 mr-2"
+                                    title="Ver detalles"
+                                >
+                                    <FiEye />
+                                </button>
+                                <button
+                                    onClick={() => handleEditItem(user)}
+                                    className="text-green-500 hover:text-green-700 mr-2"
+                                    title="Editar"
+                                >
+                                    <FiEdit2 />
+                                </button>
+                                <button
+                                    onClick={() => handleDeleteItem(user.id)}
+                                    className="text-red-500 hover:text-red-700"
+                                    title="Eliminar"
+                                >
+                                    <FiTrash2 />
+                                </button>
+                            </td>
+                        </tr>
+                    ))}
+                    </tbody>
+                </table>
+            </div>
+        </>
+    );
+};
+
+export default UserTable;\n\n
+
+=== ./usuario/pages/costumer/ProfileForm.jsx ===
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+import { toast } from 'react-toastify';
+import {
+  FiUser,
+  FiMail,
+  FiPhone,
+  FiMapPin,
+  FiSave,
+  FiX,
+  FiEdit,
+  FiLock,
+  FiShield,
+  FiCheckCircle,
+  FiInfo,
+  FiAlertCircle,
+  FiEye,
+  FiEyeOff
+} from 'react-icons/fi';
+import axiosInstance from '@shared/utils/axiosConfig';
+
+// Esquema de validaciÃ³n corregido
+const schema = yup.object().shape({
+  nombre: yup.string()
+    .required('El nombre es requerido')
+    .min(2, 'El nombre debe tener al menos 2 caracteres')
+    .matches(/^[a-zA-ZÃ¡Ã©Ã­Ã³ÃºÃÃ‰ÃÃ“ÃšÃ±Ã‘\s]+$/, 'El nombre solo debe contener letras'),
+  
+  email: yup.string()
+    .required('El email es requerido')
+    .email('Email invÃ¡lido'),
+  
+  telefono: yup.string()
+    .matches(/^\d{10}$/, 'El telÃ©fono debe tener 10 dÃ­gitos'),
+  
+  direccion: yup.string()
+    .min(5, 'La direcciÃ³n debe tener al menos 5 caracteres'),
+  
+  currentPassword: yup.string(),
+  
+  newPassword: yup.string()
+    .test('passwordRequirements', 'La contraseÃ±a no cumple con los requisitos', function(value) {
+      if (this.parent.currentPassword || value) {
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+        if (!value) return false;
+        if (!passwordRegex.test(value)) return false;
+        if (value === this.parent.currentPassword) return false;
+        return true;
+      }
+      return true;
+    }),
+  
+  confirmPassword: yup.string()
+    .test('passwordMatch', 'Las contraseÃ±as deben coincidir', function(value) {
+      return !this.parent.newPassword || value === this.parent.newPassword;
+    })
+});
+
+// Componente InputField con forwardRef
+const InputField = React.forwardRef(({ icon: Icon, error, disabled, type = "text", ...props }, ref) => {
+  const [showPassword, setShowPassword] = useState(false);
+  
+  return (
+    <div className="relative">
+      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+        <Icon className={`${disabled ? 'text-gray-400' : 'text-indigo-500'}`} />
+      </div>
+      <input
+        {...props}
+        ref={ref}
+        type={type === "password" && showPassword ? "text" : type}
+        disabled={disabled}
+        className={`
+          block w-full pl-10 pr-10 py-2.5 
+          border rounded-lg shadow-sm 
+          transition-all duration-200
+          ${error ? 'border-red-300 focus:ring-red-500 focus:border-red-500' : 
+                   'border-gray-300 focus:ring-indigo-500 focus:border-indigo-500'}
+          ${disabled ? 'bg-gray-50 text-gray-500' : 'bg-white'}
+          placeholder-gray-400
+          focus:ring-2 focus:ring-opacity-50
+        `}
+      />
+      {type === "password" && (
+        <button
+          type="button"
+          onClick={() => setShowPassword(!showPassword)}
+          className="absolute inset-y-0 right-0 pr-3 flex items-center"
+        >
+          {showPassword ? (
+            <FiEyeOff className="text-gray-400 hover:text-gray-600" />
+          ) : (
+            <FiEye className="text-gray-400 hover:text-gray-600" />
+          )}
+        </button>
+      )}
+      {error && (
+        <motion.p
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mt-1 text-sm text-red-600 flex items-center"
+        >
+          <FiAlertCircle className="w-4 h-4 mr-1" />
+          {error}
+        </motion.p>
+      )}
+    </div>
+  );
+});
+
+InputField.displayName = 'InputField';
+
+// Componente de requisitos de contraseÃ±a
+const PasswordRequirements = ({ password }) => {
+  const requirements = [
+    { 
+      test: /.{8,}/, 
+      text: 'Al menos 8 caracteres',
+      icon: FiLock 
+    },
+    { 
+      test: /[A-Z]/, 
+      text: 'Una letra mayÃºscula',
+      icon: FiCheckCircle 
+    },
+    { 
+      test: /[a-z]/, 
+      text: 'Una letra minÃºscula',
+      icon: FiCheckCircle 
+    },
+    { 
+      test: /[0-9]/, 
+      text: 'Un nÃºmero',
+      icon: FiCheckCircle 
+    },
+    { 
+      test: /[@$!%*?&]/, 
+      text: 'Un carÃ¡cter especial (@$!%*?&)',
+      icon: FiCheckCircle 
+    }
+  ];
+
+  return (
+    <div className="mt-2 p-3 bg-gray-50 rounded-lg border border-gray-200">
+      <h4 className="text-sm font-medium text-gray-700 mb-2">Requisitos de la contraseÃ±a:</h4>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+        {requirements.map((req, index) => {
+          const isMet = password && req.test.test(password);
+          return (
+            <div
+              key={index}
+              className={`flex items-center text-sm ${
+                isMet ? 'text-green-600' : 'text-gray-500'
+              }`}
+            >
+              <req.icon className={`w-4 h-4 mr-2 ${
+                isMet ? 'text-green-500' : 'text-gray-400'
+              }`} />
+              {req.text}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+};
+
+// Componente principal ProfileForm
+const ProfileForm = () => {
+  const [isEditing, setIsEditing] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [showPasswordFields, setShowPasswordFields] = useState(false);
+  const [userData, setUserData] = useState(null);
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    watch,
+    formState: { errors }
+  } = useForm({
+    resolver: yupResolver(schema)
+  });
+
+  // FunciÃ³n fetchUserData mejorada
+  const fetchUserData = async () => {
+    try {
+      console.log('Obteniendo datos del usuario...');
+      const response = await axiosInstance.get('/auth/me');
+      console.log('Datos recibidos:', response.data);
+      
+      if (response.data) {
+        setUserData(response.data);
+        const formData = {
+          nombre: response.data.nombre || '',
+          email: response.data.email || '',
+          telefono: response.data.telefono || '',
+          direccion: response.data.direccion || '',
+        };
+        console.log('Reseteando formulario con:', formData);
+        reset(formData);
+      }
+    } catch (error) {
+      console.error('Error al obtener datos del usuario:', error);
+      if (error.response?.status === 401) {
+        toast.error('SesiÃ³n expirada. Por favor, inicia sesiÃ³n nuevamente');
+        localStorage.removeItem('token');
+        window.location.href = '/signin';
+      } else {
+        toast.error('Error al cargar los datos del usuario');
+      }
+    }
+  };
+
+  useEffect(() => {
+    console.log('Componente montado, ejecutando fetchUserData');
+    fetchUserData();
+  }, []);
+
+  // FunciÃ³n onSubmit mejorada
+  const onSubmit = async (data) => {
+    setIsLoading(true);
+    try {
+      const updateData = {
+        nombre: data.nombre,
+        email: data.email,
+        telefono: data.telefono || null,
+        direccion: data.direccion || null
+      };
+
+      if (data.currentPassword && data.newPassword) {
+        updateData.currentPassword = data.currentPassword;
+        updateData.newPassword = data.newPassword;
+      }
+
+      console.log('Enviando datos de actualizaciÃ³n:', updateData);
+
+      const response = await axiosInstance.put('/auth/profile', updateData);
+      console.log('Respuesta del servidor:', response.data);
+
+      toast.success('Â¡Perfil actualizado exitosamente!');
+
+      if (data.newPassword) {
+        toast.info('Se ha actualizado tu contraseÃ±a. Por favor, inicia sesiÃ³n nuevamente.');
+        setTimeout(() => {
+          localStorage.removeItem('token');
+          window.location.href = '/signin';
+        }, 2000);
+      } else {
+        setIsEditing(false);
+        setShowPasswordFields(false);
+        await fetchUserData();
+      }
+    } catch (error) {
+      console.error('Error al actualizar el perfil:', error);
+      
+      if (error.response?.status === 401) {
+        toast.error('SesiÃ³n expirada o contraseÃ±a actual incorrecta');
+      } else {
+        toast.error(error.response?.data?.message || 'Error al actualizar el perfil');
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-purple-50 py-12 px-4">
+      <div className="max-w-4xl mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="bg-white rounded-2xl shadow-xl overflow-hidden"
+        >
+          {/* Header */}
+          <div className="px-8 py-6 bg-gradient-to-r from-indigo-600 to-purple-600">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-4">
+                <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
+                  <FiUser className="w-6 h-6 text-white" />
+                </div>
+                <div>
+                  <h2 className="text-2xl font-bold text-white">Mi Perfil</h2>
+                  <p className="text-indigo-100">Gestiona tu informaciÃ³n personal</p>
+                </div>
+              </div>
+              {!isEditing ? (
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => setIsEditing(true)}
+                  className="px-4 py-2 bg-white/20 hover:bg-white/30 text-white rounded-lg 
+                    flex items-center space-x-2 transition-colors duration-200"
+                >
+                  <FiEdit className="w-4 h-4" />
+                  <span>Editar Perfil</span>
+                </motion.button>
+              ) : (
+                <div className="flex items-center space-x-2">
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => {
+                      setIsEditing(false);
+                      setShowPasswordFields(false);
+                      reset(userData);
+                    }}
+                    className="px-4 py-2 bg-white/20 hover:bg-white/30 text-white rounded-lg 
+                      flex items-center space-x-2"
+                  >
+                    <FiX className="w-4 h-4" />
+                    <span>Cancelar</span>
+                  </motion.button>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Form Content */}
+          <form onSubmit={handleSubmit(onSubmit)} className="p-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="space-y-6">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Nombre Completo
+                  </label>
+                  <InputField
+                    icon={FiUser}
+                    {...register('nombre')}
+                    type="text"
+                    placeholder="Tu nombre completo"
+                    disabled={!isEditing}
+                    error={errors.nombre?.message}
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Correo ElectrÃ³nico
+                  </label>
+                  <InputField
+                    icon={FiMail}
+                    {...register('email')}
+                    type="email"
+                    placeholder="tu@email.com"
+                    disabled={!isEditing}
+                    error={errors.email?.message}
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-6">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    TelÃ©fono
+                  </label>
+                  <InputField
+                    icon={FiPhone}
+                    {...register('telefono')}
+                    type="tel"
+                    placeholder="Tu nÃºmero de telÃ©fono"
+                    disabled={!isEditing}
+                    error={errors.telefono?.message}
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    DirecciÃ³n
+                  </label>
+                  <InputField
+                    icon={FiMapPin}
+                    {...register('direccion')}
+                    type="text"
+                    placeholder="Tu direcciÃ³n"
+                    disabled={!isEditing}
+                    error={errors.direccion?.message}
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Password Section */}
+            {isEditing && (
+              <div className="mt-8">
+                <motion.button
+                  type="button"
+                  onClick={() => setShowPasswordFields(!showPasswordFields)}
+                  className="inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium
+                    transition-colors duration-200 border-2 border-indigo-200 text-indigo-700
+                    hover:bg-indigo-50"
+                >
+                  <FiLock className="w-4 h-4 mr-2" />
+                  {showPasswordFields ? 'Cancelar cambio de contraseÃ±a' : 'Cambiar contraseÃ±a'}
+                  </motion.button>
+
+                <AnimatePresence>
+                  {showPasswordFields && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: 'auto' }}
+                      exit={{ opacity: 0, height: 0 }}
+                      transition={{ duration: 0.3 }}
+                      className="mt-6 p-6 bg-gray-50 rounded-xl border border-gray-200"
+                    >
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            ContraseÃ±a Actual
+                          </label>
+                          <InputField
+                            icon={FiShield}
+                            {...register('currentPassword')}
+                            type="password"
+                            placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"
+                            error={errors.currentPassword?.message}
+                          />
+                        </div>
+
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Nueva ContraseÃ±a
+                          </label>
+                          <InputField
+                            icon={FiLock}
+                            {...register('newPassword')}
+                            type="password"
+                            placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"
+                            error={errors.newPassword?.message}
+                          />
+                        </div>
+
+                        <div className="md:col-span-2">
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Confirmar Nueva ContraseÃ±a
+                          </label>
+                          <InputField
+                            icon={FiCheckCircle}
+                            {...register('confirmPassword')}
+                            type="password"
+                            placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"
+                            error={errors.confirmPassword?.message}
+                          />
+                        </div>
+
+                        {/* Password Requirements */}
+                        <div className="md:col-span-2">
+                          <PasswordRequirements password={watch('newPassword')} />
+                          
+                          {/* Additional Password Warning */}
+                          <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            className="mt-4 p-3 bg-yellow-50 rounded-lg border border-yellow-200"
+                          >
+                            <div className="flex items-start">
+                              <FiInfo className="w-5 h-5 text-yellow-500 mt-0.5 mr-2" />
+                              <div className="text-sm text-yellow-700">
+                                <p className="font-medium">Importante:</p>
+                                <ul className="list-disc list-inside mt-1 space-y-1">
+                                  <li>Al cambiar tu contraseÃ±a, se cerrarÃ¡ tu sesiÃ³n actual</li>
+                                  <li>DeberÃ¡s iniciar sesiÃ³n nuevamente con tu nueva contraseÃ±a</li>
+                                  <li>AsegÃºrate de recordar la nueva contraseÃ±a</li>
+                                </ul>
+                              </div>
+                            </div>
+                          </motion.div>
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            )}
+
+            {/* Action Buttons */}
+            {isEditing && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="mt-8 flex justify-end space-x-4"
+              >
+                <motion.button
+                  type="button"
+                  onClick={() => {
+                    setIsEditing(false);
+                    setShowPasswordFields(false);
+                    reset(userData);
+                  }}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="px-6 py-2.5 border border-gray-300 text-gray-700 rounded-lg font-medium
+                    hover:bg-gray-50 transition-colors duration-200 flex items-center space-x-2"
+                >
+                  <FiX className="w-4 h-4" />
+                  <span>Cancelar</span>
+                </motion.button>
+
+                <motion.button
+                  type="submit"
+                  disabled={isLoading}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className={`px-6 py-2.5 bg-indigo-600 text-white rounded-lg font-medium
+                    hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2
+                    transition-colors duration-200 flex items-center space-x-2
+                    ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
+                >
+                  <FiSave className="w-4 h-4" />
+                  <span>{isLoading ? 'Guardando...' : 'Guardar Cambios'}</span>
+                </motion.button>
+              </motion.div>
+            )}
+          </form>
+
+          {/* Feedback Message */}
+          <AnimatePresence>
+            {isLoading && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 20 }}
+                className="absolute bottom-4 right-4 bg-white p-4 rounded-lg shadow-lg
+                  border border-indigo-200 flex items-center space-x-3"
+              >
+                <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-indigo-600" />
+                <span className="text-sm text-gray-600">Actualizando tu perfil...</span>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </motion.div>
+
+        {/* Success Message After Save */}
+        <AnimatePresence>
+          {!isEditing && userData && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 20 }}
+              className="mt-4 p-4 bg-green-50 rounded-lg border border-green-200
+                flex items-center justify-between"
+            >
+              <div className="flex items-center space-x-3">
+                <FiCheckCircle className="w-5 h-5 text-green-500" />
+                <span className="text-sm text-green-700">
+                  Tu perfil estÃ¡ actualizado y seguro
+                </span>
+              </div>
+              <span className="text-xs text-green-600">
+                Ãšltima actualizaciÃ³n: {new Date(userData.updatedAt).toLocaleString()}
+              </span>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+    </div>
+  );
+};
+
+export default ProfileForm;\n\n
+
+=== ./usuario/pages/index.js ===
+// Exportar todos los componentes de usuario/pages\n\n
+
+=== ./usuario/services/index.js ===
+// Exportar todos los componentes de usuario/services
+\n\n
+
+=== ./usuario/services/usuariosStore.js ===
+import { create } from 'zustand'
+import { toast } from 'react-toastify'
+import axiosInstance from '@/components/axiosConfig'
+
+const useUsersStore = create((set, get) => ({
+  // Estado
+  users: [],
+  selectedUser: null,
+  
+  // Acciones
+  fetchUsers: async () => {
+    try {
+      const response = await axiosInstance.get('/usuarios')
+      set({ users: response.data })
+      return response.data
+    } catch (error) {
+      console.error('Error al cargar usuarios:', error)
+      toast.error('Error al cargar los usuarios')
+      throw error
+    }
+  },
+  
+  addUser: async (userData) => {
+    try {
+      const response = await axiosInstance.post('/usuarios', userData)
+      set(state => ({ users: [...state.users, response.data] }))
+      toast.success('Usuario creado exitosamente')
+      return response.data
+    } catch (error) {
+      console.error('Error al crear usuario:', error)
+      toast.error('Error al crear usuario')
+      throw error
+    }
+  },
+  
+  updateUser: async (id, userData) => {
+    try {
+      const response = await axiosInstance.put(`/usuarios/${id}`, userData)
+      set(state => ({
+        users: state.users.map(user => 
+          user.id === id ? { ...user, ...response.data } : user
+        )
+      }))
+      toast.success('Usuario actualizado exitosamente')
+      return response.data
+    } catch (error) {
+      console.error('Error al actualizar usuario:', error)
+      toast.error('Error al actualizar usuario')
+      throw error
+    }
+  },
+  
+  deleteUser: async (id) => {
+    try {
+      await axiosInstance.delete(`/usuarios/${id}`)
+      set(state => ({
+        users: state.users.filter(user => user.id !== id)
+      }))
+      toast.success('Usuario desactivado con Ã©xito')
+    } catch (error) {
+      console.error('Error al desactivar usuario:', error)
+      toast.error('Error al desactivar usuario')
+      throw error
+    }
+  },
+  
+  setSelectedUser: (user) => set({ selectedUser: user }),
+  
+  // Selectores
+  getFilteredUsers: (search) => {
+    const { users } = get()
+    return users.filter(
+      user =>
+        user.nombre.toLowerCase().includes(search.toLowerCase()) ||
+        user.email.toLowerCase().includes(search.toLowerCase()) ||
+        (user.id_personalizado &&
+          user.id_personalizado
+            .toLowerCase()
+            .includes(search.toLowerCase()))
+    )
+  }
+}))
+
+export default useUsersStore\n\n
+

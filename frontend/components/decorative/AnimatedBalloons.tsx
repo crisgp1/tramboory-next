@@ -39,6 +39,7 @@ const Balloon = memo(({ balloon }: { balloon: Balloon }) => (
         repeat: Infinity,
         ease: 'easeInOut',
         repeatType: 'mirror',
+        type: 'tween' // Explicitly use tween animation type which supports multiple keyframes
       }
     }}
     style={{
