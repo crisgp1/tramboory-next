@@ -55,15 +55,3 @@ export default function HomePage() {
     </QueryClientProvider>
   );
 }
-
-// Metadatos para SEO
-export const metadata = {
-  title: 'Tramboory - Salón de Fiestas Infantiles en Zapopan',
-  description: 'El mejor salón de eventos infantiles en Zapopan. Celebra el cumpleaños de tus pequeños con experiencias inolvidables.',
-  keywords: 'fiestas infantiles, salon de eventos, zapopan, cumpleanos, tramboory',
-  openGraph: {
-    title: 'Tramboory - Salón de Fiestas Infantiles',
-    description: 'El mejor lugar para celebrar el cumpleaños de tus pequeños',
-    images: ['/img/logo.webp']
-  }
-};
