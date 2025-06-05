@@ -4,6 +4,7 @@
 export { HomeProvider, useHome } from './application/providers/HomeProvider'
 export { HomeLayout } from './components/layout/HomeLayout'
 export { HomeSections } from './components/HomeSections'
+export { AboutTramboory } from './components/AboutTramboory'
 
 // State components
 export { HomeLoadingSkeleton } from './components/HomeLoadingSkeleton'
