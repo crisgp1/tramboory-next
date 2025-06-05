@@ -6,15 +6,18 @@ import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
 import { 
   FiMenu, 
-  FiX, 
-  FiCalendar, 
-  FiInfo, 
-  FiImage, 
-  FiHome, 
-  FiPhone,
-  FiHeart,
-  FiChevronDown
+  FiX,
+  FiChevronDown,
+  FiLogIn,
+  FiUserPlus
 } from 'react-icons/fi'
+import { 
+  HiOutlineHome,
+  HiOutlinePhotograph,
+  HiOutlineInformationCircle,
+  HiOutlinePhone,
+  HiHeart
+} from 'react-icons/hi'
 import { usePathname } from 'next/navigation'
 
 /**
@@ -32,38 +35,23 @@ export default function NavbarPublic() {
     { 
       href: '/', 
       label: 'Inicio', 
-      icon: FiHome 
+      icon: HiOutlineHome 
     },
     { 
-      href: '/about', 
+      href: '/paquetes', 
+      label: 'Paquetes', 
+      icon: HiOutlinePhotograph
+    },
+    { 
+      href: '/nosotros', 
       label: 'Nosotros', 
-      icon: FiInfo,
-      dropdown: [
-        { href: '/about#historia', label: 'Nuestra Historia' },
-        { href: '/about#equipo', label: 'Nuestro Equipo' },
-        { href: '/about#valores', label: 'Valores' }
-      ]
+      icon: HiOutlineInformationCircle
     },
     { 
-      href: '/galeria', 
-      label: 'Galería', 
-      icon: FiImage 
-    },
-    { 
-      href: '/reservas', 
-      label: 'Reservar', 
-      icon: FiCalendar,
-      dropdown: [
-        { href: '/reservas#paquetes', label: 'Nuestros Paquetes' },
-        { href: '/reservas#fechas', label: 'Fechas Disponibles' },
-        { href: '/reservas#proceso', label: 'Proceso de Reserva' }
-      ]
-    },
-    { 
-      href: '#contact', 
+      href: '/contacto', 
       label: 'Contacto', 
-      icon: FiPhone 
-    },
+      icon: HiOutlinePhone 
+    }
   ]
   
   // Handle scroll effect for navbar transparency
@@ -71,9 +59,6 @@ export default function NavbarPublic() {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20)
     }
-    window.addEventListener('scroll', handleScroll)
-
-    
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
@@ -122,9 +107,8 @@ export default function NavbarPublic() {
       rotate: [0, -5, 5, 0],
       transition: {
         duration: 0.6,
-        type: "spring",
-        stiffness: 300,
-        damping: 10
+        type: "tween",
+        ease: "easeInOut"
       }
     }
   }
@@ -192,31 +176,7 @@ export default function NavbarPublic() {
     }
   }
   
-  const ctaButtonVariants = {
-    hidden: { opacity: 0, scale: 0.8 },
-    visible: { 
-      opacity: 1, 
-      scale: 1,
-      transition: {
-        delay: 0.5,
-        type: "spring",
-        stiffness: 200,
-        damping: 15
-      }
-    },
-    hover: {
-      scale: 1.05,
-      boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1)",
-      transition: {
-        type: "spring",
-        stiffness: 300,
-        damping: 10
-      }
-    },
-    tap: {
-      scale: 0.95
-    }
-  }
+  // CTA button variants removed
 
   return (
     <motion.nav
@@ -246,7 +206,7 @@ export default function NavbarPublic() {
       </div>
       
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-24">
+        <div className={`flex items-center justify-between ${isScrolled ? 'h-16' : 'h-24'} transition-all duration-300`}>
           {/* Logo */}
           <Link href="/" className="relative z-10 group">
             <motion.div
@@ -254,48 +214,35 @@ export default function NavbarPublic() {
               initial="initial"
               animate="animate"
               whileHover="hover"
-              className="flex items-center space-x-3"
+              className="flex items-center"
             >
-              <div className="relative w-14 h-14 overflow-hidden rounded-full" style={{ height: '56px' }}>
-                <Image
-                  src="/img/logo.webp"
-                  alt="Tramboory"
-                  fill
-                  sizes="(max-width: 768px) 56px, 56px"
-                  className="object-cover transition-transform duration-300"
-                  priority
-                />
-                {/* Animated glow effect */}
-                <motion.div 
-                  className="absolute inset-0 rounded-full bg-gradient-to-r from-yellow-400/50 to-purple-500/50 opacity-0 group-hover:opacity-50 blur-lg transition-opacity duration-300"
-                />
-              </div>
-              
-              <div className="flex flex-col">
-                <span className="text-2xl font-bold text-white font-funhouse transition-colors duration-300 relative">
-                  Tramboory
-                  {/* Animated underline */}
-                  <motion.span 
-                    className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-yellow-400/0 via-yellow-400 to-yellow-400/0"
-                    animate={{ 
-                      scaleX: [0, 1, 0],
-                      x: [-100, 0, 100]
-                    }}
-                    transition={{ 
-                      duration: 3, 
-                      repeat: Infinity,
-                      ease: "easeInOut",
-                      repeatDelay: 1
-                    }}
+              <div className="flex flex-col items-center">
+                <div className={`relative ${isScrolled ? 'h-[45px]' : 'h-[65px]'} w-auto overflow-visible transition-all duration-300`}>
+                  <Image
+                    src="/img/logo.webp"
+                    alt="Tramboory"
+                    width={isScrolled ? 160 : 220}
+                    height={isScrolled ? 45 : 65}
+                    className="object-contain transition-all duration-300"
+                    priority
                   />
-                </span>
-                <span className="text-xs text-yellow-300/80 hidden sm:block">Salón de Fiestas Infantiles</span>
+                </div>
+                <div 
+                  className={`text-center font-funhouse text-white transition-all duration-300 ${
+                    isScrolled ? 'text-[6px] mt-[-5px]' : 'text-[8px] mt-[-7px]'
+                  }`}
+                  style={{ 
+                    letterSpacing: isScrolled ? '0.5px' : '0.8px'
+                  }}
+                >
+                  SALON DE EVENTOS
+                </div>
               </div>
             </motion.div>
           </Link>
           
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center space-x-1">
+          <div className="hidden lg:flex items-center justify-center space-x-6">
             {navItems.map((item, index) => (
               <div key={item.href} className="relative group">
                 <motion.div
@@ -312,20 +259,12 @@ export default function NavbarPublic() {
                         ? 'text-yellow-400 bg-white/5'
                         : 'text-white hover:bg-white/5'
                     }`}
-                    onClick={(e) => {
-                      if (item.dropdown) {
-                        e.preventDefault()
-                        toggleDropdown(item.href)
-                      }
+                    onClick={() => {
+                      // Simple navigation, no dropdown
                     }}
                   >
-                    <item.icon className="w-4 h-4 mr-2" />
+                    <item.icon className="w-5 h-5 mr-2 text-yellow-400" />
                     <span>{item.label}</span>
-                    {item.dropdown && (
-                      <FiChevronDown className={`ml-1 transition-transform duration-300 ${
-                        activeDropdown === item.href ? 'rotate-180' : ''
-                      }`} />
-                    )}
                     
                     {/* Hover effect */}
                     <motion.span 
@@ -334,37 +273,6 @@ export default function NavbarPublic() {
                     />
                   </Link>
                 </motion.div>
-                
-                {/* Dropdown Menu */}
-                {item.dropdown && (
-                  <AnimatePresence>
-                    {activeDropdown === item.href && (
-                      <motion.div
-                        variants={dropdownVariants}
-                        initial="hidden"
-                        animate="visible"
-                        exit="hidden"
-                        className="absolute left-0 mt-2 w-56 bg-purple-950/95 backdrop-blur-xl rounded-lg shadow-xl border border-white/10 overflow-hidden z-20"
-                      >
-                        {item.dropdown.map((dropdownItem, idx) => (
-                          <motion.div
-                            key={dropdownItem.href}
-                            variants={dropdownItemVariants}
-                            custom={idx}
-                          >
-                            <Link
-                              href={dropdownItem.href}
-                              className="block px-4 py-3 text-sm text-white hover:bg-white/10 hover:text-yellow-300 transition-colors duration-300"
-                              onClick={() => setActiveDropdown(null)}
-                            >
-                              {dropdownItem.label}
-                            </Link>
-                          </motion.div>
-                        ))}
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                )}
                 
                 {/* Active indicator */}
                 {pathname === item.href && (
@@ -376,40 +284,30 @@ export default function NavbarPublic() {
                 )}
               </div>
             ))}
-            
-            {/* CTA Button */}
-            <motion.div
-              variants={ctaButtonVariants}
-              initial="hidden"
-              animate="visible"
-              whileHover="hover"
-              whileTap="tap"
-            >
-              <Link
-                href="/reservas"
-                className="relative px-8 py-3 bg-gradient-to-r from-yellow-400 to-yellow-500 
-                  text-purple-900 rounded-xl font-extrabold text-base 
-                  shadow-lg hover:shadow-yellow-400/30 transition-all duration-300 group overflow-hidden"
+          </div>
+          
+          {/* Authentication Buttons */}
+          <div className="hidden lg:flex items-center space-x-3">
+            <Link href="/login">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="px-4 py-2 text-sm font-medium text-white bg-purple-800/50 hover:bg-purple-700/70 rounded-lg border border-white/10 flex items-center"
               >
-                {/* Animated shine effect */}
-                <motion.span 
-                  className="absolute inset-0 bg-gradient-to-r from-yellow-400/0 via-white/30 to-yellow-400/0"
-                  animate={{ 
-                    x: ['-100%', '100%'],
-                  }}
-                  transition={{ 
-                    repeat: Infinity, 
-                    repeatDelay: 1,
-                    duration: 0.6,
-                    ease: "easeInOut"
-                  }}
-                />
-                <span className="flex items-center relative z-10">
-                  <FiCalendar className="mr-2" />
-                  <span>Reserva Ahora</span>
-                </span>
-              </Link>
-            </motion.div>
+                <FiLogIn className="mr-2" />
+                Iniciar sesión
+              </motion.button>
+            </Link>
+            <Link href="/register">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="px-4 py-2 text-sm font-medium text-purple-950 bg-yellow-400 hover:bg-yellow-300 rounded-lg flex items-center"
+              >
+                <FiUserPlus className="mr-2" />
+                Registrarse
+              </motion.button>
+            </Link>
           </div>
           
           {/* Mobile Menu Button */}
@@ -474,85 +372,54 @@ export default function NavbarPublic() {
                             ? 'text-yellow-400 bg-white/10'
                             : 'text-white hover:bg-white/5'
                         }`}
-                        onClick={(e) => {
-                          if (item.dropdown) {
-                            e.preventDefault()
-                            toggleDropdown(item.href)
-                          } else {
-                            setIsMobileMenuOpen(false)
-                          }
-                        }}
+                        onClick={() => setIsMobileMenuOpen(false)}
                       >
                         <span className="flex items-center">
-                          <item.icon className="w-5 h-5 mr-3" />
+                          <item.icon className="w-5 h-5 mr-3 text-yellow-400" />
                           <span>{item.label}</span>
                         </span>
-                        {item.dropdown && (
-                          <FiChevronDown className={`transition-transform duration-300 ${
-                            activeDropdown === item.href ? 'rotate-180' : ''
-                          }`} />
-                        )}
                       </Link>
                     </motion.div>
                     
-                    {/* Dropdown items */}
-                    {item.dropdown && activeDropdown === item.href && (
-                      <motion.div
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: 'auto' }}
-                        exit={{ opacity: 0, height: 0 }}
-                        transition={{ duration: 0.3 }}
-                        className="mt-1 ml-10 overflow-hidden border-l-2 border-white/10 pl-4 space-y-1"
-                      >
-                        {item.dropdown.map((dropdownItem, idx) => (
-                          <motion.div
-                            key={dropdownItem.href}
-                            initial={{ opacity: 0, x: -10 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ delay: 0.1 + (idx * 0.05) }}
-                          >
-                            <Link
-                              href={dropdownItem.href}
-                              className="block py-2 px-3 text-sm text-gray-300 hover:text-yellow-300 rounded-lg hover:bg-white/5 transition-colors"
-                              onClick={() => setIsMobileMenuOpen(false)}
-                            >
-                              {dropdownItem.label}
-                            </Link>
-                          </motion.div>
-                        ))}
-                      </motion.div>
-                    )}
+                {/* Authentication Buttons (Mobile) */}
+                <div className="mt-3 space-y-2">
+                  <Link href="/login">
+                    <motion.div
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.4 }}
+                      className="flex items-center px-4 py-3 text-white bg-purple-800/50 hover:bg-purple-700/70 rounded-lg"
+                    >
+                      <FiLogIn className="w-5 h-5 mr-3" />
+                      <span>Iniciar sesión</span>
+                    </motion.div>
+                  </Link>
+                  <Link href="/register">
+                    <motion.div
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.45 }}
+                      className="flex items-center px-4 py-3 text-purple-950 bg-yellow-400 hover:bg-yellow-300 rounded-lg"
+                    >
+                      <FiUserPlus className="w-5 h-5 mr-3" />
+                      <span>Registrarse</span>
+                    </motion.div>
+                  </Link>
+                </div>
                   </div>
                 ))}
                 
-                {/* Mobile CTA */}
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.3 }}
-                  className="pt-2"
-                >
-                  <Link
-                    href="/reservas"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className="flex items-center justify-center gap-2 w-full px-4 py-4 bg-gradient-to-r 
-                      from-yellow-400 to-yellow-500 text-purple-900 rounded-xl font-bold 
-                      hover:from-yellow-500 hover:to-yellow-600 transition-all duration-300 shadow-lg"
-                  >
-                    <FiCalendar className="text-xl" />
-                    <span>Reserva Ahora</span>
-                  </Link>
-                </motion.div>
+                {/* Mobile CTA removed */}
                 
                 {/* Footer elements for mobile */}
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  transition={{ delay: 0.4 }}
+                  transition={{ delay: 0.5 }}
                   className="pt-4 border-t border-white/10 flex justify-center"
                 >
                   <p className="text-sm text-gray-400 flex items-center">
-                    Hecho con <FiHeart className="text-pink-500 mx-1" /> en Guadalajara
+                    Hecho con <HiHeart className="text-pink-500 mx-1" /> en Guadalajara
                   </p>
                 </motion.div>
               </div>

@@ -23,9 +23,13 @@
     ],
     "baseUrl": ".",
     "paths": {
-      "@/*": [
-        "./*"
-      ]
+      "@/*": ["./*"],
+      "@/components/*": ["./frontend/components/*"],
+      "@/features/*": ["./frontend/features/*"],
+      "@/features/home/components": ["./frontend/src/features/home/components.ts"],
+      "@/features/home/components/*": ["./frontend/features/home/components/*", "./frontend/components/home/sections/*"],
+      "@/ui/*": ["./frontend/components/ui/*"],
+      "@/decorative/*": ["./frontend/components/decorative/*"]
     },
     "forceConsistentCasingInFileNames": true,
     "noUnusedLocals": false,

@@ -143,7 +143,10 @@ export function FeaturesSection() {
       scale: 1.2,
       rotate: [0, 10, -10, 0],
       transition: { 
-        duration: 0.5 
+        duration: 0.5,
+        rotate: {
+          type: "tween" // Explicitly set tween animation type for rotation
+        }
       }
     }
   }
@@ -185,7 +188,7 @@ export function FeaturesSection() {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="mb-8 inline-block"
+            className="mb-8 inline-block transition-smooth hover-scale"
           >
             <span className="group relative px-5 py-2 rounded-full text-sm font-medium 
               bg-gradient-to-r from-tramboory-purple-500/20 via-indigo-500/20 to-tramboory-purple-500/20 
@@ -207,7 +210,7 @@ export function FeaturesSection() {
             </span>
           </motion.div>
           
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 font-funhouse">
+          <h2 className="text-title font-bold text-white mb-6 font-funhouse">
             <span className="relative inline-block">
               ¿Por Qué Elegir
               <span className="text-gradient bg-clip-text text-transparent bg-gradient-to-r from-tramboory-yellow-400 to-tramboory-yellow-500 ml-3">
@@ -228,7 +231,7 @@ export function FeaturesSection() {
               />
             </span>
           </h2>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-paragraph text-gray-300 max-w-3xl mx-auto leading-relaxed">
             Somos expertos en crear experiencias mágicas e inolvidables para toda la familia,
             cuidando cada detalle de tu celebración
           </p>
@@ -280,22 +283,22 @@ export function FeaturesSection() {
                   <motion.div 
                     className={`absolute -inset-4 blur-xl rounded-full opacity-0 group-hover:opacity-50 transition-opacity duration-500 ${feature.bgGlow}`}
                   />
-                  <motion.div 
-                    className={`w-16 h-16 rounded-full flex items-center justify-center
-                      bg-gradient-to-r ${feature.color} relative shadow-lg`}
-                    variants={iconVariants}
-                    whileHover="hover"
-                  >
+                <motion.div 
+                  className={`w-16 h-16 rounded-full flex items-center justify-center
+                    bg-gradient-to-r ${feature.color} relative shadow-lg transition-smooth`}
+                  variants={iconVariants}
+                  whileHover="hover"
+                >
                     <feature.icon className="text-2xl text-white" />
                   </motion.div>
                 </div>
                 
                 {/* Content */}
                 <div className="relative z-10">
-                  <h3 className="text-2xl font-bold text-white mb-4 font-funhouse group-hover:text-tramboory-yellow-400 transition-colors duration-300">
+                  <h3 className="text-subtitle font-semibold text-white mb-4 font-funhouse group-hover:text-tramboory-yellow-400 transition-colors duration-300">
                     {feature.title}
                   </h3>
-                  <p className="text-gray-300 group-hover:text-white transition-colors duration-300 leading-relaxed">
+                  <p className="text-paragraph text-gray-300 group-hover:text-white transition-colors duration-300 leading-relaxed">
                     {feature.description}
                   </p>
                 </div>
@@ -333,8 +336,8 @@ export function FeaturesSection() {
             <Link 
               href={{ pathname: '/about' }}
               className="inline-flex items-center px-8 py-3 bg-white/10 backdrop-blur-lg border border-white/30
-                text-white rounded-lg font-semibold
-                hover:bg-white/20 transition-all duration-300 relative overflow-hidden group"
+                text-white rounded-lg font-semibold transition-smooth hover-scale hover-fade
+                relative overflow-hidden group"
             >
               <motion.span 
                 className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0"

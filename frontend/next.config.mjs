@@ -1,7 +1,30 @@
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+// Convert ESM file URL to file path
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // Configuración base para React 19 y Next.js 15+
   reactStrictMode: true,
+  
+  // Webpack configuration for path aliases
+  webpack: (config) => {
+    // Add aliases that match tsconfig.json paths
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      '@': path.resolve(__dirname, '.'),
+      '@/components': path.resolve(__dirname, 'frontend/components'),
+      '@/features': path.resolve(__dirname, 'frontend/features'),
+      '@/features/home/components': path.resolve(__dirname, 'src/features/home/components.ts'),
+      '@/ui': path.resolve(__dirname, 'frontend/components/ui'),
+      '@/decorative': path.resolve(__dirname, 'frontend/components/decorative')
+    };
+    
+    return config;
+  },
   
   // Optimización de imágenes con remotePatterns (reemplaza domains deprecated)
   images: {

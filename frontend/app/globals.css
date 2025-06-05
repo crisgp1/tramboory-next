@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 
 @theme {
   /* Tramboory Purple Palette */
@@ -31,7 +32,7 @@
   --font-sans: "travelia", "sans-serif";
   
   /* Font Sizes */
-  --font-size-xs: 0.75rem;
+  --font-size-xs: 1.00rem;
   --font-size-sm: 0.875rem;
   --font-size-base: 0.9375rem;
   --font-size-lg: 1rem;
@@ -130,6 +131,61 @@
 .animate-shine { animation: shine 2s linear infinite; }
 .animate-bounce-slow { animation: bounce 3s infinite; }
 .animate-pulse-slow { animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+
+/* Transition and Animation Classes */
+.transition-smooth {
+  transition: all 0.3s ease-in-out;
+}
+.hover-scale {
+  transform: scale(1);
+}
+.hover-scale:hover {
+  transform: scale(1.05);
+}
+.hover-fade {
+  opacity: 1;
+  background-color: transparent;
+}
+.hover-fade:hover {
+  opacity: 0.8;
+  background-color: rgba(255,255,255,0.2);
+}
+
+/* Typography Classes */
+.text-paragraph {
+  @apply text-sm md:text-base lg:text-lg;
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+}
+.text-subtitle {
+  @apply text-lg md:text-xl lg:text-2xl;
+  font-family: 'Inter', sans-serif;
+  font-weight: 800;
+}
+.text-title {
+  @apply text-2xl md:text-3xl lg:text-4xl;
+  font-family: 'Funhouse', cursive;
+  font-weight: 1000;
+}
+
+/* Background with blur purple */
+.bg-blur-purple::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  background-color: rgba(102, 0, 153, 0.3);
+  z-index: -1;
+}
+
+/* Animation pause state */
+.paused {
+  animation-play-state: paused !important;
+}
 
 /* Custom Utility Classes */
 .no-scrollbar {

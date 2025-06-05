@@ -1,15 +1,16 @@
-import { HeroSection } from '@/components/home/HomeHeroSection'
-import { ServicesSection } from '@/components/sections/ServicesSection'
-import { GallerySection } from '@/components/sections/GallerySection'
-import { PromotionsSection } from '@/components/home/sections/PromotionsSection'
-import { ReservationStepsSection } from '@/components/home/sections/ReservationStepsSection'
-import { FeaturesSection } from '@/components/home/sections/FeaturesSection'
-import ContactSection from '@/components/sections/ContactSection'
-import { FooterSection } from '@/components/sections/FooterSection'
-import { BackgroundVideo } from '@/components/decorative/BackgroundVideo'
-import { AnimatedBalloons } from '@/components/decorative/AnimatedBalloons'
-import { ParticlesBackground } from '@/components/decorative/ParticlesBackground'
-import NavbarPublic from '@/components/layout/NavbarPublic'
+import { HeroSection } from '../components/home/HomeHeroSection'
+import { ServicesSection } from '../components/sections/ServicesSection'
+import { GallerySection } from '../components/sections/GallerySection'
+import { PromotionsSection } from '../components/home/sections/PromotionsSection'
+import { ReservationStepsSection } from '../components/home/sections/ReservationStepsSection'
+import { FeaturesSection } from '../components/home/sections/FeaturesSection'
+import ContactSection from '../components/sections/ContactSection'
+import { FooterSection } from '../components/sections/FooterSection'
+import { BackgroundVideo } from '../components/decorative/BackgroundVideo'
+import { AnimatedBalloons } from '../components/decorative/AnimatedBalloons'
+import { ParticlesBackground } from '../components/decorative/ParticlesBackground'
+import NavbarPublic from '../components/layout/NavbarPublic'
+import { BackgroundToggleProvider, BackgroundToggle } from '../src/features/decorative'
 
 /**
  * HomePage - Componente Principal de Tramboory
@@ -136,7 +137,8 @@ export default function HomePage() {
   }
   
   return (
-    <main className="relative min-h-screen overflow-hidden bg-gradient-to-br from-tramboory-purple-900 to-indigo-950">
+    <BackgroundToggleProvider>
+      <main className="relative min-h-screen overflow-hidden bg-gradient-to-br from-tramboory-purple-900 to-indigo-950 bg-blur-purple">
       {/* Navbar público - componente de navegación para la experiencia de usuario */}
       <NavbarPublic />
       {/* 
@@ -208,6 +210,8 @@ export default function HomePage() {
       <FeaturesSection />
       <ContactSection />
       <FooterSection />
-    </main>
+      <BackgroundToggle />
+      </main>
+    </BackgroundToggleProvider>
   )
 }
