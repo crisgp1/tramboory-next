@@ -34,6 +34,7 @@
     "cache:clear": "rimraf .next && npm run dev"
   },
   "dependencies": {
+    "@hookform/resolvers": "^5.0.1",
     "@tanstack/react-query": "^5.79.0",
     "@tanstack/react-query-devtools": "^5.51.23",
     "@types/crypto-js": "^4.2.2",
@@ -47,8 +48,11 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-error-boundary": "^4.1.2",
+    "react-hook-form": "^7.57.0",
     "react-icons": "^5.5.0",
+    "react-toastify": "^11.0.5",
     "tailwind-merge": "^3.3.0",
+    "yup": "^1.6.1",
     "zod": "^3.25.28",
     "zustand": "^5.0.5"
   },
