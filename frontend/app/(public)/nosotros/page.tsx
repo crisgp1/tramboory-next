@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Nosotros - Tramboory',
     description: 'Descubre quiénes somos y por qué somos el mejor salón de fiestas infantiles',
-    images: ['/img/logo.webp'],
+    images: ['/img/logo2.webp'],
     type: 'website',
   },
 }
@@ -24,7 +24,7 @@ const teamMembers = [
   {
     name: 'Ana García',
     role: 'Fundadora y Directora',
-    image: '/img/logo.webp', // Placeholder - replace with actual team member image
+    image: '/img/logo2.webp', // Placeholder - replace with actual team member image
     description: 'Fundadora con más de 15 años de experiencia en la industria del entretenimiento infantil.'
   },
   {

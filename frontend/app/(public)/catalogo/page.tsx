@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Catálogo de Servicios - Tramboory',
     description: 'Descubre los mejores paquetes para la fiesta perfecta de tus pequeños',
-    images: ['/img/logo.webp'],
+    images: ['/img/logo2.webp'],
     type: 'website',
   },
 }
@@ -115,7 +115,7 @@ const serviciosAdicionales = [
     title: 'Mesa de Dulces Extra',
     description: 'Mesa de dulces personalizada con temática a elección.',
     price: '2,500',
-    image: '/img/logo.webp',
+    image: '/img/logo2.webp',
     duration: 'Todo el evento'
   }
 ]

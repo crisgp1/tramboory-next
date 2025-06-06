@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Galería de Eventos - Tramboory',
     description: 'Mira los momentos mágicos que hemos creado para nuestros clientes',
-    images: ['/img/logo.webp'],
+    images: ['/img/logo2.webp'],
     type: 'website',
   },
 }
@@ -47,7 +47,7 @@ const galeriaImages = [
   },
   {
     id: 4,
-    src: '/img/logo.webp',
+    src: '/img/logo2.webp',
     alt: 'Fiesta con animadores',
     category: 'Shows',
     width: 800,
@@ -92,7 +92,7 @@ const galeriaImages = [
   },
   {
     id: 9,
-    src: '/img/logo.webp',
+    src: '/img/logo2.webp',
     alt: 'Pintacaritas para niños',
     category: 'Actividades',
     width: 800,

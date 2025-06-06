@@ -28,7 +28,7 @@ const testimonials: Testimonial[] = [
     name: 'Laura Sánchez',
     role: 'Mamá de Sofía',
     comment: '¡La mejor fiesta que pudimos haber tenido! Mi hija y sus amigos disfrutaron cada minuto. El equipo de Tramboory hizo todo perfecto.',
-    avatar: '/img/logo.webp',
+    avatar: '/img/logo2.webp',
     rating: 5
   },
   {
@@ -36,7 +36,7 @@ const testimonials: Testimonial[] = [
     name: 'Carlos Mendoza',
     role: 'Papá de Diego',
     comment: 'Excelente servicio, instalaciones impecables y una atención increíble. Mi hijo tuvo el mejor cumpleaños de su vida.',
-    avatar: '/img/logo.webp',
+    avatar: '/img/logo2.webp',
     rating: 5
   },
   {
@@ -44,7 +44,7 @@ const testimonials: Testimonial[] = [
     name: 'Elena Torres',
     role: 'Mamá de Mateo',
     comment: 'La decoración temática superó todas mis expectativas. El equipo de animación mantuvo a los niños entretenidos todo el tiempo.',
-    avatar: '/img/logo.webp',
+    avatar: '/img/logo2.webp',
     rating: 4
   }
 ]

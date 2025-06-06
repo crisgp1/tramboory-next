@@ -25,7 +25,7 @@ const teamMembers = [
     id: 1,
     name: 'Ana García',
     role: 'Fundadora & CEO',
-    image: '/img/logo.webp', // Placeholder - replace with actual team member image
+    image: '/img/logo2.webp', // Placeholder - replace with actual team member image
     bio: 'Visionaria y líder con más de 15 años de experiencia en eventos infantiles.'
   },
   {
@@ -425,7 +425,7 @@ export function AboutTramboory() {
                 <Card className="bg-white/10 backdrop-blur-sm border-tramboory-purple-300/20 text-white overflow-hidden">
                   <div className="h-48 relative">
                     <Image 
-                      src="/img/logo.webp"  // Placeholder - replace with actual area image
+                      src="/img/logo2.webp"  // Placeholder - replace with actual area image
                       alt="Salón Principal"
                       fill
                       className="object-cover"

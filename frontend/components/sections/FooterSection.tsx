@@ -203,7 +203,7 @@ export function FooterSection() {
         >
           <div className="w-20 h-20 relative mb-4">
             <Image 
-              src="/img/logo.webp"
+              src="/img/logo2.webp"
               alt="Tramboory Logo"
               fill
               style={{ objectFit: 'contain' }}

@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Contacto - Tramboory',
     description: 'Ponte en contacto con nosotros para crear la fiesta perfecta',
-    images: ['/img/logo.webp'],
+    images: ['/img/logo2.webp'],
     type: 'website',
   },
 }

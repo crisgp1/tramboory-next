@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Tramboory - Salón de Fiestas Infantiles',
     description: 'El mejor lugar para celebrar el cumpleaños de tus pequeños',
-    images: ['/img/logo.webp'],
+    images: ['/img/logo2.webp'],
     type: 'website',
   },
 }

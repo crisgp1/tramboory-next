@@ -195,14 +195,14 @@ export default function HomePage() {
       <GallerySection carouselImages={[
         '/img/background-noblur.webp',
         '/img/blur.webp',
-        '/img/logo.webp',
+        '/img/logo2.webp',
         '/img/LogoComplete.webp',
         '/img/noblur.webp'
       ]} />
       <PromotionsSection promocionesImages={[
         '/img/background-noblur.webp',
         '/img/blur.webp',
-        '/img/logo.webp',
+        '/img/logo2.webp',
         '/img/LogoComplete.webp',
         '/img/noblur.webp'
       ]} />

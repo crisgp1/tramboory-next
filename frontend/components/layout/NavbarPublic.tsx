@@ -3,17 +3,19 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
 import { 
   FiMenu, 
   FiX,
   FiChevronDown,
   FiLogIn,
-  FiUserPlus
+  FiUserPlus,
+  FiPackage,
+  FiImage,
+  FiCalendar
 } from 'react-icons/fi'
 import { 
   HiOutlineHome,
-  HiOutlinePhotograph,
   HiOutlineInformationCircle,
   HiOutlinePhone,
   HiHeart
@@ -25,10 +27,12 @@ import { usePathname } from 'next/navigation'
  * Features rich animations, gradient effects, and responsive design
  */
 export default function NavbarPublic() {
+  // Use the reduced motion hook to respect user's system preferences
+  const prefersReducedMotion = useReducedMotion()
+  const pathname = usePathname()
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null)
-  const pathname = usePathname()
   
   // Main navigation items
   const navItems = [
@@ -38,14 +42,19 @@ export default function NavbarPublic() {
       icon: HiOutlineHome 
     },
     { 
-      href: '/paquetes', 
+      href: '/catalogo', 
       label: 'Paquetes', 
-      icon: HiOutlinePhotograph
+      icon: FiPackage
     },
     { 
       href: '/nosotros', 
       label: 'Nosotros', 
       icon: HiOutlineInformationCircle
+    },
+    { 
+      href: '/galeria', 
+      label: 'Galería', 
+      icon: FiImage
     },
     { 
       href: '/contacto', 
@@ -54,12 +63,18 @@ export default function NavbarPublic() {
     }
   ]
   
-  // Handle scroll effect for navbar transparency
+  // Handle scroll effect for navbar transparency - with optimization for performance
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20)
     }
-    window.addEventListener('scroll', handleScroll)
+    
+    // Use passive listener for better performance
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    
+    // Initial call to set the correct state
+    handleScroll()
+    
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
   
@@ -67,6 +82,19 @@ export default function NavbarPublic() {
   useEffect(() => {
     setIsMobileMenuOpen(false)
   }, [pathname])
+  
+  // Effect to prevent scroll when mobile menu is open
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+    }
+    
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [isMobileMenuOpen])
   
   // Toggle dropdown menu
   const toggleDropdown = (href: string) => {
@@ -77,7 +105,7 @@ export default function NavbarPublic() {
     }
   }
 
-  // Animation variants
+  // Animation variants - with reduced intensity to avoid zoom issues
   const navbarVariants = {
     hidden: { y: -100, opacity: 0 },
     visible: { 
@@ -85,7 +113,7 @@ export default function NavbarPublic() {
       opacity: 1,
       transition: {
         type: "spring",
-        stiffness: 100,
+        stiffness: prefersReducedMotion ? 50 : 100,
         damping: 20,
         duration: 0.6
       }
@@ -93,24 +121,24 @@ export default function NavbarPublic() {
   }
   
   const logoVariants = {
-    initial: { scale: 0.8, opacity: 0 },
+    initial: { opacity: 0 },
     animate: { 
-      scale: 1, 
       opacity: 1,
       transition: {
         delay: 0.2,
         duration: 0.5
       }
     },
-    hover: {
-      scale: 1.1,
-      rotate: [0, -5, 5, 0],
-      transition: {
-        duration: 0.6,
-        type: "tween",
-        ease: "easeInOut"
+    // More subtle hover to prevent animation issues
+    hover: prefersReducedMotion 
+      ? {} 
+      : {
+        scale: 1.05,
+        transition: {
+          duration: 0.3,
+          ease: "easeOut"
+        }
       }
-    }
   }
   
   const navItemVariants = {
@@ -124,37 +152,15 @@ export default function NavbarPublic() {
         ease: "easeOut"
       }
     }),
-    hover: {
-      y: -3,
-      color: "#facc15",
-      transition: {
-        duration: 0.2
+    hover: prefersReducedMotion 
+      ? { color: "#facc15" } 
+      : {
+        y: -2,
+        color: "#facc15",
+        transition: {
+          duration: 0.2
+        }
       }
-    }
-  }
-  
-  const dropdownVariants = {
-    hidden: { opacity: 0, y: -5, height: 0 },
-    visible: { 
-      opacity: 1, 
-      y: 0,
-      height: "auto",
-      transition: {
-        duration: 0.3,
-        staggerChildren: 0.1
-      }
-    }
-  }
-  
-  const dropdownItemVariants = {
-    hidden: { opacity: 0, x: -5 },
-    visible: { 
-      opacity: 1, 
-      x: 0,
-      transition: {
-        duration: 0.2
-      }
-    }
   }
   
   const mobileMenuVariants = {
@@ -163,7 +169,7 @@ export default function NavbarPublic() {
       opacity: 1, 
       height: "auto",
       transition: {
-        duration: 0.5
+        duration: 0.4
       }
     },
     exit: {
@@ -175,8 +181,6 @@ export default function NavbarPublic() {
       }
     }
   }
-  
-  // CTA button variants removed
 
   return (
     <motion.nav
@@ -189,128 +193,190 @@ export default function NavbarPublic() {
           : 'bg-transparent'
       }`}
     >
-      {/* Animated gradient line at top */}
+      {/* Animated gradient line at top - simplified for better performance */}
       <div className="h-0.5 w-full overflow-hidden">
         <motion.div 
           className="h-full w-full bg-gradient-to-r from-yellow-400 via-purple-500 to-yellow-400"
-          animate={{ 
+          animate={prefersReducedMotion ? {} : { 
             x: ['-100%', '100%'],
           }}
           transition={{ 
             repeat: Infinity, 
-            duration: 3,
+            duration: 4,
             ease: "linear",
-            repeatDelay: 1
+            repeatDelay: 0.5
           }}
         />
       </div>
       
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className={`flex items-center justify-between ${isScrolled ? 'h-16' : 'h-24'} transition-all duration-300`}>
-          {/* Logo */}
-          <Link href="/" className="relative z-10 group">
-            <motion.div
-              variants={logoVariants}
-              initial="initial"
-              animate="animate"
-              whileHover="hover"
-              className="flex items-center"
-            >
-              <div className="flex flex-col items-center">
-                <div className={`relative ${isScrolled ? 'h-[45px]' : 'h-[65px]'} w-auto overflow-visible transition-all duration-300`}>
-                  <Image
-                    src="/img/logo.webp"
-                    alt="Tramboory"
-                    width={isScrolled ? 160 : 220}
-                    height={isScrolled ? 45 : 65}
-                    className="object-contain transition-all duration-300"
-                    priority
-                  />
-                </div>
-                <div 
-                  className={`text-center font-funhouse text-white transition-all duration-300 ${
-                    isScrolled ? 'text-[6px] mt-[-5px]' : 'text-[8px] mt-[-7px]'
-                  }`}
-                  style={{ 
-                    letterSpacing: isScrolled ? '0.5px' : '0.8px'
-                  }}
-                >
-                  SALON DE EVENTOS
-                </div>
-              </div>
-            </motion.div>
-          </Link>
-          
-          {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center justify-center space-x-6">
-            {navItems.map((item, index) => (
-              <div key={item.href} className="relative group">
+      <div className="w-full px-6 max-w-7xl mx-auto">
+        <div className="flex items-center justify-between h-16">
+          {/* Logo with optimized animations */}
+          <div className="flex-shrink-0">
+            <Link href="/" className="relative z-10 group">
+              <div className="flex items-center">
                 <motion.div
-                  variants={navItemVariants}
-                  initial="hidden"
-                  animate="visible"
-                  custom={index}
+                  variants={logoVariants}
+                  initial="initial"
+                  animate="animate"
                   whileHover="hover"
+                  className="relative h-10 w-auto"
                 >
-                  <Link
-                    href={item.href}
-                    className={`relative px-4 py-2 text-sm font-medium rounded-lg transition-all duration-300 flex items-center ${
-                      pathname === item.href
-                        ? 'text-yellow-400 bg-white/5'
-                        : 'text-white hover:bg-white/5'
-                    }`}
-                    onClick={() => {
-                      // Simple navigation, no dropdown
-                    }}
-                  >
-                    <item.icon className="w-5 h-5 mr-2 text-yellow-400" />
-                    <span>{item.label}</span>
-                    
-                    {/* Hover effect */}
-                    <motion.span 
-                      className="absolute inset-0 rounded-lg bg-gradient-to-r from-yellow-400/0 via-yellow-400/10 to-yellow-400/0 opacity-0 group-hover:opacity-100"
-                      transition={{ duration: 0.3 }}
+                  {/* Logo glow effect - only if not reduced motion */}
+                  {!prefersReducedMotion && (
+                    <motion.div 
+                      className="absolute -inset-1 rounded-full bg-gradient-to-r from-yellow-400/0 via-yellow-400/20 to-yellow-400/0 opacity-0 group-hover:opacity-100 blur-md z-0"
+                      animate={{
+                        opacity: [0, 0.4, 0],
+                      }}
+                      transition={{
+                        duration: 3,
+                        repeat: Infinity,
+                        repeatType: "reverse",
+                      }}
                     />
-                  </Link>
-                </motion.div>
-                
-                {/* Active indicator */}
-                {pathname === item.href && (
-                  <motion.div
-                    layoutId="navbar-indicator"
-                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-yellow-400/50 via-yellow-400 to-yellow-400/50"
-                    transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                  )}
+                  
+                  {/* Logo animation on scroll */}
+                  <div className="relative">
+                    <Image
+                      src="/img/logo2.webp"
+                      alt="Tramboory Complete"
+                      width={200}
+                      height={90}
+                      className={`object-contain relative z-10 transition-all duration-500 ${
+                        isScrolled ? 'opacity-0 scale-90' : 'opacity-100 scale-100'
+                      }`}
+                      priority
+                    />
+                    <Image
+                      src="/img/logo.webp"
+                      alt="Tramboory"
+                      width={200}
+                      height={90}
+                      className={`object-contain absolute top-0 left-0 z-10 transition-all duration-500 ${
+                        isScrolled ? 'opacity-100 scale-100' : 'opacity-0 scale-110'
+                      }`}
+                      priority
+                    />
+                  </div>
+                  
+                  {/* Decorative line under logo on hover - simplified */}
+                  <motion.div 
+                    className="absolute -bottom-1 left-0 h-0.5 w-0 bg-gradient-to-r from-yellow-300/0 via-yellow-300/80 to-yellow-300/0 group-hover:w-full transition-all duration-300"
                   />
-                )}
+                </motion.div>
               </div>
-            ))}
-          </div>
-          
-          {/* Authentication Buttons */}
-          <div className="hidden lg:flex items-center space-x-3">
-            <Link href="/login">
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="px-4 py-2 text-sm font-medium text-white bg-purple-800/50 hover:bg-purple-700/70 rounded-lg border border-white/10 flex items-center"
-              >
-                <FiLogIn className="mr-2" />
-                Iniciar sesión
-              </motion.button>
-            </Link>
-            <Link href="/register">
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="px-4 py-2 text-sm font-medium text-purple-950 bg-yellow-400 hover:bg-yellow-300 rounded-lg flex items-center"
-              >
-                <FiUserPlus className="mr-2" />
-                Registrarse
-              </motion.button>
             </Link>
           </div>
           
-          {/* Mobile Menu Button */}
+          {/* Desktop Navigation - Further right aligned with refined styling */}
+          <div className="hidden lg:flex items-center justify-end flex-1 pr-8">
+            <div className="flex items-center space-x-6">
+              {navItems.map((item, index) => (
+                <div key={item.href} className="relative group">
+                  <motion.div
+                    custom={index}
+                    variants={navItemVariants}
+                    initial="hidden"
+                    animate="visible"
+                    whileHover="hover"
+                  >
+                    <Link
+                      href={item.href}
+                      className={`relative px-2 py-1 text-[0.7rem] uppercase tracking-tight font-light transition-colors duration-300 flex items-center group ${
+                        pathname === item.href
+                          ? 'text-yellow-400'
+                          : 'text-white hover:text-yellow-300'
+                      }`}
+                    >
+                      {/* Subtle hover glow effect */}
+                      <span className="absolute inset-0 bg-white/0 group-hover:bg-white/5 rounded-lg transition-colors duration-300"></span>
+                      
+                      <motion.span 
+                        className="text-yellow-300 group-hover:text-white transition-colors duration-300"
+                        whileHover={prefersReducedMotion ? {} : { scale: 1.1 }}
+                        transition={{ type: "spring", stiffness: 300, damping: 10 }}
+                      >
+                        <item.icon className="w-3.5 h-3.5 mr-1" />
+                      </motion.span>
+                      
+                      <span>{item.label}</span>
+                    </Link>
+                  </motion.div>
+                  
+                  {/* Active indicator - yellow underline */}
+                  {pathname === item.href && (
+                    <div className="absolute -bottom-1 left-0 right-0 h-0.5 bg-yellow-400" />
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+          
+          {/* Authentication Buttons - Right aligned with refined styling */}
+          <div className="hidden lg:flex items-center space-x-2 flex-shrink-0">
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5, duration: 0.4 }}
+              whileHover={prefersReducedMotion ? {} : { y: -2 }}
+            >
+              <Link href="/login">
+                <button
+                  className="px-2.5 py-0.5 text-[0.7rem] uppercase tracking-tight font-light text-white bg-purple-900/80 hover:bg-purple-800
+                    rounded-md border border-white/10 flex items-center h-7 relative group overflow-hidden"
+                >
+                  {/* Subtle hover glow effect */}
+                  <span className="absolute inset-0 bg-gradient-to-r from-purple-600/0 via-purple-600/20 to-purple-600/0 
+                    opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                  
+                  <motion.span 
+                    whileHover={prefersReducedMotion ? {} : { rotate: 10, scale: 1.1 }}
+                    transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                  >
+                    <FiLogIn className="mr-2" />
+                  </motion.span>
+                  <span>Iniciar sesión</span>
+                </button>
+              </Link>
+            </motion.div>
+            
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6, duration: 0.4 }}
+              whileHover={prefersReducedMotion ? {} : { y: -2 }}
+            >
+              <Link href="/register">
+                <button
+                  className="px-2.5 py-0.5 text-[0.7rem] uppercase tracking-tight font-light text-purple-950 bg-yellow-400 hover:bg-yellow-300
+                    rounded-md flex items-center h-7 relative group overflow-hidden"
+                >
+                  {/* Button glow effect - limited for better performance */}
+                  {!prefersReducedMotion && (
+                    <motion.span 
+                      className="absolute inset-0 rounded-md bg-yellow-400/20 blur-sm -z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                      animate={{ 
+                        opacity: [0, 0.2, 0],
+                      }}
+                      transition={{ repeat: Infinity, duration: 2 }}
+                    />
+                  )}
+                  
+                  <motion.span 
+                    whileHover={prefersReducedMotion ? {} : { rotate: 10, scale: 1.1 }}
+                    transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                  >
+                    <FiUserPlus className="mr-2" />
+                  </motion.span>
+                  <span>Registrarse</span>
+                </button>
+              </Link>
+            </motion.div>
+          </div>
+          
+          {/* Mobile Menu Button - with optimized animations */}
           <motion.button
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -325,20 +391,20 @@ export default function NavbarPublic() {
               {isMobileMenuOpen ? (
                 <motion.div
                   key="close"
-                  initial={{ rotate: -90, opacity: 0 }}
-                  animate={{ rotate: 0, opacity: 1 }}
-                  exit={{ rotate: 90, opacity: 0 }}
-                  transition={{ duration: 0.3 }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.2 }}
                 >
                   <FiX className="w-6 h-6" />
                 </motion.div>
               ) : (
                 <motion.div
                   key="menu"
-                  initial={{ rotate: 90, opacity: 0 }}
-                  animate={{ rotate: 0, opacity: 1 }}
-                  exit={{ rotate: -90, opacity: 0 }}
-                  transition={{ duration: 0.3 }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.2 }}
                 >
                   <FiMenu className="w-6 h-6" />
                 </motion.div>
@@ -347,7 +413,7 @@ export default function NavbarPublic() {
           </motion.button>
         </div>
         
-        {/* Mobile Navigation */}
+        {/* Mobile Navigation - with better animation constraints */}
         <AnimatePresence>
           {isMobileMenuOpen && (
             <motion.div
@@ -367,20 +433,42 @@ export default function NavbarPublic() {
                     >
                       <Link
                         href={item.href}
-                        className={`flex items-center justify-between px-4 py-3 rounded-lg ${
+                        className={`flex items-center justify-between px-4 py-3 rounded-lg group relative overflow-hidden ${
                           pathname === item.href
                             ? 'text-yellow-400 bg-white/10'
                             : 'text-white hover:bg-white/5'
                         }`}
                         onClick={() => setIsMobileMenuOpen(false)}
                       >
-                        <span className="flex items-center">
-                          <item.icon className="w-5 h-5 mr-3 text-yellow-400" />
-                          <span>{item.label}</span>
+                        {/* Subtle hover glow effect */}
+                        <span className="absolute inset-0 bg-gradient-to-r from-yellow-400/0 via-yellow-400/5 to-yellow-400/0 
+                          opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                        
+                        <span className="flex items-center relative z-10">
+                          <motion.span 
+                            className="text-yellow-400 group-hover:text-white transition-colors duration-300"
+                            whileHover={prefersReducedMotion ? {} : { scale: 1.1 }}
+                            transition={{ type: "spring", stiffness: 300, damping: 10 }}
+                          >
+                            <item.icon className="w-5 h-5 mr-3" />
+                          </motion.span>
+                          <span className="group-hover:text-yellow-300 transition-colors duration-300">
+                            {item.label}
+                          </span>
                         </span>
+                        
+                        {pathname === item.href && (
+                          <motion.div
+                            initial={{ opacity: 0, scale: 0.5 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            className="w-1.5 h-1.5 rounded-full bg-yellow-400"
+                          />
+                        )}
                       </Link>
                     </motion.div>
-                    
+                  </div>
+                ))}
+                
                 {/* Authentication Buttons (Mobile) */}
                 <div className="mt-3 space-y-2">
                   <Link href="/login">
@@ -388,10 +476,19 @@ export default function NavbarPublic() {
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: 0.4 }}
-                      className="flex items-center px-4 py-3 text-white bg-purple-800/50 hover:bg-purple-700/70 rounded-lg"
+                      className="flex items-center px-4 py-3 text-white bg-purple-800/50 hover:bg-purple-700/70 rounded-lg group relative overflow-hidden"
                     >
-                      <FiLogIn className="w-5 h-5 mr-3" />
-                      <span>Iniciar sesión</span>
+                      {/* Subtle glow effect */}
+                      <span className="absolute inset-0 bg-gradient-to-r from-purple-600/0 via-purple-600/20 to-purple-600/0 
+                        opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                      
+                      <motion.span
+                        whileHover={prefersReducedMotion ? {} : { rotate: 10, scale: 1.1 }}
+                        className="w-5 h-5 mr-3 text-yellow-400 group-hover:text-white transition-colors duration-300"
+                      >
+                        <FiLogIn />
+                      </motion.span>
+                      <span className="group-hover:text-yellow-300 transition-colors duration-300">Iniciar sesión</span>
                     </motion.div>
                   </Link>
                   <Link href="/register">
@@ -399,17 +496,29 @@ export default function NavbarPublic() {
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: 0.45 }}
-                      className="flex items-center px-4 py-3 text-purple-950 bg-yellow-400 hover:bg-yellow-300 rounded-lg"
+                      className="flex items-center px-4 py-3 text-purple-950 bg-yellow-400 hover:bg-yellow-300 rounded-lg group relative overflow-hidden"
                     >
-                      <FiUserPlus className="w-5 h-5 mr-3" />
+                      {/* Button glow effect */}
+                      {!prefersReducedMotion && (
+                        <motion.span 
+                          className="absolute inset-0 rounded-lg bg-yellow-400/20 blur-sm -z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                          animate={{ 
+                            opacity: [0, 0.2, 0],
+                          }}
+                          transition={{ repeat: Infinity, duration: 2 }}
+                        />
+                      )}
+                      
+                      <motion.span
+                        whileHover={prefersReducedMotion ? {} : { rotate: 10, scale: 1.1 }}
+                        className="w-5 h-5 mr-3"
+                      >
+                        <FiUserPlus />
+                      </motion.span>
                       <span>Registrarse</span>
                     </motion.div>
                   </Link>
                 </div>
-                  </div>
-                ))}
-                
-                {/* Mobile CTA removed */}
                 
                 {/* Footer elements for mobile */}
                 <motion.div
