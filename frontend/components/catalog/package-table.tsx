@@ -24,7 +24,7 @@ export function PackageTable({ onEdit, onDelete }: PackageTableProps) {
   const fetchPackages = async () => {
     try {
       const response = await api.get('/catalogo/paquetes');
-      setPackages(response.data.data);
+      setPackages(response.data);
     } catch (error) {
       console.error('Error fetching packages:', error);
     } finally {

@@ -5,9 +5,9 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { cn } from '@/lib/utils'
-import { ParticlesBackground } from '@/components/decorative/ParticlesBackground'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/Button'
+import { ParticlesBackground } from '../../../../components/decorative/ParticlesBackground'
+import { Card, CardContent, CardHeader, CardTitle } from '../../../../components/ui/card'
+import { Button } from '../../../../components/ui/Button'
 
 // Animation variants
 const fadeIn = {

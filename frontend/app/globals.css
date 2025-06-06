@@ -1,5 +1,5 @@
 @import "tailwindcss";
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap');
 
 @theme {
   /* Tramboory Purple Palette */
@@ -29,6 +29,7 @@
   
   /* Font Configuration */
   --font-funhouse: "Funhouse", cursive;
+  --font-lexend: "Lexend", sans-serif;
   --font-sans: "travelia", "sans-serif";
   
   /* Font Sizes */
@@ -175,9 +176,60 @@
 }
 
 /* Typography Classes */
+
+/* Lexend variable weight classes */
+.lexend-thin {
+  font-family: "Lexend", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 100;
+  font-style: normal;
+}
+
+.lexend-light {
+  font-family: "Lexend", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-style: normal;
+}
+
+.lexend-regular {
+  font-family: "Lexend", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.lexend-medium {
+  font-family: "Lexend", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+}
+
+.lexend-semibold {
+  font-family: "Lexend", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 600;
+  font-style: normal;
+}
+
+.lexend-bold {
+  font-family: "Lexend", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.lexend-black {
+  font-family: "Lexend", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 900;
+  font-style: normal;
+}
+
 .text-paragraph {
   font-size: 0.875rem; /* text-sm */
-  font-family: 'Inter', sans-serif;
+  font-family: 'Lexend', sans-serif;
   font-weight: 400;
 }
 @media (min-width: 768px) {
@@ -193,8 +245,8 @@
 
 .text-subtitle {
   font-size: 1.125rem; /* text-lg */
-  font-family: 'Inter', sans-serif;
-  font-weight: 800;
+  font-family: 'Lexend', sans-serif;
+  font-weight: 700;
 }
 @media (min-width: 768px) {
   .text-subtitle {
@@ -209,7 +261,7 @@
 
 .text-title {
   font-size: 1.5rem; /* text-2xl */
-  font-family: 'Funhouse', cursive;
+  font-family: var(--font-funhouse);
   font-weight: 1000;
 }
 @media (min-width: 768px) {
@@ -328,23 +380,7 @@
   box-shadow: var(--shadow-glow);
 }
 
-/* Funhouse font for titles and branding */
-@font-face {
-  font-family: 'Funhouse';
-  src: url('/fonts/FunhouseVF.ttf') format('truetype');
-  font-weight: 100 900;
-  font-style: normal;
-  font-display: swap;
-}
-
-/* Lowercase version to match tailwind config */
-@font-face {
-  font-family: 'funhouse';
-  src: url('/fonts/FunhouseVF.ttf') format('truetype');
-  font-weight: 100 900;
-  font-style: normal;
-  font-display: swap;
-}
+/* Next.js now handles Funhouse font loading through layout.tsx */
 
 /* Ocultar header en la página About */
 body:has(a[href='/about'].active) header,
@@ -432,7 +468,7 @@ body {
 
 /* Estilos personalizados para react-datepicker */
 .react-datepicker {
-  font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
+  font-family: 'Lexend', system-ui, -apple-system, sans-serif !important;
   border: none !important;
   border-radius: 0.75rem !important;
   box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1) !important;

@@ -45,7 +45,7 @@ export function RegisterForm() {
       
       router.push('/login?message=Cuenta creada exitosamente');
     } catch (err: any) {
-      setError(err.response?.data?.message || 'Error al crear la cuenta');
+      setError(err.message || 'Error al crear la cuenta');
     } finally {
       setLoading(false);
     }

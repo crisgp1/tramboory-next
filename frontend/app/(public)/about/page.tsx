@@ -1,7 +1,7 @@
 import { Suspense } from 'react'
 import { Metadata } from 'next'
-import { AboutTramboory } from '@/features/home/components'
-import LoadingSpinner from '@/components/shared/LoadingSpinner'
+import { AboutTramboory } from './_components'
+import LoadingSpinner from '../../../components/shared/LoadingSpinner'
 
 export const metadata: Metadata = {
   title: 'Acerca de Tramboory - Conoce Nuestra Historia',

@@ -46,7 +46,7 @@ export function PackageForm({ package: editPackage, onSuccess, onCancel }: Packa
       
       onSuccess?.();
     } catch (err: any) {
-      setError(err.response?.data?.message || 'Error al guardar el paquete');
+      setError(err.message || 'Error al guardar el paquete');
     } finally {
       setLoading(false);
     }

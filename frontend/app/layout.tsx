@@ -1,11 +1,17 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Lexend } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import { Providers } from "../components/layout/Providers";
 
-const inter = Inter({ 
+const lexend = Lexend({
   subsets: ["latin"],
-  variable: "--font-inter",
+  variable: "--font-lexend",
+});
+
+const funhouse = localFont({
+  src: "../public/fonts/FunhouseVF.ttf",
+  variable: "--font-funhouse",
 });
 
 export const metadata: Metadata = {
@@ -31,7 +37,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es" suppressHydrationWarning>
-      <body className={`${inter.variable} antialiased`} suppressHydrationWarning>
+      <body className={`${lexend.variable} ${funhouse.variable} antialiased`} suppressHydrationWarning>
         <Providers>
           {children}
         </Providers>

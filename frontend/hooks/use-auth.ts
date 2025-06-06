@@ -19,7 +19,7 @@ export function useAuth() {
       }
 
       const response = await api.get('/auth/me');
-      setUser(response.data.data);
+      setUser(response.data);
     } catch (error) {
       localStorage.removeItem('auth-token');
     } finally {
@@ -29,7 +29,7 @@ export function useAuth() {
 
   const login = async (email: string, password: string) => {
     const response = await api.post('/auth/login', { email, password });
-    const { user, token } = response.data.data;
+    const { user, token } = response.data;
     
     localStorage.setItem('auth-token', token);
     setUser(user);
