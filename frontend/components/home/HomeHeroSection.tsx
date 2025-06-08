@@ -83,7 +83,7 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-5xl md:text-6xl lg:text-7xl font-black text-white mb-6 font-funhouse leading-[0.9] tracking-tight"
+            className="text-6xl md:text-7xl lg:text-8xl font-black text-white mb-6 font-funhouse leading-[0.88] tracking-tight"
           >
             <span className="block">
               Celebra con{' '}

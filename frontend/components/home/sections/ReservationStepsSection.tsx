@@ -111,20 +111,20 @@ export function ReservationStepsSection() {
   return (
     <section 
       ref={sectionRef} 
-      className="py-28 relative z-10 overflow-hidden"
+      className="py-28 relative z-10 overflow-hidden bg-tramboory-purple-900/70 backdrop-blur-lg"
     >
       {/* Elementos decorativos de fondo */}
       <motion.div
         style={{ y: y1, opacity }}
-        className="absolute -top-40 -right-40 w-[30rem] h-[30rem] rounded-full blur-[80px] bg-tramboory-purple-500/5 pointer-events-none"
+        className="absolute -top-40 -right-40 w-[30rem] h-[30rem] rounded-full blur-[80px] bg-tramboory-purple-600/30 pointer-events-none"
       />
       <motion.div
         style={{ y: y2, opacity }}
-        className="absolute -bottom-20 -left-40 w-[25rem] h-[25rem] rounded-full blur-[70px] bg-tramboory-yellow-400/5 pointer-events-none"
+        className="absolute -bottom-20 -left-40 w-[25rem] h-[25rem] rounded-full blur-[70px] bg-tramboory-purple-700/30 pointer-events-none"
       />
       
       {/* Patrón de líneas decorativas */}
-      <div className="absolute inset-0 opacity-10 pointer-events-none bg-grid-pattern"></div>
+      <div className="absolute inset-0 opacity-5 pointer-events-none bg-grid-pattern"></div>
       
       <div className="container mx-auto px-6 relative z-10">
         <motion.div
@@ -206,16 +206,16 @@ export function ReservationStepsSection() {
               className="relative z-10"
             >
               {/* Tarjeta de paso mejorada */}
-              <div className="bg-white/10 backdrop-blur-lg rounded-xl p-8 border border-white/20 
-                hover:border-white/40 transition-all duration-500 h-full flex flex-col
-                hover:bg-white/15 group shadow-xl">
+              <div className="bg-white/5 backdrop-blur-lg rounded-xl p-8 border border-white/10 
+                hover:border-white/20 transition-all duration-500 h-full flex flex-col
+                hover:bg-white/10 group shadow-xl">
                 
                 {/* Círculo de icono flotante con animación */}
-                <div className="relative mb-8">
+                <div className="relative mb-6">
                   <motion.div 
-                    className={`absolute -inset-3 rounded-full ${step.bgGlow} blur-xl opacity-0 group-hover:opacity-70 transition-opacity duration-500`}
+                    className={`absolute -inset-3 rounded-full ${step.bgGlow} blur-xl opacity-0 group-hover:opacity-50 transition-opacity duration-500`}
                     animate={{
-                      scale: [1, 1.2, 1],
+                      scale: [1, 1.1, 1],
                     }}
                     transition={{
                       duration: 3,
@@ -223,17 +223,13 @@ export function ReservationStepsSection() {
                       repeatType: "reverse"
                     }}
                   />
-                  <div className={`w-16 h-16 rounded-full flex items-center justify-center
-                    bg-gradient-to-r ${step.color} relative z-10 shadow-lg group-hover:scale-110 transition-transform duration-500`}>
-                    <step.icon className="text-2xl text-white" />
+                  <div className={`w-14 h-14 rounded-full flex items-center justify-center
+                    bg-gradient-to-r ${step.color} relative z-10 shadow-lg group-hover:scale-105 transition-transform duration-500`}>
+                    <step.icon className="text-xl text-white" />
                   </div>
                 </div>
                 
-                {/* Badge de característica destacada */}
-                <div className="inline-block px-3 py-1 rounded-full bg-white/10 border border-white/30 
-                  text-white text-xs font-medium mb-3 group-hover:bg-white/20 transition-colors duration-500">
-                  {step.highlight}
-                </div>
+                {/* Badge de característica destacada - Removed to match image */}
                 
                 <h3 className="text-2xl font-bold text-white mb-4 font-funhouse">{step.title}</h3>
                 <p className="text-gray-300 mb-4 leading-relaxed">{step.description}</p>
@@ -259,18 +255,13 @@ export function ReservationStepsSection() {
                 )}
               </div>
               
-              {/* Número de paso flotante */}
-              <motion.div 
-                className="absolute -top-4 -left-4 w-10 h-10 rounded-full bg-gradient-to-r from-tramboory-yellow-400 to-tramboory-yellow-500 
-                  flex items-center justify-center text-tramboory-purple-900 font-bold text-lg shadow-lg z-20"
-                whileHover={{ 
-                  scale: 1.2,
-                  rotate: 10, 
-                  transition: { duration: 0.3 } 
-                }}
+              {/* Número de paso flotante - ajustado para coincidir con la imagen de referencia */}
+              <div 
+                className="absolute -top-3 -left-3 w-8 h-8 rounded-full bg-gradient-to-r from-tramboory-yellow-400 to-tramboory-yellow-500 
+                  flex items-center justify-center text-tramboory-purple-900 font-bold text-base shadow-lg z-20"
               >
                 {index + 1}
-              </motion.div>
+              </div>
             </motion.div>
           ))}
         </motion.div>
