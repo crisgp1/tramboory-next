@@ -1,6 +1,7 @@
-'use client'
+'use client'; // Importaciones de React y utilidades
 
-import React, { use } from 'react';
+import React from 'react';
+import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 
 // ==========================================
@@ -137,11 +138,26 @@ export function ServicesSection({ services }: ServicesProps) {
       
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Section Header */}
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-funhouse font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-tramboory-yellow-300 to-tramboory-yellow-500">
-            NUESTROS SERVICIOS
-          </h2>
-          <p className="text-xl text-white/80 max-w-3xl mx-auto font-body font-light">
+        <div className="text-center mb-4">
+          <div className="relative inline-block">
+            <h2 className="text-4xl md:text-5xl font-funhouse font-bold mb-2 text-transparent bg-clip-text bg-gradient-to-r from-tramboory-yellow-300 to-tramboory-yellow-500">
+              NUESTROS SERVICIOS
+            </h2>
+            {/* ✅ ANIMACIÓN AMARILLA - Con mayor separación del texto */}
+            <motion.span 
+              className="absolute -bottom-6 left-0 right-0 h-1 bg-gradient-to-r from-tramboory-yellow-300/0 via-tramboory-yellow-400 to-tramboory-yellow-300/0"
+              animate={{ 
+                scaleX: [0, 1, 0],
+                x: [-100, 0, 100]
+              }}
+              transition={{ 
+                duration: 5, 
+                repeat: Infinity,
+                ease: "easeInOut" 
+              }}
+            />
+          </div>
+          <p className="text-xl text-white/80 max-w-3xl mx-auto font-body font-light mt-4">
             Elige la experiencia perfecta para la celebración de tus pequeños
           </p>
         </div>

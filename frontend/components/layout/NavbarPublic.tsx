@@ -290,18 +290,30 @@ export default function NavbarPublic() {
                           : 'text-white hover:text-yellow-300'
                       }`}
                     >
-                      {/* Subtle hover glow effect */}
-                      <span className="absolute inset-0 bg-white/0 group-hover:bg-white/5 rounded-lg transition-colors duration-300"></span>
+                      {/* ✅ HOVER EFFECT TRAMBOORY - Aplicado a enlaces desktop */}
+                      <span 
+                        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-lg"
+                        style={{
+                          background: `linear-gradient(
+                            to bottom,
+                            transparent 5%,
+                            oklch(43.8% 0.218 303.724 / 0.15) 25%,
+                            oklch(43.8% 0.218 303.724 / 0.15) 75%,
+                            transparent 95%
+                          )`,
+                          backdropFilter: 'blur(8px)'
+                        }}
+                      />
                       
                       <motion.span 
-                        className="text-yellow-300 group-hover:text-white transition-colors duration-300"
+                        className="text-yellow-300 group-hover:text-white transition-colors duration-300 relative z-10"
                         whileHover={prefersReducedMotion ? {} : { scale: 1.1 }}
                         transition={{ type: "spring", stiffness: 300, damping: 10 }}
                       >
                         <item.icon className="w-3.5 h-3.5 mr-1" />
                       </motion.span>
                       
-                      <span>{item.label}</span>
+                      <span className="relative z-10">{item.label}</span>
                     </Link>
                   </motion.div>
                   
@@ -440,9 +452,20 @@ export default function NavbarPublic() {
                         }`}
                         onClick={() => setIsMobileMenuOpen(false)}
                       >
-                        {/* Subtle hover glow effect */}
-                        <span className="absolute inset-0 bg-gradient-to-r from-yellow-400/0 via-yellow-400/5 to-yellow-400/0 
-                          opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                        {/* ✅ HOVER EFFECT TRAMBOORY - Aplicado a enlaces mobile */}
+                        <span 
+                          className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-lg"
+                          style={{
+                            background: `linear-gradient(
+                              to right,
+                              transparent 2%,
+                              oklch(43.8% 0.218 303.724 / 0.12) 15%,
+                              oklch(43.8% 0.218 303.724 / 0.12) 85%,
+                              transparent 98%
+                            )`,
+                            backdropFilter: 'blur(6px)'
+                          }}
+                        />
                         
                         <span className="flex items-center relative z-10">
                           <motion.span 
