@@ -1,5 +1,5 @@
 @import "tailwindcss";
-@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 
 @theme {
   /* Tramboory Purple Palette */
@@ -27,10 +27,14 @@
   --color-tramboory-yellow-800: oklch(0.52 0.19 90);
   --color-tramboory-yellow-900: oklch(0.4 0.2 90);
   
-  /* Font Configuration */
+  /* Font Configuration - Sistema Tipográfico Extendido */
   --font-funhouse: "Funhouse", cursive;
-  --font-lexend: "Lexend", sans-serif;
   --font-sans: "travelia", "sans-serif";
+  --font-body: "Lexend", "Inter", system-ui, sans-serif;
+  --font-body-light: "Lexend Light", "Inter", system-ui, sans-serif;
+  --font-body-regular: "Lexend Regular", "Inter", system-ui, sans-serif;
+  --font-body-medium: "Lexend Medium", "Inter", system-ui, sans-serif;
+  --font-body-semibold: "Lexend SemiBold", "Inter", system-ui, sans-serif;
   
   /* Font Sizes */
   --font-size-xs: 1.00rem;
@@ -43,6 +47,13 @@
   --font-size-4xl: 1.875rem;
   --font-size-5xl: 2.25rem;
   --font-size-6xl: 3rem;
+  
+  /* Font Weights - Configuración Granular */
+  --font-weight-light: 300;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
   
   /* Spacing System */
   --spacing-18: 4.5rem;
@@ -82,6 +93,61 @@
     --color-tramboory-purple-500: #8b5cf6;
     --color-tramboory-yellow-500: #fed7aa;
   }
+}
+
+/* Configuración de Fuentes Lexend - Implementación Optimizada */
+@font-face {
+  font-family: 'Lexend Light';
+  src: url('/fonts/Lexend-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0020-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Lexend Regular';
+  src: url('/fonts/Lexend-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0020-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Lexend Medium';
+  src: url('/fonts/Lexend-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0020-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Lexend SemiBold';
+  src: url('/fonts/Lexend-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0020-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* Funhouse font para títulos y branding */
+@font-face {
+  font-family: 'Funhouse';
+  src: url('/fonts/FunhouseVF.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Lowercase version to match tailwind config */
+@font-face {
+  font-family: 'funhouse';
+  src: url('/fonts/FunhouseVF.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
 }
 
 /* Custom Animations */
@@ -139,8 +205,8 @@
   transition: all 0.3s ease-in-out;
 }
 .hover-scale {
-  transform: translateZ(0); /* Force GPU acceleration */
-  will-change: transform; /* Hint to browser about animations */
+  transform: translateZ(0);
+  will-change: transform;
   transform: scale(1);
 }
 .hover-scale:hover {
@@ -175,103 +241,54 @@
   }
 }
 
-/* Typography Classes */
-
-/* Lexend variable weight classes */
-.lexend-thin {
-  font-family: "Lexend", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 100;
-  font-style: normal;
-}
-
-.lexend-light {
-  font-family: "Lexend", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 300;
-  font-style: normal;
-}
-
-.lexend-regular {
-  font-family: "Lexend", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 400;
-  font-style: normal;
-}
-
-.lexend-medium {
-  font-family: "Lexend", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 500;
-  font-style: normal;
-}
-
-.lexend-semibold {
-  font-family: "Lexend", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 600;
-  font-style: normal;
-}
-
-.lexend-bold {
-  font-family: "Lexend", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 700;
-  font-style: normal;
-}
-
-.lexend-black {
-  font-family: "Lexend", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 900;
-  font-style: normal;
-}
-
+/* Typography Classes con Lexend */
 .text-paragraph {
-  font-size: 0.875rem; /* text-sm */
-  font-family: 'Lexend', sans-serif;
-  font-weight: 400;
+  font-size: 0.875rem;
+  font-family: var(--font-body-light);
+  font-weight: 300;
+  line-height: 1.6;
 }
 @media (min-width: 768px) {
   .text-paragraph {
-    font-size: 1rem; /* text-base */
+    font-size: 1rem;
   }
 }
 @media (min-width: 1024px) {
   .text-paragraph {
-    font-size: 1.125rem; /* text-lg */
+    font-size: 1.125rem;
   }
 }
 
 .text-subtitle {
-  font-size: 1.125rem; /* text-lg */
-  font-family: 'Lexend', sans-serif;
-  font-weight: 700;
+  font-size: 1.125rem;
+  font-family: var(--font-body-medium);
+  font-weight: 500;
+  line-height: 1.4;
 }
 @media (min-width: 768px) {
   .text-subtitle {
-    font-size: 1.25rem; /* text-xl */
+    font-size: 1.25rem;
   }
 }
 @media (min-width: 1024px) {
   .text-subtitle {
-    font-size: 1.5rem; /* text-2xl */
+    font-size: 1.5rem;
   }
 }
 
 .text-title {
-  font-size: 1.5rem; /* text-2xl */
+  font-size: 1.5rem;
   font-family: var(--font-funhouse);
   font-weight: 1000;
 }
 @media (min-width: 768px) {
   .text-title {
-    font-size: 1.875rem; /* text-3xl */
+    font-size: 1.875rem;
   }
 }
 @media (min-width: 1024px) {
   .text-title {
-    font-size: 2.25rem; /* text-4xl */
+    font-size: 2.25rem;
   }
 }
 
@@ -296,10 +313,10 @@
 
 /* Custom Utility Classes */
 .no-scrollbar {
-  -ms-overflow-style: none; /* IE and Edge */
+  -ms-overflow-style: none;
 }
 .no-scrollbar::-webkit-scrollbar {
-  display: none; /* Chrome, Safari and Opera */
+  display: none;
 }
 
 .text-gradient {
@@ -334,9 +351,9 @@
 
 .card-hover {
   transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  transform: translateZ(0); /* Force GPU acceleration */
-  will-change: transform, box-shadow; /* Hint to browser for optimization */
-  backface-visibility: hidden; /* Prevents flickering */
+  transform: translateZ(0);
+  will-change: transform, box-shadow;
+  backface-visibility: hidden;
 }
 .card-hover:hover {
   transform: translateY(-4px) scale(1.02) translateZ(0);
@@ -349,6 +366,7 @@
   background: linear-gradient(to right, #facc15, #eab308);
   color: #4c1d95;
   font-weight: bold;
+  font-family: var(--font-body-medium);
   border-radius: 0.5rem;
   transition: all 0.3s ease;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
@@ -369,9 +387,10 @@
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 1rem;
   padding: 1.5rem;
+  font-family: var(--font-body-regular);
   transition: transform 0.3s ease, background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
-  transform: translateZ(0); /* Force GPU acceleration */
-  will-change: transform, box-shadow; /* Hint for optimization */
+  transform: translateZ(0);
+  will-change: transform, box-shadow;
 }
 .service-card:hover {
   background: rgba(255, 255, 255, 0.15);
@@ -379,8 +398,6 @@
   transform: translateY(-8px) translateZ(0);
   box-shadow: var(--shadow-glow);
 }
-
-/* Next.js now handles Funhouse font loading through layout.tsx */
 
 /* Ocultar header en la página About */
 body:has(a[href='/about'].active) header,
@@ -437,14 +454,13 @@ body:has(a[href='/about'].active) header,
   color-scheme: dark;
 }
 
-/* Transición suave al cambiar de tema - excludes transform properties to prevent zoom issues */
+/* Transición suave al cambiar de tema */
 * {
   transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
-  /* Explicit exclusion of transform transitions from the universal selector */
   transition-property: background-color, color, border-color, box-shadow;
 }
 
-/* Utility class to disable animations during zooming - apply via JS */
+/* Utility class to disable animations during zooming */
 .zoom-detected {
   animation-play-state: paused !important;
   transition: none !important;
@@ -453,6 +469,7 @@ body:has(a[href='/about'].active) header,
 
 body {
   padding-top: var(--header-height);
+  font-family: var(--font-body-regular);
 }
 
 .main-content {
@@ -468,7 +485,7 @@ body {
 
 /* Estilos personalizados para react-datepicker */
 .react-datepicker {
-  font-family: 'Lexend', system-ui, -apple-system, sans-serif !important;
+  font-family: var(--font-body-regular) !important;
   border: none !important;
   border-radius: 0.75rem !important;
   box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1) !important;
@@ -490,6 +507,7 @@ body {
 .react-datepicker__current-month {
   font-size: 1.125rem !important;
   font-weight: 600 !important;
+  font-family: var(--font-body-medium) !important;
   color: #1f2937 !important;
   margin-bottom: 0.75rem !important;
 }
@@ -523,6 +541,7 @@ body {
   color: #6b7280 !important;
   font-weight: 500 !important;
   font-size: 0.875rem !important;
+  font-family: var(--font-body-medium) !important;
   width: 2.5rem !important;
   line-height: 2.5rem !important;
   margin: 0.1rem !important;
@@ -534,6 +553,7 @@ body {
   margin: 0.1rem !important;
   color: #374151 !important;
   font-size: 0.875rem !important;
+  font-family: var(--font-body-regular) !important;
   border-radius: 9999px !important;
   transition: all 0.2s !important;
 }
@@ -588,6 +608,7 @@ body {
   border-color: #e5e7eb !important;
   box-shadow: none !important;
   min-height: 42px !important;
+  font-family: var(--font-body-regular) !important;
 }
 
 .react-select-container .react-select__control:hover {
@@ -610,6 +631,7 @@ body {
   padding: 0.75rem 1rem !important;
   cursor: pointer !important;
   font-size: 0.875rem !important;
+  font-family: var(--font-body-regular) !important;
 }
 
 .react-select-container .react-select__option--is-selected {
@@ -623,10 +645,12 @@ body {
 
 .react-select-container .react-select__placeholder {
   color: #9ca3af !important;
+  font-family: var(--font-body-light) !important;
 }
 
 .react-select-container .react-select__single-value {
   color: #374151 !important;
+  font-family: var(--font-body-regular) !important;
 }
 
 @media print {
