@@ -15,19 +15,35 @@ export function AuthGuard({ children, requireAuth = true, requiredRole }: AuthGu
   const { user, loading, isAuthenticated } = useAuth();
   const router = useRouter();
 
+  // DESARROLLO: Deshabilitar autenticación completamente
+  const isDevelopment = process.env.NODE_ENV === 'development';
+  
   useEffect(() => {
+    // En desarrollo, saltarse todas las verificaciones de autenticación
+    if (isDevelopment) {
+      console.log('🔓 AuthGuard: Modo desarrollo - autenticación deshabilitada');
+      return;
+    }
+
     if (!loading) {
       if (requireAuth && !isAuthenticated) {
+        console.log('🔒 AuthGuard: Redirigiendo a signin - no autenticado');
         router.push('/signin');
         return;
       }
 
       if (requiredRole && user?.role !== requiredRole) {
+        console.log('🔒 AuthGuard: Redirigiendo a dashboard - rol incorrecto');
         router.push('/dashboard');
         return;
       }
     }
-  }, [loading, isAuthenticated, user, requireAuth, requiredRole, router]);
+  }, [loading, isAuthenticated, user, requireAuth, requiredRole, router, isDevelopment]);
+
+  // En desarrollo, mostrar contenido directamente sin verificaciones
+  if (isDevelopment) {
+    return <>{children}</>;
+  }
 
   if (loading) {
     return (

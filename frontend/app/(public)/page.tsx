@@ -9,6 +9,9 @@ import ContactSection from '../../components/sections/ContactSection'
 import { BackgroundVideo } from '../../components/decorative/BackgroundVideo'
 import { AnimatedBalloons } from '../../components/decorative/AnimatedBalloons'
 import { ParticlesBackground } from '../../components/decorative/ParticlesBackground'
+import { QuickLogin } from '../../components/auth/quick-login'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 export const metadata: Metadata = {
   title: 'Tramboory - Salón de Fiestas Infantiles',
@@ -133,19 +136,36 @@ export default function PublicHomePage() {
   
   return (
     <main className="relative min-h-screen overflow-hidden bg-gradient-to-br from-tramboory-purple-900 to-indigo-950">
-      {/* Elementos decorativos - dan vida y personalidad a la página */}
-      <BackgroundVideo 
-        src="/video/background.webm" 
+      {/* Quick Login Component for Testing */}
+      <QuickLogin />
+      
+      {/* Toast Container */}
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
       />
       
-      <ParticlesBackground 
-        particleCount={100} 
+      {/* Elementos decorativos - dan vida y personalidad a la página */}
+      <BackgroundVideo
+        src="/video/background.webm"
+      />
+      
+      <ParticlesBackground
+        particleCount={100}
         opacity={0.7}
       />
       
-      <AnimatedBalloons 
-        count={15} 
-        colors={["#FF5A5F", "#FFC857", "#8A4FFF", "#3CAEA3", "#F78FB3"]} 
+      <AnimatedBalloons
+        count={15}
+        colors={["#FF5A5F", "#FFC857", "#8A4FFF", "#3CAEA3", "#F78FB3"]}
       />
       
       {/* Secciones de contenido - organizadas para una experiencia fluida */}

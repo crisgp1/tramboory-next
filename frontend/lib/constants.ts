@@ -31,3 +31,15 @@ export const RESERVATION_STATUS = {
   CANCELLED: 'cancelled',
   COMPLETED: 'completed',
 } as const;
+
+// Development settings
+export const DEV_CONFIG = {
+  // Habilita auto-login automático para desarrollo (evita redirecciones a login)
+  ENABLE_AUTO_LOGIN: process.env.NODE_ENV === 'development',
+  DEFAULT_DEV_USER: {
+    id: '1',
+    name: 'Administrador (Auto-login)',
+    email: 'admin@tramboory.com',
+    role: 'admin' as const,
+  }
+} as const;

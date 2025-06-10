@@ -3,6 +3,7 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { api } from '@/lib/api';
 import { User } from '@/types/auth';
+import { DEV_CONFIG } from '@/lib/constants';
 
 interface AuthContextType {
   user: User | null;
@@ -30,17 +31,50 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   const checkAuth = async () => {
     try {
+      // Verificar si estamos en el cliente
+      if (typeof window === 'undefined') {
+        setLoading(false);
+        return;
+      }
+
       const token = localStorage.getItem('auth-token');
       const storedUserType = localStorage.getItem('userType');
       
+      console.log('CheckAuth - Token:', token);
+      console.log('CheckAuth - UserType:', storedUserType);
+      
+      // AUTO-LOGIN PARA DESARROLLO: Si no hay token y está habilitado el auto-login
       if (!token || !storedUserType) {
+        if (DEV_CONFIG.ENABLE_AUTO_LOGIN) {
+          console.log('🔓 AuthContext - No token found, creating auto-login for development');
+          
+          // Crear usuario admin por defecto para desarrollo
+          const devUser = {
+            ...DEV_CONFIG.DEFAULT_DEV_USER,
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
+          };
+          
+          const devToken = `mock-token-${devUser.id}-${Date.now()}`;
+          
+          localStorage.setItem('auth-token', devToken);
+          localStorage.setItem('userType', devUser.role);
+          setUser(devUser);
+          setUserType(devUser.role);
+          
+          console.log('🔓 AuthContext - Auto-login created:', devUser);
+        } else {
+          console.log('🔒 AuthContext - No token or userType found, auto-login disabled');
+        }
         setLoading(false);
         return;
       }
 
       // Simulación de verificación de token sin base de datos
       if (token.startsWith('mock-token-')) {
-        const userId = token.split('-')[2];
+        const tokenParts = token.split('-');
+        const userId = tokenParts.length >= 3 ? tokenParts[2] : '1';
+        
         const mockUser = {
           id: userId,
           name: storedUserType === 'admin' ? 'Administrador' :
@@ -52,16 +86,21 @@ export function AuthProvider({ children }: AuthProviderProps) {
           updatedAt: new Date().toISOString(),
         };
         
+        console.log('CheckAuth - Setting user:', mockUser);
         setUser(mockUser);
         setUserType(storedUserType);
       } else {
         // Token inválido
+        console.log('CheckAuth - Invalid token format');
         localStorage.removeItem('auth-token');
         localStorage.removeItem('userType');
       }
     } catch (error) {
-      localStorage.removeItem('auth-token');
-      localStorage.removeItem('userType');
+      console.error('CheckAuth - Error:', error);
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem('auth-token');
+        localStorage.removeItem('userType');
+      }
     } finally {
       setLoading(false);
     }

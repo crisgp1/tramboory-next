@@ -469,8 +469,12 @@ body:has(a[href='/about'].active) header,
 }
 
 body {
-  padding-top: var(--header-height);
   font-family: var(--font-body-regular);
+}
+
+/* Add padding only for pages that have a navbar (not auth pages) */
+body:not(.auth-page) {
+  padding-top: var(--header-height);
 }
 
 .main-content {

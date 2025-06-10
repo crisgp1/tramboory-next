@@ -96,13 +96,13 @@ const sidebarItems: SidebarItem[] = [
     description: 'Gestión de productos'
   },
   {
-    href: '/dashboard/catalog',
-    label: 'Catálogo',
+    href: '/dashboard/packages',
+    label: 'Paquetes',
     icon: <CatalogIcon />,
     description: 'Paquetes y servicios'
   },
   {
-    href: '/dashboard/finanzas',
+    href: '/dashboard/finances',
     label: 'Finanzas',
     icon: <FinanceIcon />,
     description: 'Reportes financieros'
@@ -120,7 +120,7 @@ const sidebarItems: SidebarItem[] = [
     description: 'Gestión de imágenes'
   },
   {
-    href: '/dashboard/usuarios',
+    href: '/dashboard/users',
     label: 'Usuarios',
     icon: <UsersIcon />,
     description: 'Gestión de usuarios'
