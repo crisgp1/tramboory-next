@@ -400,8 +400,7 @@
   box-shadow: var(--shadow-glow);
 }
 
-/* Ocultar header en la página About */
-body:has(a[href='/about'].active) header,
+/* Ocultar header en la página About - Específico solo para /about */
 .about-page header {
   display: none !important;
 }

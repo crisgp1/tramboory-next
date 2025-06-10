@@ -188,8 +188,8 @@ export default function NavbarPublic() {
       initial="hidden"
       animate="visible"
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        isScrolled 
-          ? 'bg-purple-950/90 backdrop-blur-xl shadow-xl border-b border-white/10' 
+        isScrolled
+          ? 'bg-purple-950/90 backdrop-blur-xl shadow-xl border-b border-white/10'
           : 'bg-transparent'
       }`}
     >

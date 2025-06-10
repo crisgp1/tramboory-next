@@ -135,7 +135,7 @@ export default function NosotrosPage() {
       />
       
       {/* Hero Section */}
-      <section className="relative pt-16 pb-24 px-4 sm:px-6 lg:px-8 flex flex-col items-center justify-center text-center z-10">
+      <section className="relative pt-24 pb-24 px-4 sm:px-6 lg:px-8 flex flex-col items-center justify-center text-center z-10">
         <h1 className="text-5xl md:text-6xl font-funhouse font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-tramboory-yellow-300 to-tramboory-yellow-500">
           Nosotros
         </h1>
