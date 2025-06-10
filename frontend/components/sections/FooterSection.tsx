@@ -46,7 +46,7 @@ export function FooterSection() {
   // Navigation links enhanced
   const navLinks = [
     { label: "Inicio", href: "/", icon: FiHome, delay: 0, color: "text-tramboory-yellow-400" },
-    { label: "Nosotros", href: "/about", icon: FiInfo, delay: 0.1, color: "text-blue-400" },
+    { label: "Nosotros", href: "/nosotros", icon: FiInfo, delay: 0.1, color: "text-blue-400" },
     { label: "Galería", href: "/galeria", icon: FiStar, delay: 0.2, color: "text-pink-400" },
     { label: "Reservaciones", href: "/reservas", icon: FiCalendar, delay: 0.3, color: "text-green-400" },
     { label: "Contacto", href: "#contact", icon: FiPhone, delay: 0.4, color: "text-tramboory-purple-500" },
@@ -293,7 +293,7 @@ export function FooterSection() {
               whileTap={{ scale: 0.95 }}
             >
               <Link
-                href={{ pathname: "/about" }}
+                href={{ pathname: "/nosotros" }}
                 className="inline-flex items-center px-5 py-2 bg-white/10 backdrop-blur-sm 
                   text-white rounded-lg text-sm font-medium hover:bg-white/20
                   transition-all duration-300 border border-white/20 hover:border-white/40"

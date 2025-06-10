@@ -31,16 +31,34 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const checkAuth = async () => {
     try {
       const token = localStorage.getItem('auth-token');
-      if (!token) {
+      const storedUserType = localStorage.getItem('userType');
+      
+      if (!token || !storedUserType) {
         setLoading(false);
         return;
       }
 
-      const response = await api.get('/auth/me');
-      const userData = response.data;
-      setUser(userData);
-      setUserType(userData.role || 'customer');
-      localStorage.setItem('userType', userData.role || 'customer');
+      // Simulación de verificación de token sin base de datos
+      if (token.startsWith('mock-token-')) {
+        const userId = token.split('-')[2];
+        const mockUser = {
+          id: userId,
+          name: storedUserType === 'admin' ? 'Administrador' :
+                storedUserType === 'employee' ? 'Empleado Demo' : 'Cliente Demo',
+          email: storedUserType === 'admin' ? 'admin@tramboory.com' :
+                 storedUserType === 'employee' ? 'empleado@tramboory.com' : 'cliente@tramboory.com',
+          role: storedUserType as 'admin' | 'employee' | 'customer',
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+        };
+        
+        setUser(mockUser);
+        setUserType(storedUserType);
+      } else {
+        // Token inválido
+        localStorage.removeItem('auth-token');
+        localStorage.removeItem('userType');
+      }
     } catch (error) {
       localStorage.removeItem('auth-token');
       localStorage.removeItem('userType');
@@ -50,15 +68,57 @@ export function AuthProvider({ children }: AuthProviderProps) {
   };
 
   const login = async (email: string, password: string) => {
-    const response = await api.post('/auth/login', { email, password });
-    const { user: userData, token } = response.data;
+    // Simulación de login sin base de datos - credenciales hardcodeadas
+    const mockUsers = [
+      {
+        id: '1',
+        name: 'Administrador',
+        email: 'admin@tramboory.com',
+        password: 'admin123',
+        role: 'admin' as const,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      },
+      {
+        id: '2',
+        name: 'Empleado Demo',
+        email: 'empleado@tramboory.com',
+        password: 'empleado123',
+        role: 'employee' as const,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      },
+      {
+        id: '3',
+        name: 'Cliente Demo',
+        email: 'cliente@tramboory.com',
+        password: 'cliente123',
+        role: 'customer' as const,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      }
+    ];
+
+    // Simular delay de red
+    await new Promise(resolve => setTimeout(resolve, 1000));
+
+    const foundUser = mockUsers.find(user =>
+      user.email === email && user.password === password
+    );
+
+    if (!foundUser) {
+      throw new Error('Credenciales inválidas');
+    }
+
+    const { password: _, ...userData } = foundUser;
+    const mockToken = `mock-token-${userData.id}-${Date.now()}`;
     
-    localStorage.setItem('auth-token', token);
-    localStorage.setItem('userType', userData.role || 'customer');
+    localStorage.setItem('auth-token', mockToken);
+    localStorage.setItem('userType', userData.role);
     setUser(userData);
-    setUserType(userData.role || 'customer');
+    setUserType(userData.role);
     
-    return { user: userData, token };
+    return { user: userData, token: mockToken };
   };
 
   const logout = () => {

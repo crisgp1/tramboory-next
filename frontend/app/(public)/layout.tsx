@@ -1,4 +1,4 @@
-import { NavbarPublic } from '@/components/layout/NavbarPublic'
+import NavbarPublic from '@/components/layout/NavbarPublic'
 import { FooterSection } from '@/components/sections/FooterSection'
 
 export default function PublicLayout({

@@ -16,11 +16,15 @@ const nextConfig = {
     config.resolve.alias = {
       ...config.resolve.alias,
       '@': path.resolve(__dirname, '.'),
-      '@/components': path.resolve(__dirname, 'frontend/components'),
-      '@/features': path.resolve(__dirname, 'frontend/features'),
+      '@/components': path.resolve(__dirname, 'components'),
+      '@/features': path.resolve(__dirname, 'features'),
       '@/features/home/components': path.resolve(__dirname, 'src/features/home/components.ts'),
-      '@/ui': path.resolve(__dirname, 'frontend/components/ui'),
-      '@/decorative': path.resolve(__dirname, 'frontend/components/decorative')
+      '@/ui': path.resolve(__dirname, 'components/ui'),
+      '@/decorative': path.resolve(__dirname, 'components/decorative'),
+      '@/lib': path.resolve(__dirname, 'lib'),
+      '@/hooks': path.resolve(__dirname, 'hooks'),
+      '@/store': path.resolve(__dirname, 'store'),
+      '@/contexts': path.resolve(__dirname, 'contexts')
     };
     
     return config;

@@ -4,8 +4,9 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
-import { FiMenu, FiX, FiCalendar, FiInfo, FiImage } from 'react-icons/fi'
-import { usePathname } from 'next/navigation'
+import { FiMenu, FiX, FiCalendar, FiInfo, FiImage, FiLogOut, FiUser } from 'react-icons/fi'
+import { usePathname, useRouter } from 'next/navigation'
+import { useAuth } from '@/contexts/AuthContext'
 
 const navItems = [
   { href: '/', label: 'Inicio', icon: null },
@@ -18,6 +19,13 @@ export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const pathname = usePathname()
+  const router = useRouter()
+  const { user, logout, isAuthenticated } = useAuth()
+
+  const handleLogout = () => {
+    logout()
+    router.push('/')
+  }
   
   useEffect(() => {
     const handleScroll = () => {
@@ -86,13 +94,40 @@ export default function Navbar() {
               </Link>
             ))}
             
-            {/* CTA Button */}
-            <Link
-              href="/reservas"
-              className="px-6 py-3 bg-gradient-to-r from-yellow-400 to-yellow-500 text-purple-900 rounded-lg font-bold text-sm hover:from-yellow-500 hover:to-yellow-600 transform hover:scale-105 transition-all duration-300 shadow-lg"
-            >
-              Reserva Ahora
-            </Link>
+            {/* Auth Section */}
+            {isAuthenticated ? (
+              <div className="flex items-center space-x-4">
+                <div className="flex items-center space-x-2 text-white">
+                  <FiUser className="w-4 h-4" />
+                  <span className="text-sm font-medium">{user?.name}</span>
+                  <span className="text-xs text-yellow-400 bg-yellow-400/20 px-2 py-1 rounded-full">
+                    {user?.role === 'admin' ? 'Admin' : user?.role === 'employee' ? 'Empleado' : 'Cliente'}
+                  </span>
+                </div>
+                <button
+                  onClick={handleLogout}
+                  className="flex items-center space-x-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-medium text-sm transition-all duration-300"
+                >
+                  <FiLogOut className="w-4 h-4" />
+                  <span>Salir</span>
+                </button>
+              </div>
+            ) : (
+              <div className="flex items-center space-x-4">
+                <Link
+                  href="/signin"
+                  className="px-4 py-2 text-white hover:text-yellow-400 transition-colors duration-300"
+                >
+                  Iniciar Sesión
+                </Link>
+                <Link
+                  href="/reservas"
+                  className="px-6 py-3 bg-gradient-to-r from-yellow-400 to-yellow-500 text-purple-900 rounded-lg font-bold text-sm hover:from-yellow-500 hover:to-yellow-600 transform hover:scale-105 transition-all duration-300 shadow-lg"
+                >
+                  Reserva Ahora
+                </Link>
+              </div>
+            )}
           </div>
           
           {/* Mobile Menu Button */}
@@ -138,13 +173,47 @@ export default function Navbar() {
                   </Link>
                 ))}
                 
-                <Link
-                  href="/reservas"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="block w-full px-3 py-3 mt-4 bg-gradient-to-r from-yellow-400 to-yellow-500 text-purple-900 rounded-lg font-bold text-center hover:from-yellow-500 hover:to-yellow-600 transition-all duration-300"
-                >
-                  Reserva Ahora
-                </Link>
+                {/* Mobile Auth Section */}
+                {isAuthenticated ? (
+                  <div className="mt-4 space-y-3">
+                    <div className="px-3 py-2 text-white">
+                      <div className="flex items-center space-x-2 mb-2">
+                        <FiUser className="w-4 h-4" />
+                        <span className="text-sm font-medium">{user?.name}</span>
+                      </div>
+                      <span className="text-xs text-yellow-400 bg-yellow-400/20 px-2 py-1 rounded-full">
+                        {user?.role === 'admin' ? 'Admin' : user?.role === 'employee' ? 'Empleado' : 'Cliente'}
+                      </span>
+                    </div>
+                    <button
+                      onClick={() => {
+                        handleLogout()
+                        setIsMobileMenuOpen(false)
+                      }}
+                      className="flex items-center justify-center space-x-2 w-full px-3 py-3 bg-red-600 hover:bg-red-700 text-white rounded-lg font-medium transition-all duration-300"
+                    >
+                      <FiLogOut className="w-4 h-4" />
+                      <span>Cerrar Sesión</span>
+                    </button>
+                  </div>
+                ) : (
+                  <div className="mt-4 space-y-3">
+                    <Link
+                      href="/signin"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="block w-full px-3 py-3 text-center text-white hover:text-yellow-400 border border-white/30 rounded-lg transition-colors duration-300"
+                    >
+                      Iniciar Sesión
+                    </Link>
+                    <Link
+                      href="/reservas"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="block w-full px-3 py-3 bg-gradient-to-r from-yellow-400 to-yellow-500 text-purple-900 rounded-lg font-bold text-center hover:from-yellow-500 hover:to-yellow-600 transition-all duration-300"
+                    >
+                      Reserva Ahora
+                    </Link>
+                  </div>
+                )}
               </div>
             </motion.div>
           )}

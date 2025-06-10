@@ -24,12 +24,17 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./*"],
-      "@/components/*": ["./frontend/components/*"],
-      "@/features/*": ["./frontend/features/*"],
-      "@/features/home/components": ["./frontend/src/features/home/components.ts"],
-      "@/features/home/components/*": ["./frontend/features/home/components/*", "./frontend/components/home/sections/*"],
-      "@/ui/*": ["./frontend/components/ui/*"],
-      "@/decorative/*": ["./frontend/components/decorative/*"]
+      "@/components/*": ["./components/*"],
+      "@/features/*": ["./features/*"],
+      "@/features/home/components": ["./src/features/home/components.ts"],
+      "@/features/home/components/*": ["./features/home/components/*", "./components/home/sections/*"],
+      "@/ui/*": ["./components/ui/*"],
+      "@/decorative/*": ["./components/decorative/*"],
+      "@/lib/*": ["./lib/*"],
+      "@/hooks/*": ["./hooks/*"],
+      "@/store/*": ["./store/*"],
+      "@/types/*": ["./types/*"],
+      "@/contexts/*": ["./contexts/*"]
     },
     "forceConsistentCasingInFileNames": true,
     "noUnusedLocals": false,

@@ -2,8 +2,8 @@
 
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '@/hooks/use-auth';
-import { LoadingSpinner } from '@/components/shared/LoadingSpinner';
+import { useAuth } from '@/contexts/AuthContext';
+import LoadingSpinner from '@/components/shared/LoadingSpinner';
 
 interface AuthGuardProps {
   children: React.ReactNode;
@@ -18,7 +18,7 @@ export function AuthGuard({ children, requireAuth = true, requiredRole }: AuthGu
   useEffect(() => {
     if (!loading) {
       if (requireAuth && !isAuthenticated) {
-        router.push('/login');
+        router.push('/signin');
         return;
       }
 

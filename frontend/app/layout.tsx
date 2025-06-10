@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Lexend } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
-import { Providers } from "../components/layout/Providers";
+import { Providers } from "@/components/layout/Providers";
 
 const lexend = Lexend({
   subsets: ["latin"],

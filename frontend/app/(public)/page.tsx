@@ -1,14 +1,14 @@
 import { Metadata } from 'next'
-import { HeroSection } from '@/components/home/HomeHeroSection'
-import { ServicesSection } from '@/components/sections/ServicesSection'
-import { GallerySection } from '@/components/sections/GallerySection'
-import { PromotionsSection } from '@/components/home/sections/PromotionsSection'
-import { ReservationStepsSection } from '@/components/home/sections/ReservationStepsSection'
-import { FeaturesSection } from '@/components/home/sections/FeaturesSection'
-import ContactSection from '@/components/sections/ContactSection'
-import { BackgroundVideo } from '@/components/decorative/BackgroundVideo'
-import { AnimatedBalloons } from '@/components/decorative/AnimatedBalloons'
-import { ParticlesBackground } from '@/components/decorative/ParticlesBackground'
+import { HeroSection } from '../../components/home/HomeHeroSection'
+import { ServicesSection } from '../../components/sections/ServicesSection'
+import { GallerySection } from '../../components/sections/GallerySection'
+import { PromotionsSection } from '../../components/home/sections/PromotionsSection'
+import { ReservationStepsSection } from '../../components/home/sections/ReservationStepsSection'
+import { FeaturesSection } from '../../components/home/sections/FeaturesSection'
+import ContactSection from '../../components/sections/ContactSection'
+import { BackgroundVideo } from '../../components/decorative/BackgroundVideo'
+import { AnimatedBalloons } from '../../components/decorative/AnimatedBalloons'
+import { ParticlesBackground } from '../../components/decorative/ParticlesBackground'
 
 export const metadata: Metadata = {
   title: 'Tramboory - Salón de Fiestas Infantiles',
@@ -150,53 +150,35 @@ export default function PublicHomePage() {
       
       {/* Secciones de contenido - organizadas para una experiencia fluida */}
       <div className="relative z-30">
-        <HeroSection 
-          title="CELEBRA CON TRAMBOORY" 
-          subtitle="Tu salón de eventos infantiles en Zapopan con experiencias diseñadas para crear recuerdos inolvidables en el cumpleaños de tus pequeños."
-          ctaText="Reserva tu fiesta"
-          ctaLink="#reservar"
-          label="El mejor salón de fiestas infantiles en Zapopan"
-        />
+        <HeroSection />
         
         <ServicesSection services={services} />
         
         <FeaturesSection />
         
-        <GallerySection 
-          title="NUESTRA GALERÍA" 
-          subtitle="Mira cómo otros han disfrutado de nuestras instalaciones y servicios"
+        <GallerySection
+          carouselImages={[
+            '/img/background-noblur.webp',
+            '/img/blur.webp',
+            '/img/logo2.webp',
+            '/img/LogoComplete.webp',
+            '/img/noblur.webp'
+          ]}
         />
         
-        <PromotionsSection 
+        <PromotionsSection
           promocionesImages={[
-            {
-              id: 1,
-              src: "/img/promociones/promo1.webp",
-              alt: "Promoción especial de cumpleaños",
-              title: "Paquete Cumpleaños"
-            },
-            {
-              id: 2,
-              src: "/img/promociones/promo2.webp",
-              alt: "Descuento para eventos entre semana",
-              title: "Descuento Entre Semana"
-            },
-            {
-              id: 3,
-              src: "/img/promociones/promo3.webp",
-              alt: "Paquete para grupos grandes",
-              title: "Grupos Grandes"
-            }
+            "/img/background-noblur.webp",
+            "/img/blur.webp",
+            "/img/logo2.webp",
+            "/img/LogoComplete.webp",
+            "/img/noblur.webp"
           ]}
         />
         
         <ReservationStepsSection />
         
-        <ContactSection 
-          id="contacto"
-          title="¿TIENES DUDAS?"
-          subtitle="Estamos aquí para ayudarte a planear la fiesta perfecta"
-        />
+        <ContactSection />
       </div>
     </main>
   )
