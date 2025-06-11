@@ -14,7 +14,7 @@ import { ItemModal, ScreenSizeAlert } from '@/components/dashboard'
 // ============================================================================
 
 const PackageIcon = () => (
-  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
   </svg>
 )
@@ -261,7 +261,7 @@ export function PackagesMain() {
   }
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-6 pb-16 space-y-8">
       {/* Alerta de tamaño de pantalla */}
       {showAlert && (
         <div className="md:hidden">
@@ -270,20 +270,23 @@ export function PackagesMain() {
       )}
 
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-            <PackageIcon />
+          <h1 className="text-3xl font-bold text-gray-900 font-body-semibold flex items-center gap-2">
+            <div className="p-2 bg-tramboory-purple-50 rounded-lg text-tramboory-purple-600">
+              <PackageIcon />
+            </div>
             Gestión de Paquetes
           </h1>
-          <p className="text-gray-600 mt-1">
+          <p className="text-gray-600 mt-1 font-body-light">
             Administra los paquetes de servicios disponibles
           </p>
         </div>
         <div className="flex gap-2">
           <button
             onClick={() => setViewMode(viewMode === 'grid' ? 'list' : 'grid')}
-            className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg transition-colors duration-200"
+            className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-xl transition-all duration-200 hover:shadow-md"
+            title="Cambiar vista"
           >
             {viewMode === 'grid' ? 'Vista Lista' : 'Vista Tarjetas'}
           </button>
@@ -292,7 +295,7 @@ export function PackagesMain() {
               setEditingPackage(null)
               setIsModalOpen(true)
             }}
-            className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-200 flex items-center gap-2"
+            className="bg-tramboory-purple-600 hover:bg-tramboory-purple-700 text-white font-bold py-2 px-4 rounded-xl transition-all duration-200 hover:shadow-md flex items-center gap-2"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -303,7 +306,7 @@ export function PackagesMain() {
       </div>
 
       {/* Filtros */}
-      <div className="bg-white rounded-lg shadow-sm border p-4">
+      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow duration-200">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {/* Búsqueda */}
           <div className="relative">
@@ -312,7 +315,7 @@ export function PackagesMain() {
               placeholder="Buscar paquetes..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-tramboory-purple-500 focus:border-transparent"
             />
             <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
               <SearchIcon />
@@ -323,7 +326,8 @@ export function PackagesMain() {
           <select
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
-            className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+            className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-tramboory-purple-500 focus:border-transparent"
+            title="Filtrar por categoría"
           >
             <option value="all">Todas las categorías</option>
             <option value="basic">Básico</option>
@@ -336,7 +340,8 @@ export function PackagesMain() {
           <select
             value={selectedStatus}
             onChange={(e) => setSelectedStatus(e.target.value)}
-            className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+            className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-tramboory-purple-500 focus:border-transparent"
+            title="Filtrar por estado"
           >
             <option value="all">Todos los estados</option>
             <option value="active">Activos</option>
@@ -350,11 +355,11 @@ export function PackagesMain() {
         /* Vista de tarjetas */
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredPackages.map((pkg) => (
-            <div key={pkg.id} className="bg-white rounded-lg shadow-sm border overflow-hidden hover:shadow-md transition-shadow duration-200">
+            <div key={pkg.id} className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-all duration-200">
               <div className="p-6">
                 <div className="flex items-start justify-between mb-4">
                   <div>
-                    <h3 className="text-lg font-semibold text-gray-900">{pkg.name}</h3>
+                    <h3 className="text-lg font-semibold text-gray-900 font-body-medium">{pkg.name}</h3>
                     <div className="flex items-center gap-2 mt-1">
                       <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getCategoryColor(pkg.category)}`}>
                         {getCategoryText(pkg.category)}
@@ -365,24 +370,24 @@ export function PackagesMain() {
                     </div>
                   </div>
                   <div className="text-right">
-                    <div className="text-2xl font-bold text-purple-600">${pkg.price.toLocaleString()}</div>
-                    <div className="text-sm text-gray-500">{pkg.duration}h • {pkg.maxGuests} invitados</div>
+                    <div className="text-2xl font-bold text-tramboory-purple-600">${pkg.price.toLocaleString()}</div>
+                    <div className="text-sm text-gray-500 font-body-light">{pkg.duration}h • {pkg.maxGuests} invitados</div>
                   </div>
                 </div>
 
-                <p className="text-gray-600 text-sm mb-4">{pkg.description}</p>
+                <p className="text-gray-600 text-sm mb-4 font-body-light">{pkg.description}</p>
 
                 <div className="mb-4">
-                  <h4 className="text-sm font-medium text-gray-900 mb-2">Incluye:</h4>
-                  <ul className="text-sm text-gray-600 space-y-1">
+                  <h4 className="text-sm font-medium text-gray-900 mb-2 font-body-medium">Incluye:</h4>
+                  <ul className="text-sm text-gray-600 space-y-1 font-body-light">
                     {pkg.includes.slice(0, 3).map((item, index) => (
                       <li key={index} className="flex items-center">
-                        <span className="w-1.5 h-1.5 bg-purple-500 rounded-full mr-2"></span>
+                        <span className="w-1.5 h-1.5 bg-tramboory-purple-500 rounded-full mr-2"></span>
                         {item}
                       </li>
                     ))}
                     {pkg.includes.length > 3 && (
-                      <li className="text-purple-600 text-xs">+{pkg.includes.length - 3} más...</li>
+                      <li className="text-tramboory-purple-600 text-xs">+{pkg.includes.length - 3} más...</li>
                     )}
                   </ul>
                 </div>
@@ -390,7 +395,7 @@ export function PackagesMain() {
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-1">
                     {renderStars(pkg.popularity)}
-                    <span className="text-sm text-gray-500 ml-1">({pkg.popularity}/5)</span>
+                    <span className="text-sm text-gray-500 font-body-light ml-1">({pkg.popularity}/5)</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <button
@@ -398,7 +403,7 @@ export function PackagesMain() {
                         // Ver detalles
                         console.log('Ver detalles:', pkg)
                       }}
-                      className="text-blue-600 hover:text-blue-900 p-1 rounded"
+                      className="text-blue-600 hover:text-blue-800 p-1 rounded transition-colors duration-200"
                       title="Ver detalles"
                     >
                       <EyeIcon />
@@ -408,14 +413,14 @@ export function PackagesMain() {
                         setEditingPackage(pkg)
                         setIsModalOpen(true)
                       }}
-                      className="text-purple-600 hover:text-purple-900 p-1 rounded"
+                      className="text-tramboory-purple-600 hover:text-tramboory-purple-800 p-1 rounded transition-colors duration-200"
                       title="Editar"
                     >
                       <EditIcon />
                     </button>
                     <button
                       onClick={() => handleDeletePackage(pkg.id)}
-                      className="text-red-600 hover:text-red-900 p-1 rounded"
+                      className="text-red-600 hover:text-red-800 p-1 rounded transition-colors duration-200"
                       title="Eliminar"
                     >
                       <TrashIcon />
@@ -428,7 +433,7 @@ export function PackagesMain() {
         </div>
       ) : (
         /* Vista de lista */
-        <div className="bg-white rounded-lg shadow-sm border overflow-hidden">
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-all duration-200">
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead className="bg-gray-50">
@@ -464,8 +469,8 @@ export function PackagesMain() {
                   <tr key={pkg.id} className="hover:bg-gray-50">
                     <td className="px-6 py-4">
                       <div>
-                        <div className="text-sm font-medium text-gray-900">{pkg.name}</div>
-                        <div className="text-sm text-gray-500">{pkg.description}</div>
+                        <div className="text-sm font-medium text-gray-900 font-body-medium">{pkg.name}</div>
+                        <div className="text-sm text-gray-500 font-body-light">{pkg.description}</div>
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
@@ -473,13 +478,13 @@ export function PackagesMain() {
                         {getCategoryText(pkg.category)}
                       </span>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-tramboory-purple-600">
                       ${pkg.price.toLocaleString()}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 font-body-light">
                       {pkg.duration} horas
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 font-body-light">
                       {pkg.maxGuests} máx.
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
@@ -499,7 +504,7 @@ export function PackagesMain() {
                             // Ver detalles
                             console.log('Ver detalles:', pkg)
                           }}
-                          className="text-blue-600 hover:text-blue-900 p-1 rounded"
+                          className="text-blue-600 hover:text-blue-900 p-1 rounded transition-colors duration-200"
                           title="Ver detalles"
                         >
                           <EyeIcon />
@@ -509,14 +514,14 @@ export function PackagesMain() {
                             setEditingPackage(pkg)
                             setIsModalOpen(true)
                           }}
-                          className="text-purple-600 hover:text-purple-900 p-1 rounded"
+                          className="text-tramboory-purple-600 hover:text-tramboory-purple-900 p-1 rounded transition-colors duration-200"
                           title="Editar"
                         >
                           <EditIcon />
                         </button>
                         <button
                           onClick={() => handleDeletePackage(pkg.id)}
-                          className="text-red-600 hover:text-red-900 p-1 rounded"
+                          className="text-red-600 hover:text-red-900 p-1 rounded transition-colors duration-200"
                           title="Eliminar"
                         >
                           <TrashIcon />
@@ -531,9 +536,11 @@ export function PackagesMain() {
 
           {filteredPackages.length === 0 && (
             <div className="text-center py-12">
-              <PackageIcon />
-              <h3 className="mt-2 text-sm font-medium text-gray-900">No hay paquetes</h3>
-              <p className="mt-1 text-sm text-gray-500">
+              <div className="p-2 bg-tramboory-purple-50 rounded-lg text-tramboory-purple-600 inline-block mb-2">
+                <PackageIcon />
+              </div>
+              <h3 className="mt-2 text-sm font-medium text-gray-900 font-body-medium">No hay paquetes</h3>
+              <p className="mt-1 text-sm text-gray-500 font-body-light">
                 No se encontraron paquetes que coincidan con los filtros aplicados.
               </p>
             </div>

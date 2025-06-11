@@ -14,7 +14,7 @@ import { ItemModal, ScreenSizeAlert } from '@/components/dashboard'
 // ============================================================================
 
 const UserIcon = () => (
-  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
   </svg>
 )
@@ -150,7 +150,7 @@ export const UsersMain: React.FC = () => {
   }
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-6 pb-16 space-y-8">
       {/* Alerta de tamaño de pantalla */}
       {showAlert && (
         <div className="md:hidden">
@@ -159,13 +159,15 @@ export const UsersMain: React.FC = () => {
       )}
 
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-            <UserIcon />
+          <h1 className="text-3xl font-bold text-gray-900 font-body-semibold flex items-center gap-2">
+            <div className="p-2 bg-tramboory-purple-50 rounded-lg text-tramboory-purple-600">
+              <UserIcon />
+            </div>
             Gestión de Usuarios
           </h1>
-          <p className="text-gray-600 mt-1">
+          <p className="text-gray-600 mt-1 font-body-light">
             Administra los usuarios del sistema y sus permisos
           </p>
         </div>
@@ -174,7 +176,8 @@ export const UsersMain: React.FC = () => {
             setEditingUser(null)
             setIsModalOpen(true)
           }}
-          className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors duration-200"
+          className="bg-tramboory-purple-600 hover:bg-tramboory-purple-700 text-white font-bold py-2 px-4 rounded-xl transition-all duration-200 hover:shadow-md flex items-center gap-2"
+          title="Crear nuevo usuario"
         >
           <PlusIcon />
           Nuevo Usuario
@@ -182,7 +185,7 @@ export const UsersMain: React.FC = () => {
       </div>
 
       {/* Filtros */}
-      <div className="bg-white rounded-lg shadow-sm border p-4">
+      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-all duration-200">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {/* Búsqueda */}
           <div className="relative">
@@ -191,7 +194,7 @@ export const UsersMain: React.FC = () => {
               placeholder="Buscar usuarios..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-tramboory-purple-500 focus:border-transparent"
             />
             <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
               <SearchIcon />
@@ -202,7 +205,7 @@ export const UsersMain: React.FC = () => {
           <select
             value={selectedRole}
             onChange={(e) => setSelectedRole(e.target.value)}
-            className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+            className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-tramboory-purple-500 focus:border-transparent"
             title="Filtrar por rol"
           >
             <option value="all">Todos los roles</option>
@@ -215,7 +218,7 @@ export const UsersMain: React.FC = () => {
           <select
             value={selectedStatus}
             onChange={(e) => setSelectedStatus(e.target.value)}
-            className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+            className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-tramboory-purple-500 focus:border-transparent"
             title="Filtrar por estado"
           >
             <option value="all">Todos los estados</option>
@@ -226,7 +229,7 @@ export const UsersMain: React.FC = () => {
       </div>
 
       {/* Tabla de usuarios */}
-      <div className="bg-white rounded-lg shadow-sm border overflow-hidden">
+      <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-all duration-200">
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead className="bg-gray-50">
@@ -253,12 +256,12 @@ export const UsersMain: React.FC = () => {
                 <tr key={user.id} className="hover:bg-gray-50">
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div>
-                      <div className="text-sm font-medium text-gray-900">{user.name}</div>
-                      <div className="text-sm text-gray-500">{user.email}</div>
+                      <div className="text-sm font-medium text-gray-900 font-body-medium">{user.name}</div>
+                      <div className="text-sm text-gray-500 font-body-light">{user.email}</div>
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <span className="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">
+                    <span className="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-tramboory-purple-100 text-tramboory-purple-800">
                       {user.role}
                     </span>
                   </td>
@@ -271,7 +274,7 @@ export const UsersMain: React.FC = () => {
                       {user.status === 'active' ? 'Activo' : 'Inactivo'}
                     </span>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 font-body-light">
                     {user.lastLogin}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
@@ -281,14 +284,14 @@ export const UsersMain: React.FC = () => {
                           setEditingUser(user)
                           setIsModalOpen(true)
                         }}
-                        className="text-purple-600 hover:text-purple-900 p-1 rounded"
+                        className="text-tramboory-purple-600 hover:text-tramboory-purple-700 p-1 rounded transition-all duration-200"
                         title="Editar usuario"
                       >
                         <EditIcon />
                       </button>
                       <button
                         onClick={() => handleDeleteUser(user.id)}
-                        className="text-red-600 hover:text-red-900 p-1 rounded"
+                        className="text-red-600 hover:text-red-900 p-1 rounded transition-all duration-200"
                         title="Eliminar usuario"
                       >
                         <TrashIcon />
@@ -303,9 +306,11 @@ export const UsersMain: React.FC = () => {
 
         {filteredUsers.length === 0 && (
           <div className="text-center py-12">
-            <UserIcon />
-            <h3 className="mt-2 text-sm font-medium text-gray-900">No hay usuarios</h3>
-            <p className="mt-1 text-sm text-gray-500">
+            <div className="p-2 bg-tramboory-purple-50 rounded-lg text-tramboory-purple-600 inline-block mb-2">
+              <UserIcon />
+            </div>
+            <h3 className="mt-2 text-sm font-medium text-gray-900 font-body-medium">No hay usuarios</h3>
+            <p className="mt-1 text-sm text-gray-500 font-body-light">
               No se encontraron usuarios que coincidan con los filtros aplicados.
             </p>
           </div>

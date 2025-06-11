@@ -14,7 +14,7 @@ import { ItemModal, ScreenSizeAlert } from '@/components/dashboard'
 // ============================================================================
 
 const GalleryIcon = () => (
-  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
   </svg>
 )
@@ -182,7 +182,7 @@ export const GaleriaMain: React.FC = () => {
   }
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-6 pb-16 space-y-8">
       {/* Alerta de tamaño de pantalla */}
       {showAlert && (
         <div className="md:hidden">
@@ -191,20 +191,22 @@ export const GaleriaMain: React.FC = () => {
       )}
 
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-            <GalleryIcon />
+          <h1 className="text-3xl font-bold text-gray-900 font-body-semibold flex items-center gap-2">
+            <div className="p-2 bg-tramboory-purple-50 rounded-lg text-tramboory-purple-600">
+              <GalleryIcon />
+            </div>
             Gestión de Galería
           </h1>
-          <p className="text-gray-600 mt-1">
+          <p className="text-gray-600 mt-1 font-body-light">
             Administra las imágenes y contenido visual
           </p>
         </div>
         <div className="flex gap-2">
           <button
             onClick={() => setViewMode(viewMode === 'grid' ? 'list' : 'grid')}
-            className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg transition-colors duration-200"
+            className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-xl transition-all duration-200 hover:shadow-md"
           >
             {viewMode === 'grid' ? 'Vista Lista' : 'Vista Galería'}
           </button>
@@ -213,7 +215,7 @@ export const GaleriaMain: React.FC = () => {
               setEditingItem(null)
               setIsModalOpen(true)
             }}
-            className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-200 flex items-center gap-2"
+            className="bg-tramboory-purple-600 hover:bg-tramboory-purple-700 text-white font-bold py-2 px-4 rounded-xl transition-all duration-200 hover:shadow-md flex items-center gap-2"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -224,7 +226,7 @@ export const GaleriaMain: React.FC = () => {
       </div>
 
       {/* Filtros */}
-      <div className="bg-white rounded-lg shadow-sm border p-4">
+      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow duration-200">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {/* Búsqueda */}
           <div className="relative">
@@ -233,7 +235,7 @@ export const GaleriaMain: React.FC = () => {
               placeholder="Buscar imágenes..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-tramboory-purple-500 focus:border-transparent"
             />
             <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
               <SearchIcon />
@@ -244,7 +246,7 @@ export const GaleriaMain: React.FC = () => {
           <select
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
-            className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+            className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-tramboory-purple-500 focus:border-transparent"
             title="Filtrar por categoría"
           >
             <option value="all">Todas las categorías</option>
@@ -258,7 +260,7 @@ export const GaleriaMain: React.FC = () => {
           <select
             value={selectedVisibility}
             onChange={(e) => setSelectedVisibility(e.target.value)}
-            className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+            className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-tramboory-purple-500 focus:border-transparent"
             title="Filtrar por visibilidad"
           >
             <option value="all">Todas las visibilidades</option>
@@ -273,7 +275,7 @@ export const GaleriaMain: React.FC = () => {
         /* Vista de galería */
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredGallery.map((item) => (
-            <div key={item.id} className="bg-white rounded-lg shadow-sm border overflow-hidden hover:shadow-md transition-shadow duration-200">
+            <div key={item.id} className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow duration-200">
               <div className="aspect-video bg-gray-200 relative">
                 <div className="absolute inset-0 flex items-center justify-center text-gray-400">
                   <GalleryIcon />
@@ -282,12 +284,12 @@ export const GaleriaMain: React.FC = () => {
               </div>
               <div className="p-4">
                 <div className="flex items-start justify-between mb-2">
-                  <h3 className="text-lg font-semibold text-gray-900 truncate">{item.title}</h3>
+                  <h3 className="text-lg font-semibold text-gray-900 font-body-medium truncate">{item.title}</h3>
                   <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${item.isPublic ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}`}>
                     {item.isPublic ? 'Público' : 'Privado'}
                   </span>
                 </div>
-                <p className="text-gray-600 text-sm mb-3 line-clamp-2">{item.description}</p>
+                <p className="text-gray-600 text-sm mb-3 line-clamp-2 font-body-light">{item.description}</p>
                 <div className="flex items-center justify-between mb-3">
                   <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getCategoryColor(item.category)}`}>
                     {getCategoryText(item.category)}
@@ -310,7 +312,7 @@ export const GaleriaMain: React.FC = () => {
                       onClick={() => {
                         console.log('Ver imagen:', item)
                       }}
-                      className="text-blue-600 hover:text-blue-900 p-1 rounded"
+                      className="text-blue-600 hover:text-blue-900 p-1 rounded transition-colors duration-200"
                       title="Ver imagen"
                     >
                       <EyeIcon />
@@ -320,15 +322,15 @@ export const GaleriaMain: React.FC = () => {
                         setEditingItem(item)
                         setIsModalOpen(true)
                       }}
-                      className="text-purple-600 hover:text-purple-900 p-1 rounded"
-                      title="Editar"
+                      className="text-tramboory-purple-600 hover:text-tramboory-purple-900 p-1 rounded transition-colors duration-200"
+                      title="Editar imagen"
                     >
                       <EditIcon />
                     </button>
                     <button
                       onClick={() => handleDeleteItem(item.id)}
-                      className="text-red-600 hover:text-red-900 p-1 rounded"
-                      title="Eliminar"
+                      className="text-red-600 hover:text-red-900 p-1 rounded transition-colors duration-200"
+                      title="Eliminar imagen"
                     >
                       <TrashIcon />
                     </button>
@@ -340,7 +342,7 @@ export const GaleriaMain: React.FC = () => {
         </div>
       ) : (
         /* Vista de lista */
-        <div className="bg-white rounded-lg shadow-sm border overflow-hidden">
+      <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow duration-200">
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead className="bg-gray-50">
@@ -364,15 +366,15 @@ export const GaleriaMain: React.FC = () => {
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
                 {filteredGallery.map((item) => (
-                  <tr key={item.id} className="hover:bg-gray-50">
+                  <tr key={item.id} className="hover:bg-gray-50 transition-colors duration-200">
                     <td className="px-6 py-4">
                       <div className="flex items-center">
                         <div className="w-12 h-12 bg-gray-200 rounded-lg flex items-center justify-center mr-4">
                           <GalleryIcon />
                         </div>
                         <div>
-                          <div className="text-sm font-medium text-gray-900">{item.title}</div>
-                          <div className="text-sm text-gray-500">{item.description}</div>
+                          <div className="text-sm font-medium text-gray-900 font-body-medium">{item.title}</div>
+                          <div className="text-sm text-gray-500 font-body-light">{item.description}</div>
                         </div>
                       </div>
                     </td>
@@ -395,7 +397,7 @@ export const GaleriaMain: React.FC = () => {
                           onClick={() => {
                             console.log('Ver imagen:', item)
                           }}
-                          className="text-blue-600 hover:text-blue-900 p-1 rounded"
+                          className="text-blue-600 hover:text-blue-900 p-1 rounded transition-colors duration-200"
                           title="Ver imagen"
                         >
                           <EyeIcon />
@@ -405,15 +407,15 @@ export const GaleriaMain: React.FC = () => {
                             setEditingItem(item)
                             setIsModalOpen(true)
                           }}
-                          className="text-purple-600 hover:text-purple-900 p-1 rounded"
-                          title="Editar"
+                          className="text-tramboory-purple-600 hover:text-tramboory-purple-900 p-1 rounded transition-colors duration-200"
+                          title="Editar imagen"
                         >
                           <EditIcon />
                         </button>
                         <button
                           onClick={() => handleDeleteItem(item.id)}
-                          className="text-red-600 hover:text-red-900 p-1 rounded"
-                          title="Eliminar"
+                          className="text-red-600 hover:text-red-900 p-1 rounded transition-colors duration-200"
+                          title="Eliminar imagen"
                         >
                           <TrashIcon />
                         </button>
@@ -427,9 +429,11 @@ export const GaleriaMain: React.FC = () => {
 
           {filteredGallery.length === 0 && (
             <div className="text-center py-12">
-              <GalleryIcon />
-              <h3 className="mt-2 text-sm font-medium text-gray-900">No hay imágenes</h3>
-              <p className="mt-1 text-sm text-gray-500">
+              <div className="p-2 bg-tramboory-purple-50 rounded-lg text-tramboory-purple-600 inline-block mb-2">
+                <GalleryIcon />
+              </div>
+              <h3 className="mt-2 text-sm font-medium text-gray-900 font-body-medium">No hay imágenes</h3>
+              <p className="mt-1 text-sm text-gray-500 font-body-light">
                 No se encontraron imágenes que coincidan con los filtros aplicados.
               </p>
             </div>

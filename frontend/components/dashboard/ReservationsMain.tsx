@@ -14,7 +14,7 @@ import { TabNavigation, ItemModal, MonthSelector, ReservationCalendar, ScreenSiz
 // ============================================================================
 
 const CalendarIcon = () => (
-  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
   </svg>
 )
@@ -203,7 +203,7 @@ export function ReservationsMain() {
   }
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-6 pb-16 space-y-8">
       {/* Alerta de tamaño de pantalla */}
       {showAlert && (
         <div className="md:hidden">
@@ -212,20 +212,23 @@ export function ReservationsMain() {
       )}
 
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-            <CalendarIcon />
+          <h1 className="text-3xl font-bold text-gray-900 font-body-semibold flex items-center gap-2">
+            <div className="p-2 bg-tramboory-purple-50 rounded-lg text-tramboory-purple-600">
+              <CalendarIcon />
+            </div>
             Gestión de Reservas
           </h1>
-          <p className="text-gray-600 mt-1">
+          <p className="text-gray-600 mt-1 font-body-light">
             Administra las reservas y eventos programados
           </p>
         </div>
         <div className="flex gap-2">
           <button
             onClick={() => setViewMode(viewMode === 'calendar' ? 'list' : 'calendar')}
-            className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg transition-colors duration-200"
+            className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-xl transition-all duration-200 hover:shadow-md"
+            title="Cambiar vista"
           >
             {viewMode === 'calendar' ? 'Vista Lista' : 'Vista Calendario'}
           </button>
@@ -233,7 +236,7 @@ export function ReservationsMain() {
       </div>
 
       {/* Filtros */}
-      <div className="bg-white rounded-lg shadow-sm border p-4">
+      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-all duration-200">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           {/* Búsqueda */}
           <div className="relative">
@@ -242,7 +245,7 @@ export function ReservationsMain() {
               placeholder="Buscar reservas..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-tramboory-purple-500 focus:border-transparent"
             />
             <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
               <SearchIcon />
@@ -253,7 +256,8 @@ export function ReservationsMain() {
           <select
             value={selectedStatus}
             onChange={(e) => setSelectedStatus(e.target.value)}
-            className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+            className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-tramboory-purple-500 focus:border-transparent"
+            title="Filtrar por estado"
           >
             <option value="all">Todos los estados</option>
             <option value="pending">Pendientes</option>
@@ -283,7 +287,7 @@ export function ReservationsMain() {
 
       {/* Vista de calendario o lista */}
       {viewMode === 'calendar' ? (
-        <div className="bg-white rounded-lg shadow-sm border p-4">
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-all duration-200">
           <ReservationCalendar
             reservations={filteredReservations.map(r => ({
               id: parseInt(r.id),
@@ -307,7 +311,7 @@ export function ReservationsMain() {
         </div>
       ) : (
         /* Tabla de reservas */
-        <div className="bg-white rounded-lg shadow-sm border overflow-hidden">
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-all duration-200">
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead className="bg-gray-50">
@@ -337,20 +341,20 @@ export function ReservationsMain() {
                   <tr key={reservation.id} className="hover:bg-gray-50">
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div>
-                        <div className="text-sm font-medium text-gray-900">{reservation.clientName}</div>
-                        <div className="text-sm text-gray-500">{reservation.clientPhone}</div>
-                        <div className="text-sm text-gray-500">{reservation.clientEmail}</div>
+                        <div className="text-sm font-medium text-gray-900 font-body-medium">{reservation.clientName}</div>
+                        <div className="text-sm text-gray-500 font-body-light">{reservation.clientPhone}</div>
+                        <div className="text-sm text-gray-500 font-body-light">{reservation.clientEmail}</div>
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div>
-                        <div className="text-sm font-medium text-gray-900">{reservation.eventDate}</div>
-                        <div className="text-sm text-gray-500">{reservation.eventTime}</div>
-                        <div className="text-sm text-gray-500">{reservation.guestCount} invitados</div>
+                        <div className="text-sm font-medium text-gray-900 font-body-medium">{reservation.eventDate}</div>
+                        <div className="text-sm text-gray-500 font-body-light">{reservation.eventTime}</div>
+                        <div className="text-sm text-gray-500 font-body-light">{reservation.guestCount} invitados</div>
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span className="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">
+                      <span className="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-tramboory-purple-100 text-tramboory-purple-800">
                         {reservation.packageType}
                       </span>
                     </td>
@@ -359,7 +363,7 @@ export function ReservationsMain() {
                         {getStatusText(reservation.status)}
                       </span>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 font-body-medium">
                       ${reservation.totalAmount.toLocaleString()}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
@@ -369,7 +373,7 @@ export function ReservationsMain() {
                             // Ver detalles
                             console.log('Ver detalles:', reservation)
                           }}
-                          className="text-blue-600 hover:text-blue-900 p-1 rounded"
+                          className="text-blue-600 hover:text-blue-900 p-1 rounded transition-all duration-200"
                           title="Ver detalles"
                         >
                           <EyeIcon />
@@ -379,14 +383,14 @@ export function ReservationsMain() {
                             setEditingReservation(reservation)
                             setIsModalOpen(true)
                           }}
-                          className="text-purple-600 hover:text-purple-900 p-1 rounded"
+                          className="text-tramboory-purple-600 hover:text-tramboory-purple-700 p-1 rounded transition-all duration-200"
                           title="Editar"
                         >
                           <EditIcon />
                         </button>
                         <button
                           onClick={() => handleDeleteReservation(reservation.id)}
-                          className="text-red-600 hover:text-red-900 p-1 rounded"
+                          className="text-red-600 hover:text-red-900 p-1 rounded transition-all duration-200"
                           title="Eliminar"
                         >
                           <TrashIcon />
@@ -401,9 +405,11 @@ export function ReservationsMain() {
 
           {filteredReservations.length === 0 && (
             <div className="text-center py-12">
-              <CalendarIcon />
-              <h3 className="mt-2 text-sm font-medium text-gray-900">No hay reservas</h3>
-              <p className="mt-1 text-sm text-gray-500">
+              <div className="p-2 bg-tramboory-purple-50 rounded-lg text-tramboory-purple-600 inline-block mb-2">
+                <CalendarIcon />
+              </div>
+              <h3 className="mt-2 text-sm font-medium text-gray-900 font-body-medium">No hay reservas</h3>
+              <p className="mt-1 text-sm text-gray-500 font-body-light">
                 No se encontraron reservas que coincidan con los filtros aplicados.
               </p>
             </div>

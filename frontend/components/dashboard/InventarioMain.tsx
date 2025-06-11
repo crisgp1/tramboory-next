@@ -14,7 +14,7 @@ import { ItemModal, ScreenSizeAlert } from '@/components/dashboard'
 // ============================================================================
 
 const InventoryIcon = () => (
-  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
   </svg>
 )
@@ -165,7 +165,7 @@ export function InventarioMain() {
   const categories = Array.from(new Set(inventory.map(item => item.category)))
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-6 pb-16 space-y-8">
       {/* Alerta de tamaño de pantalla */}
       {showAlert && (
         <div className="md:hidden">
@@ -174,13 +174,15 @@ export function InventarioMain() {
       )}
 
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-            <InventoryIcon />
+          <h1 className="text-3xl font-bold text-gray-900 font-body-semibold flex items-center gap-2">
+            <div className="p-2 bg-tramboory-purple-50 rounded-lg text-tramboory-purple-600">
+              <InventoryIcon />
+            </div>
             Gestión de Inventario
           </h1>
-          <p className="text-gray-600 mt-1">
+          <p className="text-gray-600 mt-1 font-body-light">
             Administra el inventario de productos y suministros
           </p>
         </div>
@@ -189,7 +191,7 @@ export function InventarioMain() {
             setEditingItem(null)
             setIsModalOpen(true)
           }}
-          className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-200 flex items-center gap-2"
+          className="bg-tramboory-purple-600 hover:bg-tramboory-purple-700 text-white font-bold py-2 px-4 rounded-xl transition-all duration-200 hover:shadow-md flex items-center gap-2"
         >
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -199,7 +201,7 @@ export function InventarioMain() {
       </div>
 
       {/* Filtros */}
-      <div className="bg-white rounded-lg shadow-sm border p-4">
+      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow duration-200">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {/* Búsqueda */}
           <div className="relative">
@@ -208,7 +210,7 @@ export function InventarioMain() {
               placeholder="Buscar items..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-tramboory-purple-500 focus:border-transparent"
             />
             <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
               <SearchIcon />
@@ -219,7 +221,8 @@ export function InventarioMain() {
           <select
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
-            className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+            className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-tramboory-purple-500 focus:border-transparent"
+            title="Filtrar por categoría"
           >
             <option value="all">Todas las categorías</option>
             {categories.map(category => (
@@ -231,7 +234,8 @@ export function InventarioMain() {
           <select
             value={selectedStatus}
             onChange={(e) => setSelectedStatus(e.target.value)}
-            className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+            className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-tramboory-purple-500 focus:border-transparent"
+            title="Filtrar por estado"
           >
             <option value="all">Todos los estados</option>
             <option value="available">Disponible</option>
@@ -242,7 +246,7 @@ export function InventarioMain() {
       </div>
 
       {/* Tabla de inventario */}
-      <div className="bg-white rounded-lg shadow-sm border overflow-hidden">
+      <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow duration-200">
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead className="bg-gray-50">
@@ -272,12 +276,12 @@ export function InventarioMain() {
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
               {filteredInventory.map((item) => (
-                <tr key={item.id} className="hover:bg-gray-50">
+              <tr key={item.id} className="hover:bg-gray-50 transition-colors duration-200">
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm font-medium text-gray-900">{item.name}</div>
+                    <div className="text-sm font-medium text-gray-900 font-body-medium">{item.name}</div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <span className="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">
+                    <span className="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-tramboory-purple-100 text-tramboory-purple-800">
                       {item.category}
                     </span>
                   </td>
@@ -303,14 +307,14 @@ export function InventarioMain() {
                           setEditingItem(item)
                           setIsModalOpen(true)
                         }}
-                        className="text-purple-600 hover:text-purple-900 p-1 rounded"
+                        className="text-tramboory-purple-600 hover:text-tramboory-purple-900 p-1 rounded transition-colors duration-200"
                         title="Editar"
                       >
                         <EditIcon />
                       </button>
                       <button
                         onClick={() => handleDeleteItem(item.id)}
-                        className="text-red-600 hover:text-red-900 p-1 rounded"
+                        className="text-red-600 hover:text-red-900 p-1 rounded transition-colors duration-200"
                         title="Eliminar"
                       >
                         <TrashIcon />
@@ -325,9 +329,11 @@ export function InventarioMain() {
 
         {filteredInventory.length === 0 && (
           <div className="text-center py-12">
-            <InventoryIcon />
-            <h3 className="mt-2 text-sm font-medium text-gray-900">No hay items</h3>
-            <p className="mt-1 text-sm text-gray-500">
+            <div className="p-2 bg-tramboory-purple-50 rounded-lg text-tramboory-purple-600 inline-block mb-2">
+              <InventoryIcon />
+            </div>
+            <h3 className="mt-2 text-sm font-medium text-gray-900 font-body-medium">No hay items</h3>
+            <p className="mt-1 text-sm text-gray-500 font-body-light">
               No se encontraron items que coincidan con los filtros aplicados.
             </p>
           </div>
