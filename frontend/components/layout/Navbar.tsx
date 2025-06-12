@@ -56,16 +56,15 @@ export default function Navbar() {
           >
             <div className="relative w-12 h-12 overflow-hidden rounded-full">
               <Image
-                src="/images/logo2.webp"
+                src="/images/logo2.webp"  
                 alt="Tramboory"
                 fill
                 className="object-cover group-hover:scale-110 transition-transform duration-300"
                 priority
               />
             </div>
-            <span className="text-2xl font-bold text-white font-funhouse hidden sm:block group-hover:text-yellow-400 transition-colors">
-              Tramboory
-            </span>
+        
+         
           </Link>
           
           {/* Desktop Navigation */}
