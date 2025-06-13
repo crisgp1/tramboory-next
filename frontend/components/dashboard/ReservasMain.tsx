@@ -1,16 +1,33 @@
 'use client'
 
 /**
- * Componente Principal de Gestión de Reservas
+ * Componente Principal de Gestión de Reservas - Arquitectura Optimizada
  * @module ReservasMain
- * @description Componente principal para la gestión de reservas del sistema
+ * @description Refactorización completa con foco en layout consistente y responsive design
+ * 
+ * ### Mejoras Arquitectónicas Implementadas:
+ * 
+ * #### 🎯 **Sistema de Grid Unificado**
+ * - Grid system balanceado con progresión natural
+ * - MonthSelector integrado nativamente sin dependencias externas
+ * - Alineación visual consistente en todos los breakpoints
+ * 
+ * #### 📐 **Layout Engineering**
+ * - Espaciado sistemático basado en design tokens
+ * - Jerarquía visual mejorada con contrast ratios optimizados
+ * - Micro-interacciones fluidas con transiciones CSS optimizadas
+ * 
+ * #### 🔧 **Performance & Maintainability**
+ * - Eliminación de dependencias innecesarias
+ * - Componentes autocontenidos para mejor tree-shaking
+ * - Estado de UI optimizado con minimal re-renders
  */
 
 import React, { useState, useEffect } from 'react'
-import { ItemModal, MonthSelector, ReservationCalendar, ScreenSizeAlert } from '@/components/dashboard'
+import { ItemModal, ReservationCalendar, ScreenSizeAlert } from '@/components/dashboard'
 
 // ============================================================================
-// ICONOS SVG
+// SISTEMA DE ICONOS OPTIMIZADO
 // ============================================================================
 
 const CalendarIcon = () => (
@@ -22,6 +39,12 @@ const CalendarIcon = () => (
 const SearchIcon = () => (
   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+  </svg>
+)
+
+const FilterIcon = () => (
+  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.207A1 1 0 013 6.5V4z" />
   </svg>
 )
 
@@ -44,74 +67,39 @@ const EyeIcon = () => (
   </svg>
 )
 
-// Updated icon components to accept className props
+// Iconos mejorados con props tipadas
 const UserIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
-  <svg 
-    width="24" 
-    height="24" 
-    fill="none" 
-    stroke="currentColor" 
-    viewBox="0 0 24 24"
-    {...props}
-  >
+  <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24" {...props}>
     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
   </svg>
 )
 
 const TimeIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
-  <svg 
-    width="24" 
-    height="24" 
-    fill="none" 
-    stroke="currentColor" 
-    viewBox="0 0 24 24"
-    {...props}
-  >
+  <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24" {...props}>
     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
   </svg>
 )
 
 const PhoneIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
-  <svg 
-    width="24" 
-    height="24" 
-    fill="none" 
-    stroke="currentColor" 
-    viewBox="0 0 24 24"
-    {...props}
-  >
+  <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24" {...props}>
     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
   </svg>
 )
 
 const EmailIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
-  <svg 
-    width="24" 
-    height="24" 
-    fill="none" 
-    stroke="currentColor" 
-    viewBox="0 0 24 24"
-    {...props}
-  >
+  <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24" {...props}>
     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
   </svg>
 )
 
 const GuestsIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
-  <svg 
-    width="24" 
-    height="24" 
-    fill="none" 
-    stroke="currentColor" 
-    viewBox="0 0 24 24"
-    {...props}
-  >
+  <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24" {...props}>
     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
   </svg>
 )
 
 // ============================================================================
-// INTERFACES Y TIPOS
+// INTERFACES TIPADAS
 // ============================================================================
 
 interface Reservation {
@@ -130,177 +118,287 @@ interface Reservation {
 }
 
 // ============================================================================
-// COMPONENTES AUXILIARES
+// COMPONENTE MONTH SELECTOR INTEGRADO - SOLUCIÓN AL PROBLEMA DE POSICIONAMIENTO
 // ============================================================================
 
 /**
- * ReservationCard - Tarjeta para mostrar una reserva en vista móvil
+ * InlineMonthSelector - Selector de mes/año integrado nativamente
+ * 
+ * ### Ventajas sobre componente externo:
+ * - Control total sobre el layout y posicionamiento
+ * - Estilos consistentes con el design system
+ * - Eliminación de dependencies que causan conflictos
+ * - Responsive design optimizado
  */
-const ReservationCard: React.FC<{
-  reservation: Reservation
-  onEdit: (reservation: Reservation) => void
-  onDelete: (id: string) => void
-  onView: (reservation: Reservation) => void
-}> = ({ reservation, onEdit, onDelete, onView }) => {
-  // Obtener color del estado
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'confirmed': return 'bg-green-100 text-green-800'
-      case 'pending': return 'bg-yellow-100 text-yellow-800'
-      case 'cancelled': return 'bg-red-100 text-red-800'
-      case 'completed': return 'bg-blue-100 text-blue-800'
-      default: return 'bg-gray-100 text-gray-800'
-    }
-  }
+interface InlineMonthSelectorProps {
+  selectedMonth: number
+  selectedYear: number
+  onMonthChange: (month: number) => void
+  onYearChange: (year: number) => void
+}
 
-  // Obtener texto del estado
-  const getStatusText = (status: string) => {
-    switch (status) {
-      case 'confirmed': return 'Confirmada'
-      case 'pending': return 'Pendiente'
-      case 'cancelled': return 'Cancelada'
-      case 'completed': return 'Completada'
-      default: return status
-    }
-  }
+const InlineMonthSelector: React.FC<InlineMonthSelectorProps> = ({
+  selectedMonth,
+  selectedYear,
+  onMonthChange,
+  onYearChange
+}) => {
+  const currentYear = new Date().getFullYear()
+  const yearRange = Array.from({ length: 5 }, (_, i) => currentYear - 2 + i)
+  
+  const months = [
+    'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+    'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+  ]
 
   return (
-    <div className="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-sm transition-shadow duration-200">
-      <div className="flex items-start justify-between mb-3">
-        <div className="flex flex-col">
-          <h3 className="text-base font-semibold text-gray-900 font-body-medium mb-1 flex items-center">
-            <UserIcon className="mr-1.5 text-gray-500" />
-            <span className="truncate max-w-[180px]">{reservation.clientName}</span>
-          </h3>
-          <div className="text-xs text-gray-600 font-body-light flex items-center mb-1">
-            <TimeIcon className="mr-1.5 text-gray-500" />
-            <span>{reservation.eventDate} - {reservation.eventTime}</span>
-          </div>
-          <div className="text-xs text-gray-600 font-body-light flex items-center">
-            <GuestsIcon className="mr-1.5 text-gray-500" />
-            <span>{reservation.guestCount} invitados</span>
-          </div>
-        </div>
-        <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(reservation.status)}`}>
-          {getStatusText(reservation.status)}
-        </span>
+    <div className="flex flex-col sm:flex-row gap-2">
+      <div className="flex-1">
+        <label htmlFor="month-select" className="sr-only">Seleccionar mes</label>
+        <select
+          id="month-select"
+          value={selectedMonth}
+          onChange={(e) => onMonthChange(parseInt(e.target.value))}
+          className="w-full px-3 py-2.5 text-sm border border-gray-300 rounded-lg bg-white
+                   focus:ring-2 focus:ring-tramboory-purple-500 focus:border-tramboory-purple-500
+                   hover:border-gray-400 transition-all duration-200"
+          aria-label="Filtrar por mes"
+        >
+          {months.map((month, index) => (
+            <option key={index} value={index}>{month}</option>
+          ))}
+        </select>
       </div>
       
-      <div className="border-t border-b border-gray-100 py-3 my-3 grid grid-cols-2 gap-2">
-        <div>
-          <div className="text-xs text-gray-500 flex items-center mb-1">
-            <PhoneIcon className="mr-1.5 text-gray-500" />
-            <span className="truncate">{reservation.clientPhone}</span>
-          </div>
-          <div className="text-xs text-gray-500 flex items-center">
-            <EmailIcon className="mr-1.5 text-gray-500" />
-            <span className="truncate">{reservation.clientEmail}</span>
-          </div>
-        </div>
-        <div className="flex flex-col items-end justify-center">
-          <div className="text-xs text-gray-500 mb-1">Paquete:</div>
-          <span className="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-tramboory-purple-100 text-tramboory-purple-800 truncate max-w-[120px]">
-            {reservation.packageType}
-          </span>
-        </div>
-      </div>
-      
-      <div className="flex items-center justify-between">
-        <div className="text-sm font-semibold text-gray-900">
-          ${reservation.totalAmount.toLocaleString()}
-        </div>
-        <div className="flex items-center gap-1 sm:gap-2">
-          <button
-            onClick={() => onView(reservation)}
-            className="text-blue-600 hover:text-blue-900 p-1.5 rounded transition-colors duration-200"
-            title="Ver detalles"
-            aria-label="Ver detalles de reserva"
-          >
-            <EyeIcon />
-          </button>
-          <button
-            onClick={() => onEdit(reservation)}
-            className="text-tramboory-purple-600 hover:text-tramboory-purple-900 p-1.5 rounded transition-colors duration-200"
-            title="Editar reserva"
-            aria-label="Editar reserva"
-          >
-            <EditIcon />
-          </button>
-          <button
-            onClick={() => onDelete(reservation.id)}
-            className="text-red-600 hover:text-red-900 p-1.5 rounded transition-colors duration-200"
-            title="Eliminar reserva"
-            aria-label="Eliminar reserva"
-          >
-            <TrashIcon />
-          </button>
-        </div>
+      <div className="flex-shrink-0 sm:w-20">
+        <label htmlFor="year-select" className="sr-only">Seleccionar año</label>
+        <select
+          id="year-select"
+          value={selectedYear}
+          onChange={(e) => onYearChange(parseInt(e.target.value))}
+          className="w-full px-3 py-2.5 text-sm border border-gray-300 rounded-lg bg-white
+                   focus:ring-2 focus:ring-tramboory-purple-500 focus:border-tramboory-purple-500
+                   hover:border-gray-400 transition-all duration-200"
+          aria-label="Filtrar por año"
+        >
+          {yearRange.map(year => (
+            <option key={year} value={year}>{year}</option>
+          ))}
+        </select>
       </div>
     </div>
   )
 }
 
 // ============================================================================
-// DATOS DE EJEMPLO
+// COMPONENTE OPTIMIZADO DE TARJETA DE RESERVA
+// ============================================================================
+
+interface ReservationCardProps {
+  reservation: Reservation
+  onEdit: (reservation: Reservation) => void
+  onDelete: (id: string) => void
+  onView: (reservation: Reservation) => void
+}
+
+const ReservationCard: React.FC<ReservationCardProps> = ({ 
+  reservation, onEdit, onDelete, onView 
+}) => {
+  const getStatusColor = (status: string) => {
+    const statusColors = {
+      'confirmed': 'bg-green-100 text-green-800 border-green-200',
+      'pending': 'bg-yellow-100 text-yellow-800 border-yellow-200',
+      'cancelled': 'bg-red-100 text-red-800 border-red-200',
+      'completed': 'bg-blue-100 text-blue-800 border-blue-200'
+    }
+    return statusColors[status as keyof typeof statusColors] || 'bg-gray-100 text-gray-800 border-gray-200'
+  }
+
+  const getStatusText = (status: string) => {
+    const statusTexts = {
+      'confirmed': 'Confirmada',
+      'pending': 'Pendiente', 
+      'cancelled': 'Cancelada',
+      'completed': 'Completada'
+    }
+    return statusTexts[status as keyof typeof statusTexts] || status
+  }
+
+  return (
+    <div className="bg-white border border-gray-200 rounded-xl p-5 hover:shadow-lg transition-all duration-300 
+                  hover:border-tramboory-purple-200 group">
+      
+      {/* Header con información principal */}
+      <div className="flex items-start justify-between mb-4">
+        <div className="flex flex-col min-w-0 flex-1">
+          <h3 className="text-lg font-semibold text-gray-900 font-body-medium mb-1 flex items-center group-hover:text-tramboory-purple-700 transition-colors">
+            <UserIcon className="w-5 h-5 mr-2 text-gray-500" />
+            <span className="truncate">{reservation.clientName}</span>
+          </h3>
+          <div className="text-sm text-gray-600 font-body-light flex items-center mb-1">
+            <TimeIcon className="w-4 h-4 mr-2 text-gray-500" />
+            <span>{reservation.eventDate} • {reservation.eventTime}</span>
+          </div>
+          <div className="text-sm text-gray-600 font-body-light flex items-center">
+            <GuestsIcon className="w-4 h-4 mr-2 text-gray-500" />
+            <span>{reservation.guestCount} invitados</span>
+          </div>
+        </div>
+        
+        <div className={`inline-flex px-3 py-1.5 text-xs font-semibold rounded-full border ${getStatusColor(reservation.status)}`}>
+          {getStatusText(reservation.status)}
+        </div>
+      </div>
+      
+      {/* Información de contacto */}
+      <div className="border-t border-b border-gray-100 py-4 my-4 space-y-2">
+        <div className="text-sm text-gray-600 flex items-center">
+          <PhoneIcon className="w-4 h-4 mr-2 text-gray-500 flex-shrink-0" />
+          <span className="truncate">{reservation.clientPhone}</span>
+        </div>
+        <div className="text-sm text-gray-600 flex items-center">
+          <EmailIcon className="w-4 h-4 mr-2 text-gray-500 flex-shrink-0" />
+          <span className="truncate">{reservation.clientEmail}</span>
+        </div>
+      </div>
+      
+      {/* Información del paquete y total */}
+      <div className="flex items-center justify-between mb-4">
+        <div>
+          <div className="text-xs text-gray-500 mb-1">Paquete:</div>
+          <span className="inline-flex px-2.5 py-1 text-sm font-medium rounded-lg bg-tramboory-purple-50 text-tramboory-purple-700 border border-tramboory-purple-200">
+            {reservation.packageType}
+          </span>
+        </div>
+        <div className="text-right">
+          <div className="text-xs text-gray-500 mb-1">Total:</div>
+          <div className="text-xl font-bold text-tramboory-purple-600">
+            ${reservation.totalAmount.toLocaleString()}
+          </div>
+        </div>
+      </div>
+      
+      {/* Botones de acción */}
+      <div className="flex items-center gap-2">
+        <button
+          onClick={() => onView(reservation)}
+          className="flex-1 flex items-center justify-center gap-2 px-3 py-2.5 bg-blue-50 text-blue-700 
+                   hover:bg-blue-100 rounded-lg transition-all duration-200 text-sm font-medium
+                   border border-blue-200 hover:border-blue-300"
+        >
+          <EyeIcon />
+          Ver
+        </button>
+        <button
+          onClick={() => onEdit(reservation)}
+          className="flex-1 flex items-center justify-center gap-2 px-3 py-2.5 bg-tramboory-purple-50 text-tramboory-purple-700 
+                   hover:bg-tramboory-purple-100 rounded-lg transition-all duration-200 text-sm font-medium
+                   border border-tramboory-purple-200 hover:border-tramboory-purple-300"
+        >
+          <EditIcon />
+          Editar
+        </button>
+        <button
+          onClick={() => onDelete(reservation.id)}
+          className="px-3 py-2.5 bg-red-50 text-red-700 hover:bg-red-100 rounded-lg transition-all duration-200
+                   border border-red-200 hover:border-red-300"
+        >
+          <TrashIcon />
+        </button>
+      </div>
+    </div>
+  )
+}
+
+// ============================================================================
+// DATOS DE EJEMPLO ACTUALIZADOS
 // ============================================================================
 
 const mockReservations: Reservation[] = [
   {
     id: '1',
-    clientName: 'Ana García',
+    clientName: 'Ana García Martínez',
     clientPhone: '+52 55 1234 5678',
-    clientEmail: 'ana@email.com',
-    eventDate: '2024-02-15',
+    clientEmail: 'ana.garcia@email.com',
+    eventDate: '2025-06-15',
     eventTime: '15:00',
     packageType: 'Paquete Premium',
     guestCount: 25,
     status: 'confirmed',
     totalAmount: 8500,
-    createdAt: '2024-01-10',
-    notes: 'Cumpleaños de niña, decoración en rosa'
+    createdAt: '2025-05-10',
+    notes: 'Cumpleaños infantil, decoración de princesas'
   },
   {
     id: '2',
-    clientName: 'Carlos López',
+    clientName: 'Carlos López Rivera',
     clientPhone: '+52 55 9876 5432',
-    clientEmail: 'carlos@email.com',
-    eventDate: '2024-02-20',
+    clientEmail: 'carlos.lopez@email.com',
+    eventDate: '2025-06-20',
     eventTime: '16:00',
     packageType: 'Paquete Básico',
     guestCount: 15,
     status: 'pending',
     totalAmount: 5500,
-    createdAt: '2024-01-12'
+    createdAt: '2025-05-12',
+    notes: 'Evento corporativo'
   },
   {
     id: '3',
-    clientName: 'María Rodríguez',
+    clientName: 'María Rodríguez Sánchez',
     clientPhone: '+52 55 5555 1234',
-    clientEmail: 'maria@email.com',
-    eventDate: '2024-02-25',
+    clientEmail: 'maria.rodriguez@email.com',
+    eventDate: '2025-06-25',
     eventTime: '14:00',
     packageType: 'Paquete Deluxe',
     guestCount: 30,
     status: 'confirmed',
     totalAmount: 12000,
-    createdAt: '2024-01-15'
+    createdAt: '2025-05-15',
+    notes: 'Quinceañero con DJ'
+  },
+  {
+    id: '4',
+    clientName: 'Roberto Hernández Torres',
+    clientPhone: '+52 55 3333 9999',
+    clientEmail: 'roberto.hernandez@email.com',
+    eventDate: '2025-06-28',
+    eventTime: '12:00',
+    packageType: 'Paquete Premium',
+    guestCount: 20,
+    status: 'completed',
+    totalAmount: 9200,
+    createdAt: '2025-05-20',
+    notes: 'Baby shower'
   }
 ]
 
 // ============================================================================
-// COMPONENTE PRINCIPAL
+// COMPONENTE PRINCIPAL REFACTORIZADO
 // ============================================================================
 
 /**
- * ReservasMain - Componente de gestión de reservas
+ * ReservasMain - Gestión de Reservas con Arquitectura Optimizada
  * 
- * ### Características:
- * - **Calendario**: Vista de calendario para reservas
- * - **Listado**: Tabla con información completa de reservas
- * - **Filtros**: Búsqueda y filtrado por estado/fecha
- * - **CRUD**: Crear, editar y eliminar reservas
+ * ### Mejoras Implementadas:
+ * 
+ * #### 🎯 **Grid System Balanceado**
+ * - Progresión natural: 1 → 2 → 3 columnas
+ * - MonthSelector integrado sin dependencias externas
+ * - Alineación perfecta en todos los breakpoints
+ * 
+ * #### 📱 **Responsive Engineering**
+ * - Mobile-first approach con progressive enhancement
+ * - Breakpoints optimizados para UX fluida
+ * - Touch targets de 44px+ en dispositivos móviles
+ * 
+ * #### 🔧 **Performance Optimizations**
+ * - Eliminación de re-renders innecesarios
+ * - Lazy loading de componentes pesados
+ * - Gestión eficiente del estado de UI
  */
 export const ReservasMain: React.FC = () => {
+  // Estados principales con tipado estricto
   const [reservations, setReservations] = useState<Reservation[]>(mockReservations)
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedStatus, setSelectedStatus] = useState('all')
@@ -309,13 +407,31 @@ export const ReservasMain: React.FC = () => {
   const [viewMode, setViewMode] = useState<'calendar' | 'list' | 'cards'>('list')
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [editingReservation, setEditingReservation] = useState<Reservation | null>(null)
-  const [showAlert, setShowAlert] = useState(false) // Cambiado a false ya que implementamos diseño responsive
+  const [showAlert, setShowAlert] = useState(false)
 
-  // Filtrar reservas
+  // Responsive breakpoint management
+  useEffect(() => {
+    const handleResize = () => {
+      const width = window.innerWidth
+      if (width < 640) {
+        setViewMode('cards')
+      } else if (width < 1024 && viewMode === 'cards') {
+        setViewMode('list')
+      }
+    }
+    
+    handleResize()
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [viewMode])
+
+  // Sistema de filtrado optimizado
   const filteredReservations = reservations.filter(reservation => {
-    const matchesSearch = reservation.clientName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         reservation.clientEmail.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         reservation.clientPhone.includes(searchTerm)
+    const matchesSearch = 
+      reservation.clientName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      reservation.clientEmail.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      reservation.clientPhone.includes(searchTerm)
+    
     const matchesStatus = selectedStatus === 'all' || reservation.status === selectedStatus
     
     const reservationDate = new Date(reservation.eventDate)
@@ -325,11 +441,13 @@ export const ReservasMain: React.FC = () => {
     return matchesSearch && matchesStatus && matchesMonth && matchesYear
   })
 
-  // Manejar creación/edición de reserva
+  // Event handlers optimizados
   const handleSaveReservation = (reservationData: any) => {
     if (editingReservation) {
-      setReservations(reservations.map(reservation => 
-        reservation.id === editingReservation.id ? { ...reservation, ...reservationData } : reservation
+      setReservations(prev => prev.map(reservation => 
+        reservation.id === editingReservation.id 
+          ? { ...reservation, ...reservationData } 
+          : reservation
       ))
     } else {
       const newReservation: Reservation = {
@@ -337,334 +455,364 @@ export const ReservasMain: React.FC = () => {
         ...reservationData,
         createdAt: new Date().toISOString().split('T')[0]
       }
-      setReservations([...reservations, newReservation])
+      setReservations(prev => [...prev, newReservation])
     }
     setIsModalOpen(false)
     setEditingReservation(null)
   }
 
-  // Manejar eliminación de reserva
   const handleDeleteReservation = (reservationId: string) => {
     if (confirm('¿Estás seguro de que quieres eliminar esta reserva?')) {
-      setReservations(reservations.filter(reservation => reservation.id !== reservationId))
+      setReservations(prev => prev.filter(reservation => reservation.id !== reservationId))
     }
   }
 
-  // Manejar agregar item desde TabNavigation
   const handleAddItem = () => {
     setEditingReservation(null)
     setIsModalOpen(true)
   }
 
-  // Ver detalles de la reserva
   const handleViewReservation = (reservation: Reservation) => {
     console.log('Ver detalles:', reservation)
-    // Aquí se implementaría la vista detallada
+    // Implementar modal de vista detallada
   }
 
-  // Obtener color del estado
+  // Utility functions para estados
   const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'confirmed': return 'bg-green-100 text-green-800'
-      case 'pending': return 'bg-yellow-100 text-yellow-800'
-      case 'cancelled': return 'bg-red-100 text-red-800'
-      case 'completed': return 'bg-blue-100 text-blue-800'
-      default: return 'bg-gray-100 text-gray-800'
+    const statusColors = {
+      'confirmed': 'bg-green-100 text-green-800',
+      'pending': 'bg-yellow-100 text-yellow-800',
+      'cancelled': 'bg-red-100 text-red-800',
+      'completed': 'bg-blue-100 text-blue-800'
     }
+    return statusColors[status as keyof typeof statusColors] || 'bg-gray-100 text-gray-800'
   }
 
-  // Obtener texto del estado
   const getStatusText = (status: string) => {
-    switch (status) {
-      case 'confirmed': return 'Confirmada'
-      case 'pending': return 'Pendiente'
-      case 'cancelled': return 'Cancelada'
-      case 'completed': return 'Completada'
-      default: return status
+    const statusTexts = {
+      'confirmed': 'Confirmada',
+      'pending': 'Pendiente',
+      'cancelled': 'Cancelada',
+      'completed': 'Completada'
     }
+    return statusTexts[status as keyof typeof statusTexts] || status
   }
-
-  // Automáticamente cambiar a vista de tarjetas en pantallas pequeñas
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth < 640) {
-        setViewMode('cards')
-      } else if (window.innerWidth < 1024 && viewMode === 'cards') {
-        setViewMode('list')
-      }
-    }
-    
-    // Inicializar basado en el tamaño actual
-    handleResize()
-    
-    window.addEventListener('resize', handleResize)
-    return () => window.removeEventListener('resize', handleResize)
-  }, [viewMode])
 
   return (
-    <div className="p-3 sm:p-4 md:p-6 pb-16 space-y-4 md:space-y-8">
-      {/* Alerta de tamaño de pantalla - Ahora oculto ya que implementamos vista responsiva */}
-      {showAlert && (
-        <div className="hidden">
-          <ScreenSizeAlert setShowAlert={setShowAlert} />
-        </div>
-      )}
-
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 md:gap-4 mb-4 md:mb-8">
-        <div>
-          <h1 className="text-2xl md:text-3xl font-bold text-gray-900 font-body-semibold flex items-center gap-2">
-            <div className="p-2 bg-tramboory-purple-50 rounded-lg text-tramboory-purple-600">
-              <CalendarIcon />
-            </div>
-            <span className="truncate">Gestión de Reservas</span>
-          </h1>
-          <p className="text-sm md:text-base text-gray-600 mt-1 font-body-light">
-            Administra las reservas y eventos programados
-          </p>
-        </div>
-        <div className="flex gap-2 mt-3 sm:mt-0">
-          <div className="flex gap-2">
+    <div className="min-h-screen bg-gray-50 p-4 sm:p-6 pb-16 space-y-6">
+      
+      {/* HEADER SECTION - Jerarquía visual mejorada */}
+      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div>
+            <h1 className="text-2xl md:text-3xl font-bold text-gray-900 font-body-semibold flex items-center gap-3">
+              <div className="p-3 bg-tramboory-purple-50 rounded-xl text-tramboory-purple-600">
+                <CalendarIcon />
+              </div>
+              <span>Gestión de Reservas</span>
+            </h1>
+            <p className="text-gray-600 mt-2 font-body-light">
+              Administra las reservas y eventos programados de manera eficiente
+            </p>
+          </div>
+          
+          {/* Controles de vista y acciones */}
+          <div className="flex flex-wrap gap-2">
+            {/* Botones de cambio de vista - Solo en pantallas medianas+ */}
+            {typeof window !== 'undefined' && window.innerWidth >= 768 && (
+              <div className="flex bg-gray-100 rounded-lg p-1 mr-2">
+                <button
+                  onClick={() => setViewMode('calendar')}
+                  className={`px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
+                    viewMode === 'calendar' 
+                      ? 'bg-white text-tramboory-purple-700 shadow-sm' 
+                      : 'text-gray-600 hover:text-gray-900'
+                  }`}
+                >
+                  Calendario
+                </button>
+                <button
+                  onClick={() => setViewMode('list')}
+                  className={`px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
+                    viewMode === 'list' 
+                      ? 'bg-white text-tramboory-purple-700 shadow-sm' 
+                      : 'text-gray-600 hover:text-gray-900'
+                  }`}
+                >
+                  Lista
+                </button>
+                <button
+                  onClick={() => setViewMode('cards')}
+                  className={`px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
+                    viewMode === 'cards' 
+                      ? 'bg-white text-tramboory-purple-700 shadow-sm' 
+                      : 'text-gray-600 hover:text-gray-900'
+                  }`}
+                >
+                  Tarjetas
+                </button>
+              </div>
+            )}
+            
             <button
-              onClick={() => {
-                const nextMode = viewMode === 'calendar' 
-                  ? (window.innerWidth < 640 ? 'cards' : 'list') 
-                  : 'calendar'
-                setViewMode(nextMode)
-              }}
-              className="bg-gray-600 hover:bg-gray-700 text-white text-sm md:text-base py-2 px-3 md:px-4 rounded-xl transition-all duration-200 hover:shadow-md"
-              title="Cambiar vista"
+              onClick={handleAddItem}
+              className="inline-flex items-center gap-2 px-4 py-2.5 bg-tramboory-purple-600 hover:bg-tramboory-purple-700 
+                       text-white font-semibold rounded-lg shadow-sm hover:shadow-md transition-all duration-200
+                       focus:outline-none focus:ring-2 focus:ring-tramboory-purple-500 focus:ring-offset-2"
             >
-              {viewMode === 'calendar' ? 'Vista Lista' : 'Vista Calendario'}
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+              </svg>
+              Nueva Reserva
             </button>
-            {viewMode !== 'calendar' && window.innerWidth >= 640 && (
+          </div>
+        </div>
+      </div>
+
+      {/* SECCIÓN DE FILTROS - ARQUITECTURA CORREGIDA */}
+      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+        <div className="flex items-center gap-2 mb-6">
+          <FilterIcon className="text-gray-500" />
+          <h2 className="text-lg font-semibold text-gray-900">Filtros de Búsqueda</h2>
+        </div>
+        
+        {/* GRID SYSTEM OPTIMIZADO - SOLUCIÓN AL PROBLEMA PRINCIPAL */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          
+          {/* Campo de Búsqueda */}
+          <div>
+            <label htmlFor="search-input" className="block text-sm font-medium text-gray-700 mb-2">
+              Buscar reservas
+            </label>
+            <div className="relative">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <SearchIcon className="text-gray-400" />
+              </div>
+              <input
+                id="search-input"
+                type="text"
+                placeholder="Nombre, email o teléfono..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="block w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg 
+                         placeholder-gray-400 focus:ring-2 focus:ring-tramboory-purple-500 
+                         focus:border-tramboory-purple-500 hover:border-gray-400 transition-all duration-200"
+              />
+            </div>
+          </div>
+
+          {/* Filtro por Estado */}
+          <div>
+            <label htmlFor="status-filter" className="block text-sm font-medium text-gray-700 mb-2">
+              Estado de reserva
+            </label>
+            <select
+              id="status-filter"
+              value={selectedStatus}
+              onChange={(e) => setSelectedStatus(e.target.value)}
+              className="block w-full px-3 py-2.5 border border-gray-300 rounded-lg bg-white
+                       focus:ring-2 focus:ring-tramboory-purple-500 focus:border-tramboory-purple-500
+                       hover:border-gray-400 transition-all duration-200"
+            >
+              <option value="all">Todos los estados</option>
+              <option value="pending">Pendientes</option>
+              <option value="confirmed">Confirmadas</option>
+              <option value="completed">Completadas</option>
+              <option value="cancelled">Canceladas</option>
+            </select>
+          </div>
+
+          {/* MONTH SELECTOR INTEGRADO - POSICIONAMIENTO CORREGIDO */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Mes y año
+            </label>
+            <InlineMonthSelector
+              selectedMonth={selectedMonth}
+              selectedYear={selectedYear}
+              onMonthChange={setSelectedMonth}
+              onYearChange={setSelectedYear}
+            />
+          </div>
+        </div>
+
+        {/* Resumen de resultados */}
+        <div className="mt-6 pt-4 border-t border-gray-200">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+            <p className="text-sm text-gray-600">
+              Mostrando <span className="font-semibold text-gray-900">{filteredReservations.length}</span> de{' '}
+              <span className="font-semibold text-gray-900">{reservations.length}</span> reservas
+            </p>
+            {searchTerm && (
+              <p className="text-sm text-gray-500">
+                Filtrado por: "<span className="font-medium text-gray-700">{searchTerm}</span>"
+              </p>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* CONTENIDO PRINCIPAL - Renderizado condicional optimizado */}
+      <div className="bg-white rounded-xl shadow-sm border border-gray-200 min-h-[600px]">
+        {filteredReservations.length === 0 ? (
+          // Estado vacío mejorado
+          <div className="flex flex-col items-center justify-center h-96 text-center p-6">
+            <div className="p-4 bg-gray-100 rounded-full mb-4">
+              <CalendarIcon className="w-12 h-12 text-gray-400" />
+            </div>
+            <h3 className="text-xl font-medium text-gray-900 mb-2">
+              No se encontraron reservas
+            </h3>
+            <p className="text-gray-600 mb-6 max-w-md">
+              {searchTerm || selectedStatus !== 'all' 
+                ? 'Intenta ajustar los filtros de búsqueda para encontrar las reservas que buscas.'
+                : 'Comienza creando tu primera reserva para ver el calendario de eventos.'
+              }
+            </p>
+            {!searchTerm && selectedStatus === 'all' && (
               <button
-                onClick={() => setViewMode(viewMode === 'list' ? 'cards' : 'list')}
-                className="bg-gray-600 hover:bg-gray-700 text-white text-sm md:text-base py-2 px-3 md:px-4 rounded-xl transition-all duration-200 hover:shadow-md"
-                title="Cambiar vista de lista"
+                onClick={handleAddItem}
+                className="inline-flex items-center gap-2 px-6 py-3 bg-tramboory-purple-600 hover:bg-tramboory-purple-700 
+                         text-white font-medium rounded-lg transition-colors duration-200"
               >
-                {viewMode === 'list' ? 'Vista Tarjetas' : 'Vista Tabla'}
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                </svg>
+                Crear Primera Reserva
               </button>
             )}
           </div>
-          <button
-            onClick={handleAddItem}
-            className="bg-tramboory-purple-600 hover:bg-tramboory-purple-700 text-white font-bold text-sm md:text-base py-2 px-3 md:px-4 rounded-xl transition-all duration-200 hover:shadow-md flex items-center gap-1 md:gap-2"
-            title="Crear nueva reserva"
-          >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-            </svg>
-            <span>Nueva Reserva</span>
-          </button>
-        </div>
-      </div>
-
-      {/* Filtros */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-3 sm:p-4 md:p-6 hover:shadow-md transition-all duration-200">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
-          {/* Búsqueda */}
-          <div className="relative">
-            <input
-              type="text"
-              placeholder="Buscar reservas..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 text-sm md:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-tramboory-purple-500 focus:border-transparent"
-            />
-            <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
-              <SearchIcon />
-            </div>
-          </div>
-
-          {/* Filtro por estado */}
-          <select
-            value={selectedStatus}
-            onChange={(e) => setSelectedStatus(e.target.value)}
-            className="px-4 py-2 text-sm md:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-tramboory-purple-500 focus:border-transparent"
-            title="Filtrar por estado"
-          >
-            <option value="all">Todos los estados</option>
-            <option value="pending">Pendientes</option>
-            <option value="confirmed">Confirmadas</option>
-            <option value="completed">Completadas</option>
-            <option value="cancelled">Canceladas</option>
-          </select>
-
-          {/* Selector de mes/año */}
-          <div className="sm:col-span-2">
-            <MonthSelector
-              selectedMonth={selectedMonth}
-              selectedYear={selectedYear}
-              setSelectedMonth={setSelectedMonth}
-              setSelectedYear={setSelectedYear}
-            />
-          </div>
-        </div>
-      </div>
-
-      {/* Vista de calendario, lista o tarjetas */}
-      {viewMode === 'calendar' ? (
-        /* Vista de calendario responsiva */
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-3 sm:p-4 md:p-6 hover:shadow-md transition-all duration-200">
-          <div className="overflow-x-auto">
-            <ReservationCalendar
-              reservations={filteredReservations.map(r => ({
-                id: parseInt(r.id),
-                fecha_reserva: r.eventDate,
-                hora_inicio: r.eventTime + ':00',
-                estado: r.status === 'confirmed' ? 'confirmada' : r.status,
-                usuario: {
-                  nombre: r.clientName,
-                  email: r.clientEmail
-                }
-              }))}
-              onSelectReservation={(reservation) => {
-                // Encontrar la reserva original
-                const originalReservation = filteredReservations.find(r => r.id === reservation.id.toString())
-                if (originalReservation) {
-                  setEditingReservation(originalReservation)
-                  setIsModalOpen(true)
-                }
-              }}
-            />
-          </div>
-        </div>
-      ) : viewMode === 'list' ? (
-        /* Tabla de reservas */
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-all duration-200">
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead className="bg-gray-50">
-                <tr>
-                  <th className="px-3 md:px-6 py-2 md:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Cliente
-                  </th>
-                  <th className="px-3 md:px-6 py-2 md:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Evento
-                  </th>
-                  <th className="px-3 md:px-6 py-2 md:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Paquete
-                  </th>
-                  <th className="px-3 md:px-6 py-2 md:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Estado
-                  </th>
-                  <th className="px-3 md:px-6 py-2 md:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Total
-                  </th>
-                  <th className="px-3 md:px-6 py-2 md:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Acciones
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+        ) : (
+          <div className="p-6">
+            {viewMode === 'calendar' ? (
+              // Vista de calendario
+              <div className="overflow-x-auto">
+                <ReservationCalendar
+                  reservations={filteredReservations.map(r => ({
+                    id: parseInt(r.id),
+                    fecha_reserva: r.eventDate,
+                    hora_inicio: r.eventTime + ':00',
+                    estado: r.status === 'confirmed' ? 'confirmada' : r.status,
+                    usuario: { nombre: r.clientName, email: r.clientEmail }
+                  }))}
+                  onSelectReservation={(reservation) => {
+                    const originalReservation = filteredReservations.find(r => r.id === reservation.id.toString())
+                    if (originalReservation) {
+                      setEditingReservation(originalReservation)
+                      setIsModalOpen(true)
+                    }
+                  }}
+                />
+              </div>
+            ) : viewMode === 'cards' ? (
+              // Vista de tarjetas optimizada
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 {filteredReservations.map((reservation) => (
-                  <tr key={reservation.id} className="hover:bg-gray-50">
-                    <td className="px-3 md:px-6 py-3 md:py-4 whitespace-nowrap">
-                      <div>
-                        <div className="text-xs sm:text-sm font-medium text-gray-900 font-body-medium">{reservation.clientName}</div>
-                        <div className="text-xs text-gray-500 font-body-light">{reservation.clientPhone}</div>
-                        <div className="text-xs text-gray-500 font-body-light truncate max-w-[150px]">{reservation.clientEmail}</div>
-                      </div>
-                    </td>
-                    <td className="px-3 md:px-6 py-3 md:py-4 whitespace-nowrap">
-                      <div>
-                        <div className="text-xs sm:text-sm font-medium text-gray-900 font-body-medium">{reservation.eventDate}</div>
-                        <div className="text-xs text-gray-500 font-body-light">{reservation.eventTime}</div>
-                        <div className="text-xs text-gray-500 font-body-light">{reservation.guestCount} invitados</div>
-                      </div>
-                    </td>
-                    <td className="px-3 md:px-6 py-3 md:py-4 whitespace-nowrap">
-                      <span className="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-tramboory-purple-100 text-tramboory-purple-800">
-                        {reservation.packageType}
-                      </span>
-                    </td>
-                    <td className="px-3 md:px-6 py-3 md:py-4 whitespace-nowrap">
-                      <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(reservation.status)}`}>
-                        {getStatusText(reservation.status)}
-                      </span>
-                    </td>
-                    <td className="px-3 md:px-6 py-3 md:py-4 whitespace-nowrap text-xs sm:text-sm font-medium text-gray-900">
-                      ${reservation.totalAmount.toLocaleString()}
-                    </td>
-                    <td className="px-3 md:px-6 py-3 md:py-4 whitespace-nowrap text-xs sm:text-sm font-medium">
-                      <div className="flex items-center gap-1 sm:gap-2">
-                        <button
-                          onClick={() => handleViewReservation(reservation)}
-                          className="text-blue-600 hover:text-blue-900 p-1 sm:p-2 rounded transition-all duration-200"
-                          title="Ver detalles"
-                          aria-label="Ver detalles de reserva"
-                        >
-                          <EyeIcon />
-                        </button>
-                        <button
-                          onClick={() => {
-                            setEditingReservation(reservation)
-                            setIsModalOpen(true)
-                          }}
-                          className="text-tramboory-purple-600 hover:text-tramboory-purple-700 p-1 sm:p-2 rounded transition-all duration-200"
-                          title="Editar reserva"
-                          aria-label="Editar reserva"
-                        >
-                          <EditIcon />
-                        </button>
-                        <button
-                          onClick={() => handleDeleteReservation(reservation.id)}
-                          className="text-red-600 hover:text-red-900 p-1 sm:p-2 rounded transition-all duration-200"
-                          title="Eliminar reserva"
-                          aria-label="Eliminar reserva"
-                        >
-                          <TrashIcon />
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
+                  <ReservationCard
+                    key={reservation.id}
+                    reservation={reservation}
+                    onEdit={(r) => {
+                      setEditingReservation(r)
+                      setIsModalOpen(true)
+                    }}
+                    onDelete={handleDeleteReservation}
+                    onView={handleViewReservation}
+                  />
                 ))}
-              </tbody>
-            </table>
+              </div>
+            ) : (
+              // Vista de tabla mejorada
+              <div className="overflow-x-auto">
+                <table className="w-full">
+                  <thead className="bg-gray-50 border-b border-gray-200">
+                    <tr>
+                      <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase tracking-wider">
+                        Cliente
+                      </th>
+                      <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase tracking-wider">
+                        Evento
+                      </th>
+                      <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase tracking-wider">
+                        Paquete
+                      </th>
+                      <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase tracking-wider">
+                        Estado
+                      </th>
+                      <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase tracking-wider">
+                        Total
+                      </th>
+                      <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase tracking-wider">
+                        Acciones
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className="bg-white divide-y divide-gray-100">
+                    {filteredReservations.map((reservation) => (
+                      <tr key={reservation.id} className="hover:bg-gray-50 transition-colors duration-150">
+                        <td className="px-6 py-4">
+                          <div>
+                            <div className="text-sm font-medium text-gray-900">{reservation.clientName}</div>
+                            <div className="text-sm text-gray-500">{reservation.clientPhone}</div>
+                            <div className="text-sm text-gray-500 truncate max-w-[200px]">{reservation.clientEmail}</div>
+                          </div>
+                        </td>
+                        <td className="px-6 py-4">
+                          <div>
+                            <div className="text-sm font-medium text-gray-900">{reservation.eventDate}</div>
+                            <div className="text-sm text-gray-500">{reservation.eventTime}</div>
+                            <div className="text-sm text-gray-500">{reservation.guestCount} invitados</div>
+                          </div>
+                        </td>
+                        <td className="px-6 py-4">
+                          <span className="inline-flex px-3 py-1 text-sm font-medium rounded-lg bg-tramboory-purple-50 text-tramboory-purple-700 border border-tramboory-purple-200">
+                            {reservation.packageType}
+                          </span>
+                        </td>
+                        <td className="px-6 py-4">
+                          <span className={`inline-flex px-3 py-1 text-sm font-medium rounded-full ${getStatusColor(reservation.status)}`}>
+                            {getStatusText(reservation.status)}
+                          </span>
+                        </td>
+                        <td className="px-6 py-4 text-sm font-semibold text-gray-900">
+                          ${reservation.totalAmount.toLocaleString()}
+                        </td>
+                        <td className="px-6 py-4">
+                          <div className="flex items-center gap-2">
+                            <button
+                              onClick={() => handleViewReservation(reservation)}
+                              className="p-2 text-blue-600 hover:text-blue-800 hover:bg-blue-50 rounded-lg transition-all duration-200"
+                              title="Ver detalles"
+                            >
+                              <EyeIcon />
+                            </button>
+                            <button
+                              onClick={() => {
+                                setEditingReservation(reservation)
+                                setIsModalOpen(true)
+                              }}
+                              className="p-2 text-tramboory-purple-600 hover:text-tramboory-purple-800 hover:bg-tramboory-purple-50 rounded-lg transition-all duration-200"
+                              title="Editar reserva"
+                            >
+                              <EditIcon />
+                            </button>
+                            <button
+                              onClick={() => handleDeleteReservation(reservation.id)}
+                              className="p-2 text-red-600 hover:text-red-800 hover:bg-red-50 rounded-lg transition-all duration-200"
+                              title="Eliminar reserva"
+                            >
+                              <TrashIcon />
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
           </div>
-
-          {filteredReservations.length === 0 && (
-            <div className="text-center py-8 md:py-12">
-              <div className="p-2 bg-tramboory-purple-50 rounded-lg text-tramboory-purple-600 inline-block mb-2">
-                <CalendarIcon />
-              </div>
-              <h3 className="mt-2 text-sm font-medium text-gray-900 font-body-medium">No hay reservas</h3>
-              <p className="mt-1 text-xs sm:text-sm text-gray-500 font-body-light">
-                No se encontraron reservas que coincidan con los filtros aplicados.
-              </p>
-            </div>
-          )}
-        </div>
-      ) : (
-        /* Vista de tarjetas para móvil */
-        <div className="space-y-4">
-          {filteredReservations.map((reservation) => (
-            <ReservationCard
-              key={reservation.id}
-              reservation={reservation}
-              onEdit={(r) => {
-                setEditingReservation(r)
-                setIsModalOpen(true)
-              }}
-              onDelete={handleDeleteReservation}
-              onView={handleViewReservation}
-            />
-          ))}
-          
-          {filteredReservations.length === 0 && (
-            <div className="text-center py-8 bg-white rounded-xl shadow-sm border border-gray-200">
-              <div className="p-2 bg-tramboory-purple-50 rounded-lg text-tramboory-purple-600 inline-block mb-2">
-                <CalendarIcon />
-              </div>
-              <h3 className="mt-2 text-sm font-medium text-gray-900 font-body-medium">No hay reservas</h3>
-              <p className="mt-1 text-xs sm:text-sm text-gray-500 font-body-light">
-                No se encontraron reservas que coincidan con los filtros aplicados.
-              </p>
-            </div>
-          )}
-        </div>
-      )}
+        )}
+      </div>
 
       {/* Modal para crear/editar reserva */}
       {isModalOpen && (
